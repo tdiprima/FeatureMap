@@ -68,7 +68,7 @@ datamap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 datamap.calcTILfun = function () {
 
   hideRGBbuttons.onclick = function () {
-    console.log('rgbButtons.hidden', rgbButtons.hidden);
+    // console.log('rgbButtons.hidden', rgbButtons.hidden);
     if (rgbButtons.hidden) {
       rgbButtons.hidden = false;
       hideRGBbuttons.textContent = 'RGB[-] ';
@@ -137,6 +137,7 @@ datamap.calcTILfun = function () {
     // console.log('datamap.cvBase.width', datamap.cvBase.width);
     // datamap.cvBase.height = datamap.img.height;  // DITTO! Browser resizes this. We don't want that!
     datamap.cvBase.height = pathdb_util.canvasHeight;
+    tileSize.textContent = `${datamap.img.width}x${datamap.img.height}`;
     datamap.cvBase.id = "cvBase";
     datamap.imgTILDiv.appendChild(datamap.cvBase);
     datamap.ctx = datamap.cvBase.getContext('2d');
@@ -274,7 +275,7 @@ datamap.segment = function () {
   datamap.segNeig = [...Array(n)].map(_ => {
     return [...Array(m)].map(_ => [0])
   });
-  var dd = datamap.segMask; // TODO: NOTE VAR
+  var dd = datamap.segMask;
   for (var i = 1; i < (n - 1); i++) {
     for (var j = 1; j < (m - 1); j++) {
       datamap.segNeig[i][j] = [dd[i - 1][j - 1], dd[i - 1][j], dd[i - 1][j + 1], dd[i][j - 1], dd[i][j], dd[i][j + 1], dd[i + 1][j - 1], dd[i + 1][j], dd[i + 1][j + 1]]
