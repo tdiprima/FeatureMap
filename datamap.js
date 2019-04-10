@@ -2,7 +2,7 @@ console.log('datamap.js loaded');
 
 datamap = function () {
 
-  console.log('rgbButtons.hidden', rgbButtons.hidden);
+  // console.log('rgbButtons.hidden', rgbButtons.hidden);
 
   var queryString = location.search;
   if (queryString.length > 1) {
@@ -321,10 +321,22 @@ datamap.canvasAlign = function () {
   // console.log('canvasAlign');
   // console.log('datamap.cvBase.width', datamap.cvBase.width);
 
-  datamap.cvTop.style.top = datamap.cvBase.getBoundingClientRect().top;
-  datamap.cvTop.style.left = datamap.cvBase.getBoundingClientRect().left;
-  // correction if needed
-  datamap.cvTop.style.top = parseFloat(datamap.cvTop.style.top) + datamap.cvBase.getBoundingClientRect().top - datamap.cvTop.getBoundingClientRect().top
+  console.log('hidden?', datamap.cvBase.hidden);
+
+  let zzTop = datamap.cvBase.getBoundingClientRect().top;
+  let zzLeft = datamap.cvBase.getBoundingClientRect().left;
+  if (zzTop === 0 || zzLeft === 0) {
+    console.log("Something's not right.");
+    console.log(datamap.cvBase);
+    console.log(datamap.cvBase.getBoundingClientRect());
+
+  } else {
+    datamap.cvTop.style.top = datamap.cvBase.getBoundingClientRect().top;
+    datamap.cvTop.style.left = datamap.cvBase.getBoundingClientRect().left;
+    // correction if needed
+    datamap.cvTop.style.top = parseFloat(datamap.cvTop.style.top) + datamap.cvBase.getBoundingClientRect().top - datamap.cvTop.getBoundingClientRect().top;
+
+  }
 
 };
 
