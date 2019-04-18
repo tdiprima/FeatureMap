@@ -85,19 +85,19 @@ datamap.calcTILfun = function () {
   cancerRange.value = datamap.parms.cancerRange;
   tilRange.value = datamap.parms.tilRange;
   rangeSegmentBt.onclick = datamap.segment;
+
   cancerRangePlay.onclick = tilRangePlay.onclick = function () {
     // make sure the other play is stopped
-    if ((this.id === "cancerRangePlay") & (tilRangePlay.style.backgroundColor === "orange")) {
+    if ((this.id === "cancerRangePlay") & (tilRangePlay.style.backgroundColor === "#dedede")) {
       tilRangePlay.click()
     }
-    if ((this.id === "tilRangePlay") & (cancerRangePlay.style.backgroundColor === "orange")) {
+    if ((this.id === "tilRangePlay") & (cancerRangePlay.style.backgroundColor === "#dedede")) {
       cancerRangePlay.click()
     }
 
-
     var range = document.getElementById(this.id.slice(0, -4)); // range input for this button
-    if (this.style.backgroundColor === "lime") {
-      this.style.backgroundColor = "orange";
+    if (this.style.backgroundColor === "silver") {
+      this.style.backgroundColor = "#dedede";
       if (range.value === "") {
         range.value = datamap.parms[range.id]
       }
@@ -113,7 +113,7 @@ datamap.calcTILfun = function () {
     } else {
       clearInterval(datamap.parms.t);
       //this.textContent="Play"
-      this.style.backgroundColor = "lime"
+      this.style.backgroundColor = "silver"
     }
   };
 
@@ -190,13 +190,13 @@ datamap.calcTILfun = function () {
 
     // making sure clicking stops play and act as as onchange
     cancerRange.onclick = function () {
-      if (cancerRangePlay.style.backgroundColor === "orange") {
+      if (cancerRangePlay.style.backgroundColor === "#dedede") {
         cancerRangePlay.onclick()
       }
       cancerRange.onchange()
     };
     tilRange.onclick = function () {
-      if (tilRangePlay.style.backgroundColor === "orange") {
+      if (tilRangePlay.style.backgroundColor === "#dedede") {
         tilRangePlay.onclick()
       }
       tilRange.onchange()
