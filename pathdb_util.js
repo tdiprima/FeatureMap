@@ -90,21 +90,21 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     if (headers.length === 5) {
       // should be x, y, red, green, blue
       let x = document.getElementById('calcTILred');
-      x.innerText = headers[2];
+      x.innerText = pathdb_util.jsUcfirst(headers[2]);
 
       x = document.getElementById('calcTILgreen');
-      x.innerText = headers[3];
+      x.innerText = pathdb_util.jsUcfirst(headers[3]);
 
       x = document.getElementById('calcTILblue');
-      x.innerText = headers[4];
+      x.innerText = pathdb_util.jsUcfirst(headers[4]);
 
       //~~~~~~~~
 
       x = document.getElementById('cancerRangePlay');
-      x.innerText = headers[3];
+      x.innerText = pathdb_util.jsUcfirst(headers[3]);
 
       x = document.getElementById('tilRangePlay');
-      x.innerText = headers[2];
+      x.innerText = pathdb_util.jsUcfirst(headers[2]);
 
     }
 
@@ -177,4 +177,8 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
 
   }
 
+};
+
+pathdb_util.jsUcfirst = function (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 };
