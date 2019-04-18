@@ -213,7 +213,8 @@ datamap.calcTILfun = function () {
       tilRange.onchange()
     };
 
-    // cancerRange.onchange(); // pourquoi?
+    cancerRange.onchange();
+    tilRange.onchange();
     datamap.cvTop = document.createElement('canvas');
     datamap.cvTop.width = datamap.img.width;
     datamap.cvTop.height = datamap.img.height;
