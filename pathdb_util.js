@@ -94,9 +94,13 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
       if (head2.toUpperCase() === 'TIL') {
         head2 = 'TIL';
         x.innerText = head2;
+        x = document.getElementById('tilRangePlay');
+        x.innerText = pathdb_util.jsUcfirst(head2);
       } else {
         head2 = pathdb_util.jsUcfirst(headers[2]);
         x.innerText = head2;
+        x = document.getElementById('tilRangePlay');
+        x.innerText = pathdb_util.jsUcfirst(head2);
       }
 
       x = document.getElementById('calcTILgreen');
@@ -109,9 +113,6 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
 
       x = document.getElementById('cancerRangePlay');
       x.innerText = pathdb_util.jsUcfirst(headers[3]);
-
-      x = document.getElementById('tilRangePlay');
-      x.innerText = pathdb_util.jsUcfirst(head2);
 
     }
 
