@@ -174,9 +174,9 @@ datamap.calcTILfun = function () {
       }
 
       if (this.id === 'tilRange') {
-        document.getElementById("slider_value2").innerHTML = this.value;
+        document.getElementById("slider_value1").innerHTML = this.value;
       }
-      
+
       //debugger
       datamap.cvBase.hidden = false;
       datamap.img.hidden = true;
@@ -205,6 +205,7 @@ datamap.calcTILfun = function () {
       }
       cancerRange.onchange()
     };
+
     tilRange.onclick = function () {
       if (tilRangePlay.style.backgroundColor === "#dedede") {
         tilRangePlay.onclick()
@@ -212,7 +213,7 @@ datamap.calcTILfun = function () {
       tilRange.onchange()
     };
 
-    cancerRange.onchange();
+    // cancerRange.onchange(); // pourquoi?
     datamap.cvTop = document.createElement('canvas');
     datamap.cvTop.width = datamap.img.width;
     datamap.cvTop.height = datamap.img.height;
@@ -256,6 +257,8 @@ datamap.imSlice = function (i) { // slice ith layer of imgData matrix
 
 datamap.segment = function () {
   // console.log('segment');
+  document.getElementById("slider_value2").innerHTML = segmentationRange.value;
+
   // generate mask
   //var k = parseInt(cancerRange.value)/100 // range value
   var cr = parseInt(cancerRange.value) / 100;
@@ -308,6 +311,7 @@ datamap.segment = function () {
 
 datamap.transpire = function () {
   // console.log('transpire');
+  document.getElementById("slider_value3").innerHTML = transparencyRange.value;
   var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
   //var clrEdge = [255,255,0,255-tp] // yellow
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
