@@ -87,6 +87,15 @@ datamap.calcTILfun = function () {
   rangeSegmentBt.onclick = datamap.segment;
 
   cancerRangePlay.onclick = tilRangePlay.onclick = function () {
+
+    if (this.id === 'cancerRange') {
+      document.getElementById("slider_value").innerHTML = this.value;
+    }
+
+    if (this.id === 'tilRange') {
+      document.getElementById("slider_value2").innerHTML = this.value;
+    }
+
     // make sure the other play is stopped
     if ((this.id === "cancerRangePlay") & (tilRangePlay.style.backgroundColor === "#dedede")) {
       tilRangePlay.click()
