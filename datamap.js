@@ -88,14 +88,6 @@ datamap.calcTILfun = function () {
 
   cancerRangePlay.onclick = tilRangePlay.onclick = function () {
 
-    if (this.id === 'cancerRange') {
-      document.getElementById("slider_value").innerHTML = this.value;
-    }
-
-    if (this.id === 'tilRange') {
-      document.getElementById("slider_value2").innerHTML = this.value;
-    }
-
     // make sure the other play is stopped
     if ((this.id === "cancerRangePlay") & (tilRangePlay.style.backgroundColor === "#dedede")) {
       tilRangePlay.click()
@@ -176,6 +168,15 @@ datamap.calcTILfun = function () {
     datamap.cvBase.onclick = datamap.img.onclick;
 
     cancerRange.onchange = tilRange.onchange = function () {
+
+      if (this.id === 'cancerRange') {
+        document.getElementById("slider_value").innerHTML = this.value;
+      }
+
+      if (this.id === 'tilRange') {
+        document.getElementById("slider_value2").innerHTML = this.value;
+      }
+      
       //debugger
       datamap.cvBase.hidden = false;
       datamap.img.hidden = true;
