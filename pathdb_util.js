@@ -90,7 +90,11 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     if (headers.length === 5) {
       // should be x, y, red, green, blue
       let x = document.getElementById('calcTILred');
-      x.innerText = pathdb_util.jsUcfirst(headers[2]);
+      if (x.toUpperCase() === 'TIL') {
+        x.innerText = 'TIL';
+      } else {
+        x.innerText = pathdb_util.jsUcfirst(headers[2]);
+      }
 
       x = document.getElementById('calcTILgreen');
       x.innerText = pathdb_util.jsUcfirst(headers[3]);
