@@ -90,10 +90,13 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     if (headers.length === 5) {
       // should be x, y, red, green, blue
       let x = document.getElementById('calcTILred');
-      if (headers[2].toUpperCase() === 'TIL') {
-        x.innerText = 'TIL';
+      let head2 = headers[2];
+      if (head2.toUpperCase() === 'TIL') {
+        head2 = 'TIL';
+        x.innerText = head2;
       } else {
-        x.innerText = pathdb_util.jsUcfirst(headers[2]);
+        head2 = pathdb_util.jsUcfirst(headers[2]);
+        x.innerText = head2;
       }
 
       x = document.getElementById('calcTILgreen');
@@ -108,7 +111,7 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
       x.innerText = pathdb_util.jsUcfirst(headers[3]);
 
       x = document.getElementById('tilRangePlay');
-      x.innerText = pathdb_util.jsUcfirst(headers[2]);
+      x.innerText = pathdb_util.jsUcfirst(head2);
 
     }
 
