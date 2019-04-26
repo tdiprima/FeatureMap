@@ -2,7 +2,7 @@ console.log('datamap.js loaded');
 
 datamap = function () {
 
-  // console.log('rgbButtons.hidden', rgbButtons.hidden);
+
 
   var queryString = location.search;
   if (queryString.length > 1) {
@@ -11,7 +11,7 @@ datamap = function () {
     datamap.map = datamap.getQueryVariable('map', str); // csv
     datamap.slide = datamap.getQueryVariable('slideId', str); // drupal node of slide
     datamap.mode = datamap.getQueryVariable('mode', str); // camic toggle switch
-    // console.log(datamap.map, datamap.slide, datamap.mode);
+
 
     promiseA = pathdb_util.getDataForImage(datamap.map);
     promiseA.then(function (result) {
@@ -67,8 +67,7 @@ datamap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 
 datamap.calcTILfun = function () {
 
-  hideRGBbuttons.onclick = function () {
-    // console.log('rgbButtons.hidden', rgbButtons.hidden);
+
     if (rgbButtons.hidden) {
       rgbButtons.hidden = false;
       hideRGBbuttons.textContent = 'RGB[-] ';
@@ -78,7 +77,7 @@ datamap.calcTILfun = function () {
       hideRGBbuttons.textContent = 'RGB[+] ';
       hideRGBbuttons.style.color = "blue"
     }
-    //debugger
+    tilmap.canvasAlign();
   };
 
   datamap.zoom2loc();
@@ -132,10 +131,10 @@ datamap.calcTILfun = function () {
 
     datamap.cvBase = document.createElement('canvas');
     datamap.cvBase.hidden = true;
-    // console.log('datamap.img.width', datamap.img.width);
+    
     // datamap.cvBase.width = datamap.img.width;  // NOTE! Browser resizes this. We don't want that!
     datamap.cvBase.width = pathdb_util.canvasWidth;
-    // console.log('datamap.cvBase.width', datamap.cvBase.width);
+    
     // datamap.cvBase.height = datamap.img.height;  // DITTO! Browser resizes this. We don't want that!
     datamap.cvBase.height = pathdb_util.canvasHeight;
     tileSize.textContent = `${datamap.img.width}x${datamap.img.height}`;
@@ -257,7 +256,7 @@ datamap.imSlice = function (i) { // slice ith layer of imgData matrix
 };
 
 datamap.segment = function () {
-  // console.log('segment');
+
   document.getElementById("slider_value2").innerHTML = segmentationRange.value;
 
   // generate mask
@@ -311,7 +310,7 @@ datamap.segment = function () {
 };
 
 datamap.transpire = function () {
-  // console.log('transpire');
+
   document.getElementById("slider_value3").innerHTML = transparencyRange.value;
   var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
   //var clrEdge = [255,255,0,255-tp] // yellow
@@ -333,10 +332,6 @@ datamap.transpire = function () {
 };
 
 datamap.canvasAlign = function () {
-  // console.log('canvasAlign');
-  // console.log('datamap.cvBase.width', datamap.cvBase.width);
-
-  console.log('hidden?', datamap.cvBase.hidden);
 
   let zzTop = datamap.cvBase.getBoundingClientRect().top;
   let zzLeft = datamap.cvBase.getBoundingClientRect().left;
