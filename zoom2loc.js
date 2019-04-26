@@ -28,7 +28,7 @@ zoom2loc = function (event) {
 
   // Get slide data
   let getSlideData = async function () {
-    const url = `/node/${datamap.slide}/?_format=json`;
+    const url = `/node/${tilmap.slide}/?_format=json`;
     // console.log('fetch: ', url);
 
     return (await fetch(url)).json()
@@ -67,7 +67,7 @@ zoom2loc = function (event) {
     let encodedData = encodeURIComponent(btoa(JSON.stringify(states)));
 
     // Set frame src to desired location
-    ifrm.src = `/caMicroscope/apps/viewer/viewer.html?slideId=${datamap.slide}&mode=${datamap.mode}&states=${encodedData}`;
+    ifrm.src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}&states=${encodedData}`;
     // ifrm.src = `${newIfrmLoc}&x=${Math.ceil(clickPos.x * scale.w)}&y=${Math.ceil(clickPos.y * scale.h)}&zoom=5`;
     console.log('ifrm.src:', ifrm.src);
 
