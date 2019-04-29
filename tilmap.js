@@ -1,8 +1,11 @@
 console.log('tilmap.js loaded');
 
+/**
+ * Parses querystring for parameters.
+ * Transforms CSV to image.
+ * Displays image to user.
+ */
 tilmap = function () {
-
-
 
   var queryString = location.search;
   if (queryString.length > 1) {
@@ -11,7 +14,6 @@ tilmap = function () {
     tilmap.map = tilmap.getQueryVariable('map', str); // csv
     tilmap.slide = tilmap.getQueryVariable('slideId', str); // drupal node of slide
     tilmap.mode = tilmap.getQueryVariable('mode', str); // camic toggle switch
-
 
     promiseA = pathdb_util.getDataForImage(tilmap.map);
     promiseA.then(function (result) {
@@ -29,6 +31,9 @@ tilmap = function () {
 
 };
 
+/**
+ * Url value extraction
+ */
 tilmap.getQueryVariable = function (variable, queryString) {
   var vars = queryString.split('&');
   for (var i = 0; i < vars.length; i++) {
@@ -39,7 +44,7 @@ tilmap.getQueryVariable = function (variable, queryString) {
   }
 };
 
-// Sliders
+// Starting parameters for Sliders
 tilmap.parms = {
   cancerRange: 100,
   tilRange: 100,
@@ -47,10 +52,8 @@ tilmap.parms = {
   threshold: 0
 };
 
-// imgTILDiv.onclick = function (ev) {
 tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
   document.getElementById('imgTILDiv').onclick = function (ev) {
-    //tilmap.img.onclick=function(ev){
     if (typeof (zoom2loc) == "undefined") {
       var s = document.createElement('script');
       s.src = "zoom2loc.js";
@@ -67,7 +70,8 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 
 tilmap.calcTILfun = function () {
 
-
+  // Show/hide buttons - TIL Cancer Tissue Original
+  hideRGBbuttons.onclick = function () {
     if (rgbButtons.hidden) {
       rgbButtons.hidden = false;
       hideRGBbuttons.textContent = 'RGB[-] ';
@@ -95,7 +99,8 @@ tilmap.calcTILfun = function () {
       cancerRangePlay.click()
     }
 
-    var range = document.getElementById(this.id.slice(0, -4)); // range input for this button
+    // range input for this button
+    var range = document.getElementById(this.id.slice(0, -4));  // Ex: cancerRangePlay -> cancerRange
     if (this.style.backgroundColor === "silver") {
       this.style.backgroundColor = "#dedede";
       if (range.value === "") {
@@ -103,7 +108,6 @@ tilmap.calcTILfun = function () {
       }
       tilmap.parms.t = setInterval(function () {
         range.value = parseInt(range.value) + 5;
-        //console.log(cancerTilRange.value)
         if (parseInt(range.value) >= 100) {
           range.value = "0"
         }
@@ -112,14 +116,13 @@ tilmap.calcTILfun = function () {
       }, 100)
     } else {
       clearInterval(tilmap.parms.t);
-      //this.textContent="Play"
       this.style.backgroundColor = "silver"
     }
   };
 
   /**
    * CREATE IN-MEMORY IMAGE
-   * But also write img element
+   * And also write img dom element
    */
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
@@ -137,6 +140,7 @@ tilmap.calcTILfun = function () {
 
     // tilmap.cvBase.height = tilmap.img.height;  // DITTO! Browser resizes this. We don't want that!
     tilmap.cvBase.height = pathdb_util.canvasHeight;
+
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
     tilmap.cvBase.id = "cvBase";
     tilmap.imgTILDiv.appendChild(tilmap.cvBase);
@@ -150,6 +154,7 @@ tilmap.calcTILfun = function () {
     tilmap.imgDataB = tilmap.imSlice(2);
     tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
 
+    // Event listeners for buttons - TIL Cancer Tissue Original
     calcTILred.onclick = function () {
       tilmap.from2D(tilmap.imSlice(0))
     };
@@ -163,39 +168,38 @@ tilmap.calcTILfun = function () {
       tilmap.img.hidden = false;
       tilmap.cvBase.hidden = true;
     };
-    //debugger
     tilmap.cvBase.onclick = tilmap.img.onclick;
 
+    // Event listener for both sliders - Cancer and TIL
     cancerRange.onchange = tilRange.onchange = function () {
 
-      if (this.id === 'cancerRange') {
-        document.getElementById("slider_value").innerHTML = this.value;
-      }
+      document.getElementById(this.id + 'Val').innerHTML = this.value;
 
-      if (this.id === 'tilRange') {
-        document.getElementById("slider_value1").innerHTML = this.value;
-      }
-
-      //debugger
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
       var cm = jmat.colormap();
-      //var k = parseInt(this.value)/100 //slider value
+      // var k = parseInt(this.value) / 100 //slider value
       var cr = parseInt(cancerRange.value) / 100;
       var tr = parseInt(tilRange.value) / 100;
       tilmap.parms[this.id] = this.value;
       var ddd = tilmap.imgData.map(function (dd) {
         return dd.map(function (d) {
-          //var r = k*d[0]/255
-          //var g = (1-k)*d[1]/255
-          //return cm[Math.round((r+g)*63)].map(x=>Math.round(x*255)).concat(d[2])
+          // var r = k * d[0] / 255
+          // var g = (1 - k) * d[1] / 255
+          // return cm[Math.round((r + g) * 63)].map(x => Math.round(x * 255)).concat(d[2])
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
-          //debugger
         })
       });
       jmat.imwrite(tilmap.cvBase, ddd)
-      //debugger
     };
+
+    cancerRange.addEventListener('change', function() {
+      tilmap.segment(event,false);
+    });
+
+    tilRange.addEventListener('change', function() {
+      tilmap.segment(event,false);
+    });
 
     // making sure clicking stops play and act as as onchange
     cancerRange.onclick = function () {
@@ -214,6 +218,7 @@ tilmap.calcTILfun = function () {
 
     cancerRange.onchange();
     tilRange.onchange();
+
     tilmap.cvTop = document.createElement('canvas');
     tilmap.cvTop.width = tilmap.img.width;
     tilmap.cvTop.height = tilmap.img.height;
@@ -225,7 +230,7 @@ tilmap.calcTILfun = function () {
   };
   document.getElementById('caMicrocopeIfr').src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}`;
   segmentationRange.onchange = tilmap.segment; //rangeSegmentBt.onclick
-  transparencyRange.onchange = tilmap.transpire
+  transparencyRange.onchange = tilmap.transpire;
 
 };
 
@@ -240,10 +245,9 @@ tilmap.from2D = function (dd) {
       return cm[Math.round(v * k)].map(x => Math.round(x * 255)).concat(255)
     })
   });
-  //tilmap.ctx.putImageData(jmat.data2imData(ddd),0,0)
-  //jmat.imwrite(tilmap.img,ddd)
+  // tilmap.ctx.putImageData(jmat.data2imData(ddd), 0, 0)
+  // jmat.imwrite(tilmap.img, ddd)
   jmat.imwrite(tilmap.cvBase, ddd)
-  //debugger
 };
 
 tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
@@ -255,55 +259,56 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
   })
 };
 
-tilmap.segment = function () {
+tilmap.segment = function (event, doSegment = true) {
 
-  document.getElementById("slider_value2").innerHTML = segmentationRange.value;
+  document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
   // generate mask
-  //var k = parseInt(cancerRange.value)/100 // range value
+  // var k = parseInt(cancerRange.value) / 100 // range value
   var cr = parseInt(cancerRange.value) / 100;
   var tr = parseInt(tilRange.value) / 100;
   var sv = 2.55 * parseInt(segmentationRange.value); // segmentation value
-  var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
 
   let countCancer = 0;
   let countTil = 0;
 
   tilmap.segMask = tilmap.imgData.map(dd => {
     return dd.map(d => {
-      //return (d[0]*(k)+d[1]*(1-k))>sv
-      //return (d[0]*(k)+d[1]*(1-k))>=sv
+      // return (d[0] * (k) + d[1] * (1 - k)) > sv
+      // return (d[0] * (k) + d[1] * (1 - k)) >= sv
       countCancer += (d[1] * cr >= sv) & (d[2] == 255);
       countTil += (d[0] * tr >= sv) & (d[2] == 255);
       return ((Math.max(d[1] * cr, d[0] * tr)) >= sv) & (d[2] == 255);
-      //return cm[Math.round((Math.max(d[1]*cr,d[0]*tr)/255)*63)].map(x=>Math.round(x*255)).concat(d[2])
+      // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
     })
   });
   cancerTiles.textContent = `${countCancer} tiles, ${Math.round((countCancer / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
   tilTiles.textContent = `${countTil} tiles, ${Math.round((countTil / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
-  // find neighbors
-  var n = tilmap.imgData.length;
-  var m = tilmap.imgData[0].length;
-  tilmap.segNeig = [...Array(n)].map(_ => {
-    return [...Array(m)].map(_ => [0])
-  });
-  var dd = tilmap.segMask;
-  for (var i = 1; i < (n - 1); i++) {
-    for (var j = 1; j < (m - 1); j++) {
-      tilmap.segNeig[i][j] = [dd[i - 1][j - 1], dd[i - 1][j], dd[i - 1][j + 1], dd[i][j - 1], dd[i][j], dd[i][j + 1], dd[i + 1][j - 1], dd[i + 1][j], dd[i + 1][j + 1]]
+  if (doSegment)
+  {
+    // find neighbors
+    var n = tilmap.imgData.length;
+    var m = tilmap.imgData[0].length;
+    tilmap.segNeig = [...Array(n)].map(_ => {
+      return [...Array(m)].map(_ => [0])
+    });
+    var dd = tilmap.segMask;
+    for (var i = 1; i < (n - 1); i++) {
+      for (var j = 1; j < (m - 1); j++) {
+        tilmap.segNeig[i][j] = [dd[i - 1][j - 1], dd[i - 1][j], dd[i - 1][j + 1], dd[i][j - 1], dd[i][j], dd[i][j + 1], dd[i + 1][j - 1], dd[i + 1][j], dd[i + 1][j + 1]]
+      }
     }
+    // find edges
+    tilmap.segEdge = tilmap.segNeig.map(dd => {
+      return dd.map(d => {
+        var s = d.reduce((a, b) => a + b);
+        return (s > 3 & s < 7)
+        // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
+      })
+    });
+    tilmap.transpire();
   }
-  // find edges
-  tilmap.segEdge = tilmap.segNeig.map(dd => {
-    return dd.map(d => {
-      var s = d.reduce((a, b) => a + b);
-      return (s > 3 & s < 7)
-      //return d.reduce((a,b)=>Math.max(a,b))!=d.reduce((a,b)=>Math.min(a,b))
-    })
-  });
-  tilmap.transpire();
-  tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} tiles, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
@@ -311,9 +316,9 @@ tilmap.segment = function () {
 
 tilmap.transpire = function () {
 
-  document.getElementById("slider_value3").innerHTML = transparencyRange.value;
+  document.getElementById("transparencyRangeVal").innerHTML = transparencyRange.value;
   var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
-  //var clrEdge = [255,255,0,255-tp] // yellow
+  // var clrEdge = [255, 255, 0, 255 - tp] // yellow
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
   jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
@@ -325,26 +330,33 @@ tilmap.transpire = function () {
         c = clrMask
       }
       return c
-      //return [255,255,255,255].map(v=>v*d) // white
+      // return [255, 255, 255, 255].map(v => v * d) // white
     })
   }));
   tilmap.parms.transparency = transparencyRange.value
 };
 
+/**
+ * Make sure the canvases stay aligned with each other.
+ */
 tilmap.canvasAlign = function () {
 
-  let zzTop = tilmap.cvBase.getBoundingClientRect().top;
-  let zzLeft = tilmap.cvBase.getBoundingClientRect().left;
-  if (zzTop === 0 || zzLeft === 0) {
-    console.log("Something's not right.");
+  // Get size of cvBase canvas and its position relative to viewport:
+  let baseTop = tilmap.cvBase.getBoundingClientRect().top;
+  let baseLeft = tilmap.cvBase.getBoundingClientRect().left;
+
+  if (baseTop === 0 && baseLeft === 0) {
+    // If zero (base might be hidden), do not set top and left to zero.
     console.log(tilmap.cvBase);
     console.log(tilmap.cvBase.getBoundingClientRect());
 
   } else {
-    tilmap.cvTop.style.top = tilmap.cvBase.getBoundingClientRect().top;
-    tilmap.cvTop.style.left = tilmap.cvBase.getBoundingClientRect().left;
+    // Set top, left of cvTop to top, left of cvBase
+    tilmap.cvTop.style.top = baseTop;
+    tilmap.cvTop.style.left = baseLeft;
+
     // correction if needed
-    tilmap.cvTop.style.top = parseFloat(tilmap.cvTop.style.top) + tilmap.cvBase.getBoundingClientRect().top - tilmap.cvTop.getBoundingClientRect().top;
+    tilmap.cvTop.style.top = parseFloat(tilmap.cvTop.style.top) + baseTop - tilmap.cvTop.getBoundingClientRect().top;
 
   }
 
