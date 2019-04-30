@@ -152,6 +152,8 @@ tilmap.calcTILfun = function () {
     tilmap.imgDataR = tilmap.imSlice(0);
     tilmap.imgDataG = tilmap.imSlice(1);
     tilmap.imgDataB = tilmap.imSlice(2);
+
+    // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
 
     // Event listeners for buttons - TIL Cancer Tissue Original
@@ -250,6 +252,9 @@ tilmap.from2D = function (dd) {
   jmat.imwrite(tilmap.cvBase, ddd)
 };
 
+/**
+ * Replicate image data (a 2D matrix) with values from the ith channel.
+ */
 tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
   i = i || 0;
   return tilmap.imgData.map(x => {
