@@ -314,6 +314,9 @@ tilmap.segment = function (event, doSegment = true) {
   tilmap.canvasAlign() // making sure it doesn't lose alignment
 };
 
+/**
+ * Calculate transparency
+ */
 tilmap.transpire = function () {
 
   document.getElementById("transparencyRangeVal").innerHTML = transparencyRange.value;
@@ -337,7 +340,7 @@ tilmap.transpire = function () {
 };
 
 /**
- * Make sure the canvases stay aligned with each other.
+ * Make sure both canvases stay aligned with each other.
  */
 tilmap.canvasAlign = function () {
 
