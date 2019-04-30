@@ -68,6 +68,9 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
   return tilmap.calcTILdiv
 };
 
+/**
+ * Calculate TIL, build dynamic interface.
+ */
 tilmap.calcTILfun = function () {
 
   // Show/hide buttons - TIL Cancer Tissue Original
@@ -148,9 +151,7 @@ tilmap.calcTILfun = function () {
     tilmap.ctx.drawImage(this, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
-    // extract RGB
-    tilmap.imgDataR = tilmap.imSlice(0);
-    tilmap.imgDataG = tilmap.imSlice(1);
+    // extract blue channel
     tilmap.imgDataB = tilmap.imSlice(2);
 
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
@@ -236,6 +237,10 @@ tilmap.calcTILfun = function () {
 
 };
 
+/**
+ * Do colormap of 2D matrix of one channel.
+ * Draw the resulting matrix on the base canvas.
+ */
 tilmap.from2D = function (dd) {
   tilmap.cvBase.hidden = false;
   tilmap.img.hidden = true;
@@ -264,6 +269,9 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
   })
 };
 
+/**
+ * Draw yellow (or magenta) line around the edges of nuclear material.
+ */
 tilmap.segment = function (event, doSegment = true) {
 
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
@@ -290,6 +298,7 @@ tilmap.segment = function (event, doSegment = true) {
   cancerTiles.textContent = `${countCancer} tiles, ${Math.round((countCancer / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
   tilTiles.textContent = `${countTil} tiles, ${Math.round((countTil / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
+  // We don't want to do segmentation in the case of the range value changing for either of the two features.
   if (doSegment)
   {
     // find neighbors
