@@ -2,7 +2,7 @@
 
 FeatureMap for PathDB
 
-Upload TIL map data and interact with til/cancer/tissue probabilities on generated image.
+Upload TIL map data and interact with feature probabilities on generated map image.
 
 
 Based on: <a href="https://mathbiol.github.io/tilmap/" target="blank">tilmap</a>
