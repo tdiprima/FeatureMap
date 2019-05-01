@@ -362,6 +362,11 @@ tilmap.canvasAlign = function () {
     console.log(tilmap.cvBase.getBoundingClientRect());
 
   } else {
+
+    if (typeof tilmap.cvTop === 'undefined') {
+      tilmap.cvTop = document.getElementById('cvBase');
+   }
+
     // Set top, left of cvTop to top, left of cvBase
     tilmap.cvTop.style.top = baseTop;
     tilmap.cvTop.style.left = baseLeft;
