@@ -194,15 +194,9 @@ tilmap.calcTILfun = function () {
         })
       });
       jmat.imwrite(tilmap.cvBase, ddd)
+      tilmap.segment(event,false);
+
     };
-
-    cancerRange.addEventListener('change', function() {
-      tilmap.segment(event,false);
-    });
-
-    tilRange.addEventListener('change', function() {
-      tilmap.segment(event,false);
-    });
 
     // making sure clicking stops play and act as as onchange
     cancerRange.onclick = function () {
