@@ -125,7 +125,7 @@ tilmap.calcTILfun = function () {
 
   /**
    * CREATE IN-MEMORY IMAGE
-   * And also write img dom element
+   * And also write img DOM element
    */
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
@@ -193,8 +193,9 @@ tilmap.calcTILfun = function () {
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
         })
       });
-      jmat.imwrite(tilmap.cvBase, ddd)
-      tilmap.segment(event,false);
+      jmat.imwrite(tilmap.cvBase, ddd);
+      //tilmap.segment(event,false);
+      tilmap.segment;
 
     };
 
@@ -266,7 +267,8 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
 /**
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
-tilmap.segment = function (event, doSegment = true) {
+//tilmap.segment = function (event, doSegment = true) {
+tilmap.segment = function () {
 
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
@@ -293,30 +295,30 @@ tilmap.segment = function (event, doSegment = true) {
   tilTiles.textContent = `${countTil} tiles, ${Math.round((countTil / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
   // We don't want to do segmentation in the case of the range value changing for either of the two features.
-  if (doSegment)
-  {
-    // find neighbors
-    var n = tilmap.imgData.length;
-    var m = tilmap.imgData[0].length;
-    tilmap.segNeig = [...Array(n)].map(_ => {
-      return [...Array(m)].map(_ => [0])
-    });
-    var dd = tilmap.segMask;
-    for (var i = 1; i < (n - 1); i++) {
-      for (var j = 1; j < (m - 1); j++) {
-        tilmap.segNeig[i][j] = [dd[i - 1][j - 1], dd[i - 1][j], dd[i - 1][j + 1], dd[i][j - 1], dd[i][j], dd[i][j + 1], dd[i + 1][j - 1], dd[i + 1][j], dd[i + 1][j + 1]]
-      }
+  //if (doSegment)
+  //{
+  // find neighbors
+  var n = tilmap.imgData.length;
+  var m = tilmap.imgData[0].length;
+  tilmap.segNeig = [...Array(n)].map(_ => {
+    return [...Array(m)].map(_ => [0])
+  });
+  var dd = tilmap.segMask;
+  for (var i = 1; i < (n - 1); i++) {
+    for (var j = 1; j < (m - 1); j++) {
+      tilmap.segNeig[i][j] = [dd[i - 1][j - 1], dd[i - 1][j], dd[i - 1][j + 1], dd[i][j - 1], dd[i][j], dd[i][j + 1], dd[i + 1][j - 1], dd[i + 1][j], dd[i + 1][j + 1]]
     }
-    // find edges
-    tilmap.segEdge = tilmap.segNeig.map(dd => {
-      return dd.map(d => {
-        var s = d.reduce((a, b) => a + b);
-        return (s > 3 & s < 7)
-        // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
-      })
-    });
-    tilmap.transpire();
   }
+  // find edges
+  tilmap.segEdge = tilmap.segNeig.map(dd => {
+    return dd.map(d => {
+      var s = d.reduce((a, b) => a + b);
+      return (s > 3 & s < 7)
+      // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
+    })
+  });
+  tilmap.transpire();
+  //}
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} tiles, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
@@ -365,7 +367,7 @@ tilmap.canvasAlign = function () {
 
     if (typeof tilmap.cvTop === 'undefined') {
       tilmap.cvTop = document.getElementById('cvBase');
-   }
+    }
 
     // Set top, left of cvTop to top, left of cvBase
     tilmap.cvTop.style.top = baseTop;
