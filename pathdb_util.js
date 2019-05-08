@@ -121,6 +121,8 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     str = str.replace(/['"]+/, ''); // starts with quote
     str = str.replace("}\"", "}");
     //str = str.replace("\",,,,", ""); // ends with quote and commas
+    str = str.replace(",,,", "");
+    console.log(str);
 
     const metadata = JSON.parse(str);
 
