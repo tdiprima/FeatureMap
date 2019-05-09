@@ -2,6 +2,8 @@ pathdb_util = function () {
 
   pathdb_util.canvasHeight = 0;
   pathdb_util.canvasWidth = 0;
+  pathdb_util.imgHeight = 0;
+  pathdb_util.imgWidth = 0;
 
 };
 
@@ -138,6 +140,9 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
 
     pathdb_util.canvasHeight = height;
     pathdb_util.canvasWidth = width;
+
+    pathdb_util.imgHeight = parseInt(metadata.img_height);
+    pathdb_util.imgWidth = parseInt(metadata.img_width);
 
     console.log('size of buffer', width * height * 4);// = imgData.data.length
 
