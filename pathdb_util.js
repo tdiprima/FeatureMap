@@ -120,9 +120,10 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     str = str.replace(/['""]+/g, '"'); // double quotes
     str = str.replace(/['"]+/, ''); // starts with quote
     str = str.replace("}\"", "}");
-    if (str.endsWith("\",,,,"))
+    // str = str.replace("\",,,,", ""); // ends with quote and commas
+    if (str.endsWith(",,,,"))
     {
-      str = str.replace("\",,,,", ""); // ends with quote and commas
+      str = str.replace(",,,,", "");
     }
     if(str.endsWith(",,,"))
     {
