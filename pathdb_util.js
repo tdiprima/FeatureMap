@@ -180,8 +180,7 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
         var line = lines[i].split(strDelimiter);
         var x = parseInt(line[0]);
         var y = parseInt(line[1]);
-        var pixelindex = (x * width + y) * 4;
-        // console.log(x, y, pixelindex);
+        let pixelindex = (y * width + x) * 4;
 
         // Color
         imgData.data[pixelindex] = parseInt(line[2]);      // R value [0, 255]
