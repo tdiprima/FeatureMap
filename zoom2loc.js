@@ -43,8 +43,18 @@ zoom2loc = function (event) {
 
     // Build new iFrame src
     let slideDim = {};
-    slideDim.width = result.field_width[0].value;
-    slideDim.height = result.field_height[0].value;
+
+    try {
+      slideDim.width = result.field_width[0].value;
+      slideDim.height = result.field_height[0].value;
+    } catch(e) {
+      success = false;
+      console.log({"exception_was": e});
+    }
+    if(!success) {
+      slideDim.width = pathdb_util.imgWidth;
+      slideDim.height = pathdb_util.imgHeight;
+    }
     // console.log("slideDim", slideDim);
     let scale = {};
     scale.w = slideDim.width / imgDim.w * 1.0;
