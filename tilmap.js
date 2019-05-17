@@ -44,6 +44,16 @@ tilmap.getQueryVariable = function (variable, queryString) {
   }
 };
 
+tilmap.isItemInArray = function(array, item) {
+  for (var i = 0; i < array.length; i++) {
+      if (array[i][0] == item[0] && array[i][1] == item[1]) {
+          return true;   
+      }
+  }
+  return false;   
+}
+
+
 // Starting parameters for Sliders
 tilmap.parms = {
   cancerRange: 100,
@@ -154,9 +164,25 @@ tilmap.calcTILfun = function () {
     // extract blue channel
     tilmap.imgDataB = tilmap.imSlice(2);
 
-    // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
-    tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
+    mybool = tilmap.isItemInArray(tilmap.imgDataB, 255)
 
+    // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
+    if (mybool)
+    {
+      tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
+    }
+    else
+    {
+      // Try the TIL channel (after all, this is called "tilmap")
+      tilmap.imgDataB_count = tilmap.imgDataR.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
+    }
+
+    if (tilmap.imgDataB_count === 0)
+    {
+      // If it's still zero, we have one more channel to try
+      tilmap.imgDataB_count = tilmap.imgDataG.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
+    }
+    
     // Event listeners for buttons - TIL Cancer Tissue Original
     calcTILred.onclick = function () {
       tilmap.from2D(tilmap.imSlice(0))
