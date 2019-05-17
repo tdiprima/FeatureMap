@@ -161,7 +161,9 @@ tilmap.calcTILfun = function () {
     tilmap.ctx.drawImage(this, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
-    // extract blue channel
+    // extract channels
+    tilmap.imgDataR = tilmap.imSlice(0);
+    tilmap.imgDataG = tilmap.imSlice(1);
     tilmap.imgDataB = tilmap.imSlice(2);
 
     mybool = tilmap.isItemInArray(tilmap.imgDataB, 255)
@@ -185,13 +187,13 @@ tilmap.calcTILfun = function () {
     
     // Event listeners for buttons - TIL Cancer Tissue Original
     calcTILred.onclick = function () {
-      tilmap.from2D(tilmap.imSlice(0))
+      tilmap.from2D(tilmap.imgDataR)
     };
     calcTILgreen.onclick = function () {
-      tilmap.from2D(tilmap.imSlice(1))
+      tilmap.from2D(tilmap.imgDataG)
     };
     calcTILblue.onclick = function () {
-      tilmap.from2D(tilmap.imSlice(2))
+      tilmap.from2D(tilmap.imgDataB)
     };
     calcTIL0.onclick = function () {
       tilmap.img.hidden = false;
