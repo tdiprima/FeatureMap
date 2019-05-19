@@ -51,7 +51,7 @@ tilmap.isItemInArray = function (array, item) {
     }
   }
   return false;
-}
+};
 
 
 // Starting parameters for Sliders
@@ -140,6 +140,8 @@ tilmap.calcTILfun = function () {
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
+  tilmap.img.width = pathdb_util.canvasWidth;
+  tilmap.img.height = pathdb_util.canvasHeight;
   tilmap.imgTILDiv = document.getElementById('imgTILDiv');
   tilmap.imgTILDiv.appendChild(tilmap.img);
 
@@ -148,10 +150,7 @@ tilmap.calcTILfun = function () {
     tilmap.cvBase = document.createElement('canvas');
     tilmap.cvBase.hidden = true;
 
-    // tilmap.cvBase.width = tilmap.img.width;  // NOTE! Browser resizes this. We don't want that!
     tilmap.cvBase.width = pathdb_util.canvasWidth;
-
-    // tilmap.cvBase.height = tilmap.img.height;  // DITTO! Browser resizes this. We don't want that!
     tilmap.cvBase.height = pathdb_util.canvasHeight;
 
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
@@ -179,6 +178,8 @@ tilmap.calcTILfun = function () {
     };
     calcTIL0.onclick = function () {
       tilmap.img.hidden = false;
+      tilmap.img.width = pathdb_util.canvasWidth;
+      tilmap.img.height = pathdb_util.canvasHeight;
       tilmap.cvBase.hidden = true;
     };
     tilmap.cvBase.onclick = tilmap.img.onclick;
@@ -189,6 +190,8 @@ tilmap.calcTILfun = function () {
       document.getElementById(this.id + 'Val').innerHTML = this.value;
 
       tilmap.cvBase.hidden = false;
+      tilmap.cvBase.width = pathdb_util.canvasWidth;
+      tilmap.cvBase.height = pathdb_util.canvasHeight;
       tilmap.img.hidden = true;
       var cm = jmat.colormap();
       // var k = parseInt(this.value) / 100 //slider value
@@ -248,6 +251,8 @@ tilmap.calcTILfun = function () {
  */
 tilmap.from2D = function (dd) {
   tilmap.cvBase.hidden = false;
+  tilmap.cvBase.width = pathdb_util.canvasWidth;
+  tilmap.cvBase.height = pathdb_util.canvasHeight;
   tilmap.img.hidden = true;
   tilmap.cv2D = dd; // keeping current value 2D slice
   var cm = jmat.colormap();
