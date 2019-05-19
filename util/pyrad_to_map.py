@@ -36,8 +36,8 @@ def create_csv(input, output):
 
     cols = list(modified.columns)
     modified = modified[cols[2:]]
-    modified['Cancer'] = modified['Nuclear Ratio']
-    modified['Tissue'] = modified['Nuclear Ratio']
+    modified['Cancer'] = 0
+    modified['Tissue'] = 255
     # print(modified)
     # modified.to_csv(output, index=False)
     with open(output, 'a') as f:
