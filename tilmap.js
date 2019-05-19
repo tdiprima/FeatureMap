@@ -44,13 +44,13 @@ tilmap.getQueryVariable = function (variable, queryString) {
   }
 };
 
-tilmap.isItemInArray = function(array, item) {
+tilmap.isItemInArray = function (array, item) {
   for (var i = 0; i < array.length; i++) {
-      if (array[i][0] == item[0] && array[i][1] == item[1]) {
-          return true;   
-      }
+    if (array[i][0] == item[0] && array[i][1] == item[1]) {
+      return true;
+    }
   }
-  return false;   
+  return false;
 }
 
 
@@ -161,39 +161,21 @@ tilmap.calcTILfun = function () {
     tilmap.ctx.drawImage(this, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
-    // extract channels
-    tilmap.imgDataR = tilmap.imSlice(0);
-    tilmap.imgDataG = tilmap.imSlice(1);
+    // extract blue channel
     tilmap.imgDataB = tilmap.imSlice(2);
 
-    mybool = tilmap.isItemInArray(tilmap.imgDataB, 255)
-
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
-    if (mybool)
-    {
-      tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
-    }
-    else
-    {
-      // Try the TIL channel (after all, this is called "tilmap")
-      tilmap.imgDataB_count = tilmap.imgDataR.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
-    }
+    tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
 
-    if (tilmap.imgDataB_count === 0)
-    {
-      // If it's still zero, we have one more channel to try
-      tilmap.imgDataB_count = tilmap.imgDataG.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
-    }
-    
     // Event listeners for buttons - TIL Cancer Tissue Original
     calcTILred.onclick = function () {
-      tilmap.from2D(tilmap.imgDataR)
+      tilmap.from2D(tilmap.imSlice(0))
     };
     calcTILgreen.onclick = function () {
-      tilmap.from2D(tilmap.imgDataG)
+      tilmap.from2D(tilmap.imSlice(1))
     };
     calcTILblue.onclick = function () {
-      tilmap.from2D(tilmap.imgDataB)
+      tilmap.from2D(tilmap.imSlice(2))
     };
     calcTIL0.onclick = function () {
       tilmap.img.hidden = false;
@@ -222,8 +204,8 @@ tilmap.calcTILfun = function () {
         })
       });
       jmat.imwrite(tilmap.cvBase, ddd);
-      //tilmap.segment(event,false);
-      tilmap.segment;
+      tilmap.segment(event, false);
+      //tilmap.segment;
 
     };
 
@@ -295,8 +277,8 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
 /**
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
-//tilmap.segment = function (event, doSegment = true) {
-tilmap.segment = function () {
+tilmap.segment = function (event, doTranspire = true) {
+//tilmap.segment = function () {
 
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
@@ -322,9 +304,7 @@ tilmap.segment = function () {
   cancerTiles.textContent = `${countCancer} tiles, ${Math.round((countCancer / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
   tilTiles.textContent = `${countTil} tiles, ${Math.round((countTil / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
-  // We don't want to do segmentation in the case of the range value changing for either of the two features.
-  //if (doSegment)
-  //{
+
   // find neighbors
   var n = tilmap.imgData.length;
   var m = tilmap.imgData[0].length;
@@ -345,8 +325,10 @@ tilmap.segment = function () {
       // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
     })
   });
-  tilmap.transpire();
-  //}
+  // background suppression
+  if (doTranspire) {
+    tilmap.transpire();
+  }
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} tiles, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
