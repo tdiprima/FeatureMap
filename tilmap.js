@@ -241,14 +241,26 @@ tilmap.calcTILfun = function () {
 
   let columns = pathdb_util.columns;
   if (columns.length > 5) {
-    var sel = document.createElement('select');
+    let sel = document.createElement('select');
+    sel.multiple = true;
     sel.id = 'sel1';
-    for (var i = 0; i < columns.length; i++) {
+    for (let i = 0; i < columns.length; i++) {
       //Add the options
       sel.options[sel.options.length] = new Option(columns[i], "value" + i);
     }
     //add the element to the div
     document.getElementById("choose").appendChild(sel);
+
+    sel.addEventListener('click', function (e) {
+      let options = sel.options, count = 0;
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].selected) count++;
+      }
+      if (count === 2) {
+        console.log('Selected 2', options);
+      }
+    });
+
   }
 
 };
