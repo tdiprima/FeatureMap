@@ -1,9 +1,9 @@
 pathdb_util = function () {
 
-  pathdb_util.canvasHeight = 0;
-  pathdb_util.canvasWidth = 0;
   pathdb_util.imgHeight = 0;
   pathdb_util.imgWidth = 0;
+  pathdb_util.slideHeight = 0;
+  pathdb_util.slideWidth = 0;
 
 };
 
@@ -139,11 +139,11 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     var width = parseInt(metadata.png_w),
         height = parseInt(metadata.png_h);
 
-    pathdb_util.canvasHeight = height;
-    pathdb_util.canvasWidth = width;
+    pathdb_util.imgHeight = height;
+    pathdb_util.imgWidth = width;
 
-    pathdb_util.imgHeight = parseInt(metadata.img_height);
-    pathdb_util.imgWidth = parseInt(metadata.img_width);
+    pathdb_util.slideHeight = parseInt(metadata.img_height);
+    pathdb_util.slideWidth = parseInt(metadata.img_width);
 
     console.log('size of buffer', width * height * 4);// = imgData.data.length
 

@@ -140,8 +140,8 @@ tilmap.calcTILfun = function () {
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
-  tilmap.img.width = pathdb_util.canvasWidth;
-  tilmap.img.height = pathdb_util.canvasHeight;
+  tilmap.img.width = pathdb_util.imgWidth;
+  tilmap.img.height = pathdb_util.imgHeight;
   tilmap.imgTILDiv = document.getElementById('imgTILDiv');
   tilmap.imgTILDiv.appendChild(tilmap.img);
 
@@ -150,8 +150,8 @@ tilmap.calcTILfun = function () {
     tilmap.cvBase = document.createElement('canvas');
     tilmap.cvBase.hidden = true;
 
-    tilmap.cvBase.width = pathdb_util.canvasWidth;
-    tilmap.cvBase.height = pathdb_util.canvasHeight;
+    tilmap.cvBase.width = pathdb_util.imgWidth;
+    tilmap.cvBase.height = pathdb_util.imgHeight;
 
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
     tilmap.cvBase.id = "cvBase";
