@@ -24,8 +24,6 @@ def create_csv(input, output):
 
     # print(obj)
     
-    cols = list(df.columns)
-    
     red = 'nuclei_ratio'
     r_name  = 'Nuclear Ratio'
     green = ''
@@ -37,6 +35,7 @@ def create_csv(input, output):
         f.write(json.dumps(obj) + '\n')
         f.write('i,j,' + r_name + ',' + g_name + ',Tissue\n')
     
+    cols = list(df.columns)
     modified = df[cols[5:7] + cols[11:12]]
     modified = modified.sort_values(['patch_x', 'patch_y'], ascending=[1, 1])
     modified['i'] = modified['patch_x'] / df['patch_width']
