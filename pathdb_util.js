@@ -159,7 +159,7 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     // console.log('metadata.png_w', metadata.png_w);
     // console.log('metadata.png_h', metadata.png_h);
     console.log('canvas.width', canvas.width);
-    console.log('canvas.width', canvas.height);
+    console.log('canvas.height', canvas.height);
     var ctx = canvas.getContext("2d");
     var imgData = ctx.createImageData(width, height);
     var i;
@@ -190,6 +190,7 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
         imgData.data[pixelindex + 3] = 255;                // set alpha channel
       }
     }
+    // console.log('imgData', imgData);
     ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
 
     // Next, create an image file:
