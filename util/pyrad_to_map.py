@@ -29,24 +29,32 @@ def create_csv(input, output):
         f.write('i,j,Nuclear Ratio,Cancer,Tissue\n')
 
     cols = list(df.columns)
+    
+    red = 'nuclei_ratio'
+    r_name  = 'Nuclear Ratio'
+    green = ''
+    g_name = 'Cancer'
+    blue = ''
+    b_name = 'Tissue'
+    
     modified = df[cols[5:7] + cols[11:12]]
     modified = modified.sort_values(['patch_x', 'patch_y'], ascending=[1, 1])
     modified['i'] = modified['patch_x'] / df['patch_width']
     modified['j'] = modified['patch_y'] / df['patch_height']
-    modified['n'] = modified['nuclei_ratio'] * 255
+    modified['n'] = modified[red] * 255
 
     modified.i = np.ceil(modified.i).astype(int)
     modified.j = np.ceil(modified.j).astype(int)
     modified.n = np.ceil(modified.n).astype(int)
 
-    modified.drop("nuclei_ratio", axis=1, inplace=True)
-    modified = modified.rename(index=str, columns={"n": "Nuclear Ratio"})
+    modified.drop(red, axis=1, inplace=True)
+    modified = modified.rename(index=str, columns={"n": r_name})
 
     cols = list(modified.columns)
     modified = modified[cols[2:]]
-    modified['Cancer'] = 0
-    modified['Tissue'] = 0
-    modified.loc[modified['Nuclear Ratio'] > 0, ['Tissue']] = ['255']
+    modified[g_name] = 0
+    modified[b_name] = 0
+    modified.loc[modified[r_name] > 0, [b_name]] = ['255']
 
     # print(modified)
 
