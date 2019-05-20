@@ -95,12 +95,12 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
       if (headers[2].toUpperCase() === 'TIL') {
         let head2 = 'TIL';
         x.innerText = head2;
-        x = document.getElementById('tilRangePlay');
+        x = document.getElementById('redRangePlay');
         x.innerText = head2;
       } else {
         let head2 = pathdb_util.jsUcfirst(headers[2]);
         x.innerText = head2;
-        x = document.getElementById('tilRangePlay');
+        x = document.getElementById('redRangePlay');
         x.innerText = head2;
       }
 
@@ -112,7 +112,7 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
 
       //~~~~~~~~
 
-      x = document.getElementById('cancerRangePlay');
+      x = document.getElementById('greenRangePlay');
       x.innerText = pathdb_util.jsUcfirst(headers[3]);
 
     }
@@ -121,7 +121,8 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     let str = lines[0];
     str = str.replace(/['""]+/g, '"'); // double quotes
     // str = str.replace(/['"]+/, ''); // starts with quote
-    str = str.replace(/^\"/, '');
+    // str = str.replace(/^\"/, ''); // starts with quote
+    str = str.replace(/^"/, ''); // starts with quote
     str = str.replace("}\"", "}");
     // str = str.replace("\",,,,", ""); // ends with quote and commas
     if (str.endsWith(",,,,"))

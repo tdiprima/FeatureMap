@@ -56,8 +56,8 @@ tilmap.isItemInArray = function (array, item) {
 
 // Starting parameters for Sliders
 tilmap.parms = {
-  cancerRange: 100,
-  tilRange: 100,
+  greenRange: 100,
+  redRange: 100,
   transparency: 20,
   threshold: 0
 };
@@ -83,7 +83,7 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
  */
 tilmap.calcTILfun = function () {
 
-  // Show/hide buttons - TIL Cancer Tissue Original
+  // Show/hide buttons - TIL green Tissue Original
   hideRGBbuttons.onclick = function () {
     if (rgbButtons.hidden) {
       rgbButtons.hidden = false;
@@ -98,22 +98,22 @@ tilmap.calcTILfun = function () {
   };
 
   tilmap.zoom2loc();
-  cancerRange.value = tilmap.parms.cancerRange;
-  tilRange.value = tilmap.parms.tilRange;
+  greenRange.value = tilmap.parms.greenRange;
+  redRange.value = tilmap.parms.redRange;
   rangeSegmentBt.onclick = tilmap.segment;
 
-  cancerRangePlay.onclick = tilRangePlay.onclick = function () {
+  greenRangePlay.onclick = redRangePlay.onclick = function () {
 
     // make sure the other play is stopped
-    if ((this.id === "cancerRangePlay") & (tilRangePlay.style.backgroundColor === "#dedede")) {
-      tilRangePlay.click()
+    if ((this.id === "greenRangePlay") & (redRangePlay.style.backgroundColor === "#dedede")) {
+      redRangePlay.click()
     }
-    if ((this.id === "tilRangePlay") & (cancerRangePlay.style.backgroundColor === "#dedede")) {
-      cancerRangePlay.click()
+    if ((this.id === "redRangePlay") & (greenRangePlay.style.backgroundColor === "#dedede")) {
+      greenRangePlay.click()
     }
 
     // range input for this button
-    var range = document.getElementById(this.id.slice(0, -4));  // Ex: cancerRangePlay -> cancerRange
+    var range = document.getElementById(this.id.slice(0, -4));  // Ex: greenRangePlay -> greenRange
     if (this.style.backgroundColor === "silver") {
       this.style.backgroundColor = "#dedede";
       if (range.value === "") {
@@ -166,7 +166,7 @@ tilmap.calcTILfun = function () {
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
 
-    // Event listeners for buttons - TIL Cancer Tissue Original
+    // Event listeners for buttons - TIL green Tissue Original
     calcTILred.onclick = function () {
       tilmap.from2D(tilmap.imSlice(0))
     };
@@ -182,8 +182,8 @@ tilmap.calcTILfun = function () {
     };
     tilmap.cvBase.onclick = tilmap.img.onclick;
 
-    // Event listener for both sliders - Cancer and TIL
-    cancerRange.onchange = tilRange.onchange = function () {
+    // Event listener for both sliders - green and TIL
+    greenRange.onchange = redRange.onchange = function () {
 
       document.getElementById(this.id + 'Val').innerHTML = this.value;
 
@@ -191,8 +191,8 @@ tilmap.calcTILfun = function () {
       tilmap.img.hidden = true;
       var cm = jmat.colormap();
       // var k = parseInt(this.value) / 100 //slider value
-      var cr = parseInt(cancerRange.value) / 100;
-      var tr = parseInt(tilRange.value) / 100;
+      var cr = parseInt(greenRange.value) / 100;
+      var tr = parseInt(redRange.value) / 100;
       tilmap.parms[this.id] = this.value;
       var ddd = tilmap.imgData.map(function (dd) {
         return dd.map(function (d) {
@@ -209,22 +209,22 @@ tilmap.calcTILfun = function () {
     };
 
     // making sure clicking stops play and act as as onchange
-    cancerRange.onclick = function () {
-      if (cancerRangePlay.style.backgroundColor === "#dedede") {
-        cancerRangePlay.onclick()
+    greenRange.onclick = function () {
+      if (greenRangePlay.style.backgroundColor === "#dedede") {
+        greenRangePlay.onclick()
       }
-      cancerRange.onchange()
+      greenRange.onchange()
     };
 
-    tilRange.onclick = function () {
-      if (tilRangePlay.style.backgroundColor === "#dedede") {
-        tilRangePlay.onclick()
+    redRange.onclick = function () {
+      if (redRangePlay.style.backgroundColor === "#dedede") {
+        redRangePlay.onclick()
       }
-      tilRange.onchange()
+      redRange.onchange()
     };
 
-    cancerRange.onchange();
-    tilRange.onchange();
+    greenRange.onchange();
+    redRange.onchange();
 
     tilmap.cvTop = document.createElement('canvas');
     tilmap.cvTop.width = tilmap.img.width;
@@ -282,26 +282,26 @@ tilmap.segment = function (event, doTranspire = true) {
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
   // generate mask
-  // var k = parseInt(cancerRange.value) / 100 // range value
-  var cr = parseInt(cancerRange.value) / 100;
-  var tr = parseInt(tilRange.value) / 100;
+  // var k = parseInt(greenRange.value) / 100 // range value
+  var cr = parseInt(greenRange.value) / 100;
+  var tr = parseInt(redRange.value) / 100;
   var sv = 2.55 * parseInt(segmentationRange.value); // segmentation value
 
-  let countCancer = 0;
-  let countTil = 0;
+  let countGreen = 0;
+  let countRed = 0;
 
   tilmap.segMask = tilmap.imgData.map(dd => {
     return dd.map(d => {
       // return (d[0] * (k) + d[1] * (1 - k)) > sv
       // return (d[0] * (k) + d[1] * (1 - k)) >= sv
-      countCancer += (d[1] * cr >= sv) & (d[2] == 255);
-      countTil += (d[0] * tr >= sv) & (d[2] == 255);
+      countGreen += (d[1] * cr >= sv) & (d[2] == 255);
+      countRed += (d[0] * tr >= sv) & (d[2] == 255);
       return ((Math.max(d[1] * cr, d[0] * tr)) >= sv) & (d[2] == 255);
       // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
     })
   });
-  cancerTiles.textContent = `${countCancer} tiles, ${Math.round((countCancer / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
-  tilTiles.textContent = `${countTil} tiles, ${Math.round((countTil / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
+  greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
+  redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
 
   // find neighbors
