@@ -121,7 +121,7 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     let str = lines[0];
     str = str.replace(/['""]+/g, '"'); // double quotes
     // str = str.replace(/['"]+/, ''); // starts with quote
-    str = str.replace(/^\"/, '')
+    str = str.replace(/^\"/, '');
     str = str.replace("}\"", "}");
     // str = str.replace("\",,,,", ""); // ends with quote and commas
     if (str.endsWith(",,,,"))

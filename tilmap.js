@@ -178,8 +178,6 @@ tilmap.calcTILfun = function () {
     };
     calcTIL0.onclick = function () {
       tilmap.img.hidden = false;
-      tilmap.img.width = pathdb_util.canvasWidth;
-      tilmap.img.height = pathdb_util.canvasHeight;
       tilmap.cvBase.hidden = true;
     };
     tilmap.cvBase.onclick = tilmap.img.onclick;
@@ -190,8 +188,6 @@ tilmap.calcTILfun = function () {
       document.getElementById(this.id + 'Val').innerHTML = this.value;
 
       tilmap.cvBase.hidden = false;
-      tilmap.cvBase.width = pathdb_util.canvasWidth;
-      tilmap.cvBase.height = pathdb_util.canvasHeight;
       tilmap.img.hidden = true;
       var cm = jmat.colormap();
       // var k = parseInt(this.value) / 100 //slider value
@@ -251,8 +247,6 @@ tilmap.calcTILfun = function () {
  */
 tilmap.from2D = function (dd) {
   tilmap.cvBase.hidden = false;
-  tilmap.cvBase.width = pathdb_util.canvasWidth;
-  tilmap.cvBase.height = pathdb_util.canvasHeight;
   tilmap.img.hidden = true;
   tilmap.cv2D = dd; // keeping current value 2D slice
   var cm = jmat.colormap();
@@ -369,28 +363,28 @@ tilmap.transpire = function () {
  */
 tilmap.canvasAlign = function () {
 
-  // Get size of cvBase canvas and its position relative to viewport:
-  let baseTop = tilmap.cvBase.getBoundingClientRect().top;
-  let baseLeft = tilmap.cvBase.getBoundingClientRect().left;
+  let a = document.getElementById('cvTop');
+  let b = document.getElementById('cvBase');
+  let c = document.getElementById('imgTIL');
 
-  if (baseTop === 0 && baseLeft === 0) {
-    // If zero (base might be hidden), do not set top and left to zero.
-    console.log(tilmap.cvBase);
-    console.log(tilmap.cvBase.getBoundingClientRect());
+  if (typeof a !== 'undefined' && a !== null) {
+    console.log('here');
 
-  } else {
-
-    if (typeof tilmap.cvTop === 'undefined') {
-      tilmap.cvTop = document.getElementById('cvBase');
+    if (typeof b !== 'undefined' && b !== null) {
+      console.log('here');
+      a.style.top = b.getBoundingClientRect().top;
+      a.style.left = b.getBoundingClientRect().left;
+      // correction if needed
+      a.style.top = parseFloat(a.style.top) + b.getBoundingClientRect().top - a.getBoundingClientRect().top;
+    }
+    else {
+      console.log('b === undefined');
     }
 
-    // Set top, left of cvTop to top, left of cvBase
-    tilmap.cvTop.style.top = baseTop;
-    tilmap.cvTop.style.left = baseLeft;
-
-    // correction if needed
-    tilmap.cvTop.style.top = parseFloat(tilmap.cvTop.style.top) + baseTop - tilmap.cvTop.getBoundingClientRect().top;
-
+  }
+  else
+  {
+    console.log('a === undefined');
   }
 
 };
