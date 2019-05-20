@@ -358,6 +358,10 @@ tilmap.transpire = function () {
   tilmap.parms.transparency = transparencyRange.value
 };
 
+window.addEventListener('resize', () => {
+  tilmap.canvasAlign()
+});
+
 /**
  * Make sure both canvases stay aligned with each other.
  */
@@ -374,7 +378,6 @@ tilmap.canvasAlign = function () {
       // correction if needed
       a.style.top = parseFloat(a.style.top) + b.getBoundingClientRect().top - a.getBoundingClientRect().top;
     }
-
   }
 
 };
