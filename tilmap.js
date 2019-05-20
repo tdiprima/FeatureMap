@@ -365,26 +365,16 @@ tilmap.canvasAlign = function () {
 
   let a = document.getElementById('cvTop');
   let b = document.getElementById('cvBase');
-  let c = document.getElementById('imgTIL');
 
   if (typeof a !== 'undefined' && a !== null) {
-    console.log('here');
 
     if (typeof b !== 'undefined' && b !== null) {
-      console.log('here');
       a.style.top = b.getBoundingClientRect().top;
       a.style.left = b.getBoundingClientRect().left;
       // correction if needed
       a.style.top = parseFloat(a.style.top) + b.getBoundingClientRect().top - a.getBoundingClientRect().top;
     }
-    else {
-      console.log('b === undefined');
-    }
 
-  }
-  else
-  {
-    console.log('a === undefined');
   }
 
 };
