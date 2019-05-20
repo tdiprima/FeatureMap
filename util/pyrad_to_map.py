@@ -1,20 +1,28 @@
 #!/usr/bin/env python
 
+import json
 import os
+
 import numpy as np
 import pandas as pd
-import json
 
 
 def create_csv(input, output):
     df = pd.read_csv(input)
 
-    obj = {"img_width": df['image_width'].iloc[0],
-           "img_height": df['image_height'].iloc[0],
-           "patch_w": df['patch_width'].iloc[0],
-           "patch_h": df['patch_height'].iloc[0],
-           "png_w": df['image_width'].iloc[0] / df['patch_width'].iloc[0],
-           "png_h": df['image_height'].iloc[0] / df['patch_height'].iloc[0]}
+    imw = df['image_width'].iloc[0]
+    imh = df['image_height'].iloc[0]
+    pw = df['patch_width'].iloc[0]
+    ph = df['patch_height'].iloc[0]
+
+    obj = {"img_width": str(imw),
+           "img_height": str(imh),
+           "patch_w": str(pw),
+           "patch_h": str(ph),
+           "png_w": str(np.ceil(imw / pw).astype(int)),
+           "png_h": str(np.ceil(imh / ph).astype(int))}
+
+    # print(obj)
 
     with open(output, 'w') as f:
         f.write(json.dumps(obj) + '\n')
@@ -37,8 +45,11 @@ def create_csv(input, output):
     cols = list(modified.columns)
     modified = modified[cols[2:]]
     modified['Cancer'] = 0
-    modified['Tissue'] = 255
+    modified['Tissue'] = 0
+    modified.loc[modified['Nuclear Ratio'] > 0, ['Tissue']] = ['255']
+
     # print(modified)
+
     # modified.to_csv(output, index=False)
     with open(output, 'a') as f:
         modified.to_csv(f, mode='a', header=False, index=False)
