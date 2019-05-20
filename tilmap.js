@@ -239,6 +239,18 @@ tilmap.calcTILfun = function () {
   segmentationRange.onchange = tilmap.segment; //rangeSegmentBt.onclick
   transparencyRange.onchange = tilmap.transpire;
 
+  let columns = pathdb_util.columns;
+  if (columns.length > 5) {
+    var sel = document.createElement('select');
+    sel.id = 'sel1';
+    for (var i = 0; i < columns.length; i++) {
+      //Add the options
+      sel.options[sel.options.length] = new Option(columns[i], "value" + i);
+    }
+    //add the element to the div
+    document.getElementById("choose").appendChild(sel);
+  }
+
 };
 
 /**

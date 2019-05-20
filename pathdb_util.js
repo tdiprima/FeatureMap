@@ -4,6 +4,7 @@ pathdb_util = function () {
   pathdb_util.imgWidth = 0;
   pathdb_util.slideHeight = 0;
   pathdb_util.slideWidth = 0;
+  pathdb_util.columns = [];
 
 };
 
@@ -87,33 +88,34 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
   } else {
     lines = strData.split(/\r?\n/); // split by newline
 
-    // Headers => Buttons
-    let headers = lines[1].split(',');
-    if (headers.length === 5) {
+    // Columns => Buttons
+    let columns = lines[1].split(',');
+    pathdb_util.columns = columns;
+    if (columns.length >= 5) {
       // should be x, y, red, green, blue
       let x = document.getElementById('calcTILred');
-      if (headers[2].toUpperCase() === 'TIL') {
+      if (columns[2].toUpperCase() === 'TIL') {
         let head2 = 'TIL';
         x.innerText = head2;
         x = document.getElementById('redRangePlay');
         x.innerText = head2;
       } else {
-        let head2 = pathdb_util.jsUcfirst(headers[2]);
+        let head2 = pathdb_util.jsUcfirst(columns[2]);
         x.innerText = head2;
         x = document.getElementById('redRangePlay');
         x.innerText = head2;
       }
 
       x = document.getElementById('calcTILgreen');
-      x.innerText = pathdb_util.jsUcfirst(headers[3]);
+      x.innerText = pathdb_util.jsUcfirst(columns[3]);
 
       x = document.getElementById('calcTILblue');
-      x.innerText = pathdb_util.jsUcfirst(headers[4]);
+      x.innerText = pathdb_util.jsUcfirst(columns[4]);
 
       //~~~~~~~~
 
       x = document.getElementById('greenRangePlay');
-      x.innerText = pathdb_util.jsUcfirst(headers[3]);
+      x.innerText = pathdb_util.jsUcfirst(columns[3]);
 
     }
 
