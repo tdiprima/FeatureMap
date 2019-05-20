@@ -285,7 +285,8 @@ tilmap.segment = function (event, doTranspire = true) {
   // var k = parseInt(greenRange.value) / 100 // range value
   var cr = parseInt(greenRange.value) / 100;
   var tr = parseInt(redRange.value) / 100;
-  var sv = 2.55 * parseInt(segmentationRange.value); // segmentation value
+  var sv = segmentationRange.value;
+  sv = 2.55 * parseInt((sv === '0') ? '1' : sv); // segmentation value
 
   let countGreen = 0;
   let countRed = 0;
