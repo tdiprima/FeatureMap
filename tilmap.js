@@ -286,7 +286,9 @@ tilmap.segment = function (event, doTranspire = true) {
   var cr = parseInt(greenRange.value) / 100;
   var tr = parseInt(redRange.value) / 100;
   var sv = segmentationRange.value;
-  sv = 2.55 * parseInt((sv === '0') ? '1' : sv); // segmentation value
+  sv = 2.55 * parseInt((sv === '0') ? '1' : sv);
+  var sv1 = 2.55 * parseInt(segmentationRange.value);
+
 
   let countGreen = 0;
   let countRed = 0;
@@ -297,7 +299,7 @@ tilmap.segment = function (event, doTranspire = true) {
       // return (d[0] * (k) + d[1] * (1 - k)) >= sv
       countGreen += (d[1] * cr >= sv) & (d[2] == 255);
       countRed += (d[0] * tr >= sv) & (d[2] == 255);
-      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv) & (d[2] == 255);
+      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] == 255);
       // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
     })
   });
