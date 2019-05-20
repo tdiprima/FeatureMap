@@ -23,11 +23,7 @@ def create_csv(input, output):
            "png_h": str(np.ceil(imh / ph).astype(int))}
 
     # print(obj)
-
-    with open(output, 'w') as f:
-        f.write(json.dumps(obj) + '\n')
-        f.write('i,j,Nuclear Ratio,Cancer,Tissue\n')
-
+    
     cols = list(df.columns)
     
     red = 'nuclei_ratio'
@@ -36,6 +32,10 @@ def create_csv(input, output):
     g_name = 'Cancer'
     blue = ''
     b_name = 'Tissue'
+
+    with open(output, 'w') as f:
+        f.write(json.dumps(obj) + '\n')
+        f.write('i,j,' + r_name + ',' + g_name + ',Tissue\n')
     
     modified = df[cols[5:7] + cols[11:12]]
     modified = modified.sort_values(['patch_x', 'patch_y'], ascending=[1, 1])
