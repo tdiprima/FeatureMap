@@ -7,9 +7,11 @@ import numpy as np
 import pandas as pd
 
 
-def create_csv(input, output):
+def create_csv(input, output, red, r_name, green, g_name):
+    # Read CSV
     df = pd.read_csv(input)
 
+    # Create first row JSON
     imw = df['image_width'].iloc[0]
     imh = df['image_height'].iloc[0]
     pw = df['patch_width'].iloc[0]
@@ -22,47 +24,64 @@ def create_csv(input, output):
            "png_w": str(np.ceil(imw / pw).astype(int)),
            "png_h": str(np.ceil(imh / ph).astype(int))}
 
-    # print(obj)
-    
-    red = 'nuclei_ratio'
-    r_name  = 'Nuclear Ratio'
-    green = ''
-    g_name = 'Cancer'
-    blue = ''
-    b_name = 'Tissue'
+    blue = 'Tissue'
 
+    # Write first row JSON
     with open(output, 'w') as f:
         f.write(json.dumps(obj) + '\n')
         f.write('i,j,' + r_name + ',' + g_name + ',Tissue\n')
-    
-    cols = list(df.columns)
-    modified = df[cols[5:7] + cols[11:12]]
-    modified = modified.sort_values(['patch_x', 'patch_y'], ascending=[1, 1])
-    modified['i'] = modified['patch_x'] / df['patch_width']
-    modified['j'] = modified['patch_y'] / df['patch_height']
-    modified['n'] = modified[red] * 255
 
+    x = 'patch_x'
+    y = 'patch_y'
+    
+    # Columns
+    modified = df[[x, y, red, green]]
+    
+    # Sort
+    modified = modified.sort_values([x, y], ascending=[1, 1])
+
+    # Clean
+    modified.loc[modified[green] == 'None', [green]] = [0]
+    modified[green] = pd.to_numeric(modified[green])
+
+    # Adjust for PNG
+    modified['i'] = modified[x] / pw
+    modified['j'] = modified[y] / ph
+    modified['r'] = modified[red] * 255  # normalize 0:1 to 0:255
+    modified['g'] = modified[green] * 255  # normalize 0:1 to 0:255
+
+    # Round up
     modified.i = np.ceil(modified.i).astype(int)
     modified.j = np.ceil(modified.j).astype(int)
-    modified.n = np.ceil(modified.n).astype(int)
+    modified.r = np.ceil(modified.r).astype(int)
+    modified.g = np.ceil(modified.g).astype(int)
 
-    modified.drop(red, axis=1, inplace=True)
-    modified = modified.rename(index=str, columns={"n": r_name})
+    # Tissue
+    modified[blue] = 0
+    modified.loc[modified[red] > 0, [blue]] = ['255']
 
-    cols = list(modified.columns)
-    modified = modified[cols[2:]]
-    modified[g_name] = 0
-    modified[b_name] = 0
-    modified.loc[modified[r_name] > 0, [b_name]] = ['255']
+    # Columns
+    modified = modified[['i', 'j', 'r', 'g', blue]]
+    
+    # Nice name
+    modified = modified.rename(index=str, columns={"r": r_name})
+    modified = modified.rename(index=str, columns={"g": g_name})
+    print(modified)
 
-    # print(modified)
-
-    # modified.to_csv(output, index=False)
+    # Write
     with open(output, 'a') as f:
         modified.to_csv(f, mode='a', header=False, index=False)
 
 
-cwd = os.getcwd()
-for filename in os.listdir(cwd):
-    if filename.endswith(".csv"):
-        create_csv(os.path.join(cwd, filename), filename + '.1')
+# Do for all files in directory:
+# cwd = os.getcwd()
+# for filename in os.listdir(cwd):
+#     if filename.endswith(".csv"):
+#         create_csv(os.path.join(cwd, filename), filename + '.1')
+
+# Process one file:
+red = 'nuclei_ratio'
+r_name = 'Nuclear Ratio'
+green = 'fg_glcm_Correlation'
+g_name = 'Fg Glcm Correlation'
+create_csv('input.csv', red + '_' + green + '.csv', red, r_name, green, g_name)
