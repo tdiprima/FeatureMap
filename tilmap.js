@@ -240,28 +240,31 @@ tilmap.calcTILfun = function () {
   transparencyRange.onchange = tilmap.transpire;
 
   let columns = pathdb_util.columns;
-  if (columns.length > 5) {
-    let sel = document.createElement('select');
-    sel.multiple = true;
-    sel.id = 'sel1';
-    for (let i = 0; i < columns.length; i++) {
-      //Add the options
+  // if (columns.length > 5) {
+  let sel = document.createElement('select');
+  sel.multiple = true;
+  sel.id = 'sel1';
+  for (let i = 0; i < columns.length; i++) {
+    //Add the options
+    if (columns[i].trim().length > 0)
+    {
       sel.options[sel.options.length] = new Option(columns[i], "value" + i);
     }
-    //add the element to the div
-    document.getElementById("choose").appendChild(sel);
-
-    sel.addEventListener('click', function (e) {
-      let options = sel.options, count = 0;
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].selected) count++;
-      }
-      if (count === 2) {
-        console.log('Selected 2', options);
-      }
-    });
-
   }
+  //add the element to the div
+  document.getElementById("choose").appendChild(sel);
+
+  sel.addEventListener('click', function (e) {
+    let options = sel.options, count = 0;
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) count++;
+    }
+    if (count === 2) {
+      console.log('Selected 2', options);
+    }
+  });
+
+  // }
 
 };
 

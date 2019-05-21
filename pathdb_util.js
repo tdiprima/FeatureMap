@@ -75,9 +75,7 @@ pathdb_util.data = function (strData) {
   pathdb_util.csvData = [];
   let d = strData.split(/\r?\n|\r/);
   for (let i = 0; i < d.length; i++) {
-    if (i > 0) { //skip 1st line
-      pathdb_util.csvData.push(d[i].split(','));
-    }
+    pathdb_util.csvData.push(d[i].split(','));
   }
   // Retrieved data from csv file content
   console.log(pathdb_util.csvData);
