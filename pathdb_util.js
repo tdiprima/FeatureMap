@@ -139,20 +139,19 @@ createImage = function (arr) {
   // Data from CSV file
   for (let i = 2; i < arr.length; i++) {
 
-      let line = arr[i];
+    let line = arr[i];
 
-      for (let j = 0; j < line.length; j++)
-      {
-        let x = parseInt(line[0]);
-        let y = parseInt(line[1]);
-        let pixelindex = (y * pathdb_util.imgWidth + x) * 4;
+    for (let j = 0; j < line.length; j++) {
+      let x = parseInt(line[0]);
+      let y = parseInt(line[1]);
+      let pixelindex = (y * pathdb_util.imgWidth + x) * 4;
 
-        // Color
-        imgData.data[pixelindex] = parseInt(line[2]);      // R value [0, 255]
-        imgData.data[pixelindex + 1] = parseInt(line[3]);  // G value
-        imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
-        imgData.data[pixelindex + 3] = 255;                // set alpha channel
-      }
+      // Color
+      imgData.data[pixelindex] = parseInt(line[2]);      // R value [0, 255]
+      imgData.data[pixelindex + 1] = parseInt(line[3]);  // G value
+      imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
+      imgData.data[pixelindex + 3] = 255;                // set alpha channel
+    }
 
   }
   // console.log('imgData', imgData);
@@ -197,7 +196,7 @@ jsUcfirst = function (string) {
 ui = function (columns) {
 
   // Columns => HTML Elements
-  pathdb_util.columns = columns.map(function(item) {
+  pathdb_util.columns = columns = columns.map(function (item) {
     return jsUcfirst(item);
   });
 
@@ -210,20 +209,20 @@ ui = function (columns) {
       x = document.getElementById('redRangePlay');
       x.innerText = head2;
     } else {
-      let head2 = jsUcfirst(columns[2]);
+      let head2 = columns[2];
       x.innerText = head2;
       x = document.getElementById('redRangePlay');
       x.innerText = head2;
     }
 
     x = document.getElementById('calcTILgreen');
-    x.innerText = jsUcfirst(columns[3]);
+    x.innerText = columns[3];
 
     x = document.getElementById('calcTILblue');
-    x.innerText = jsUcfirst(columns[4]);
+    x.innerText = columns[4];
 
     x = document.getElementById('greenRangePlay');
-    x.innerText = jsUcfirst(columns[3]);
+    x.innerText = columns[3];
 
   } else {
     alert('Error: Not enough data\nThere are only ' + columns.length() + ' columns.');
