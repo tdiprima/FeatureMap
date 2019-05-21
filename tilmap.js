@@ -328,13 +328,13 @@ tilmap.segment = function (event, doTranspire = true) {
     })
   });
 
-  if (redRangeVal.value === '100') {
+  if (redRange.value === '100') {
     redTiles.textContent = `${countRed} tiles, 100% of tissue`;
   } else {
     redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
   }
 
-  if (greenRangeVal.value === '100') {
+  if (greenRange.value === '100') {
     greenTiles.textContent = `${countGreen} tiles, 100% of tissue`;
   } else {
     greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
