@@ -11,9 +11,9 @@ tilmap = function () {
   if (queryString.length > 1) {
 
     let str = location.search.slice(1);
-    tilmap.map = tilmap.getQueryVariable('map', str); // csv
-    tilmap.slide = tilmap.getQueryVariable('slideId', str); // drupal node of slide
-    tilmap.mode = tilmap.getQueryVariable('mode', str); // camic toggle switch
+    tilmap.map = getQueryVariable('map', str); // csv
+    tilmap.slide = getQueryVariable('slideId', str); // drupal node of slide
+    tilmap.mode = getQueryVariable('mode', str); // camic toggle switch
 
     promiseA = pathdb_util.getDataForImage(tilmap.map);
     promiseA.then(function (result) {
@@ -34,7 +34,7 @@ tilmap = function () {
 /**
  * Url value extraction
  */
-tilmap.getQueryVariable = function (variable, queryString) {
+getQueryVariable = function (variable, queryString) {
   var vars = queryString.split('&');
   for (var i = 0; i < vars.length; i++) {
     var pair = vars[i].split('=');
@@ -44,7 +44,7 @@ tilmap.getQueryVariable = function (variable, queryString) {
   }
 };
 
-tilmap.isItemInArray = function (array, item) {
+isItemInArray = function (array, item) {
   for (var i = 0; i < array.length; i++) {
     if (array[i][0] === item[0] && array[i][1] === item[1]) {
       return true;
@@ -239,32 +239,42 @@ tilmap.calcTILfun = function () {
   segmentationRange.onchange = tilmap.segment; //rangeSegmentBt.onclick
   transparencyRange.onchange = tilmap.transpire;
 
+  set_multiple_select();
+
+};
+
+set_multiple_select = function () {
+
   let columns = pathdb_util.columns;
-  // if (columns.length > 5) {
   let sel = document.createElement('select');
   sel.multiple = true;
   sel.id = 'sel1';
-  for (let i = 0; i < columns.length; i++) {
-    //Add the options
-    if (columns[i].trim().length > 0)
-    {
-      sel.options[sel.options.length] = new Option(columns[i], "value" + i);
-    }
+  if (columns.length < 10) {
+    sel.size = columns.length;
+  } else {
+    sel.size = 10;
   }
-  //add the element to the div
+
+  for (let i = 0; i < columns.length; i++) {
+    // Add the options
+    sel.options[sel.options.length] = new Option(columns[i], i);
+  }
+
+  // add the element to the div
   document.getElementById("choose").appendChild(sel);
 
+  // add event listener
   sel.addEventListener('click', function (e) {
     let options = sel.options, count = 0;
     for (let i = 0; i < options.length; i++) {
       if (options[i].selected) count++;
+      if (count === 2) {
+        // use the first 2
+        break;
+      }
     }
-    if (count === 2) {
-      console.log('Selected 2', options);
-    }
-  });
 
-  // }
+  });
 
 };
 

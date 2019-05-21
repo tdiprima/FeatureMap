@@ -6,6 +6,7 @@ pathdb_util = function () {
   pathdb_util.slideWidth = 0;
   pathdb_util.columns = [];
   pathdb_util.csvData = [];
+  pathdb_util.jsonMeta = '';
 
 };
 
@@ -72,131 +73,79 @@ pathdb_util.getDataForImage = function (url) {
 };
 
 pathdb_util.data = function (strData) {
+
   pathdb_util.csvData = [];
   let d = strData.split(/\r?\n|\r/);
+
+  if ((typeof (pathdb_util.jsonMeta) === 'undefined') || pathdb_util.jsonMeta.length === 0) {
+    parseMetadata(d[0]);
+  }
+
   for (let i = 0; i < d.length; i++) {
     pathdb_util.csvData.push(d[i].split(','));
   }
-  // Retrieved data from csv file content
-  console.log(pathdb_util.csvData);
+  return pathdb_util.csvData;
 };
 
 /**
  * Returns a dataURL (PNG)
  *
  * @param strData
- * @param strDelimiter
  * @returns {string}
  */
-pathdb_util.csv2png = function (strData, strDelimiter) {
-  strDelimiter = (strDelimiter || ",");
+pathdb_util.csv2png = function (strData) {
 
-  let lines;
+  let arr = strData;
 
   if (typeof strData === 'undefined') {
     console.log('No file, no data!');
     return null;
   } else {
-    pathdb_util.data(strData);
-    lines = strData.split(/\r?\n/); // split by newline
-
-    // Columns => Buttons
-    let columns = lines[1].split(',');
-    pathdb_util.columns = columns;
-    if (columns.length >= 5) {
-      // should be x, y, red, green, blue
-      let x = document.getElementById('calcTILred');
-      if (columns[2].toUpperCase() === 'TIL') {
-        let head2 = 'TIL';
-        x.innerText = head2;
-        x = document.getElementById('redRangePlay');
-        x.innerText = head2;
-      } else {
-        let head2 = pathdb_util.jsUcfirst(columns[2]);
-        x.innerText = head2;
-        x = document.getElementById('redRangePlay');
-        x.innerText = head2;
-      }
-
-      x = document.getElementById('calcTILgreen');
-      x.innerText = pathdb_util.jsUcfirst(columns[3]);
-
-      x = document.getElementById('calcTILblue');
-      x.innerText = pathdb_util.jsUcfirst(columns[4]);
-
-      //~~~~~~~~
-
-      x = document.getElementById('greenRangePlay');
-      x.innerText = pathdb_util.jsUcfirst(columns[3]);
-
+    if (typeof strData === 'string') {
+      arr = pathdb_util.data(strData);
     }
 
-    // Parse JSON Metadata
-    let str = lines[0];
-    str = str.replace(/['""]+/g, '"'); // double quotes
-    // str = str.replace(/['"]+/, ''); // starts with quote
-    // str = str.replace(/^\"/, ''); // starts with quote
-    str = str.replace(/^"/, ''); // starts with quote
-    str = str.replace("}\"", "}");
-    // str = str.replace("\",,,,", ""); // ends with quote and commas
-    if (str.endsWith(",,,,"))
-    {
-      str = str.replace(",,,,", "");
-    }
-    if(str.endsWith(",,,"))
-    {
-      str = str.replace(",,,", "");
-    }
-    console.log(str);
+    ui(arr[1]);
 
-    const metadata = JSON.parse(str);
+    // Return a PNG file:
+    return createImage(arr);
+  }
 
-    var width = parseInt(metadata.png_w),
-        height = parseInt(metadata.png_h);
+};
 
-    pathdb_util.imgHeight = height;
-    pathdb_util.imgWidth = width;
+createImage = function (arr) {
 
-    pathdb_util.slideHeight = parseInt(metadata.img_height);
-    pathdb_util.slideWidth = parseInt(metadata.img_width);
+  // create off-screen canvas element
+  let canvas = document.getElementById("myCanvas");
 
-    console.log('size of buffer', width * height * 4);// = imgData.data.length
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'myCanvas';
+  }
+  canvas.width = pathdb_util.imgWidth;
+  canvas.height = pathdb_util.imgHeight;
 
-    // create off-screen canvas element
-    var canvas = document.getElementById("myCanvas");
+  let ctx = canvas.getContext("2d");
+  let imgData = ctx.createImageData(pathdb_util.imgWidth, pathdb_util.imgHeight);
 
-    if (!canvas) {
-      canvas = document.createElement('canvas');
-      canvas.id = 'myCanvas';
-    }
-    canvas.width = width;
-    canvas.height = height;
-    // console.log('metadata.png_w', metadata.png_w);
-    // console.log('metadata.png_h', metadata.png_h);
-    console.log('canvas.width', canvas.width);
-    console.log('canvas.height', canvas.height);
-    var ctx = canvas.getContext("2d");
-    var imgData = ctx.createImageData(width, height);
-    var i;
+  // Initialize buffer to all black with transparency
+  for (let i = 0; i < imgData.data.length; i += 4) {
+    imgData.data[i] = 0;
+    imgData.data[i + 1] = 0;
+    imgData.data[i + 2] = 0;
+    imgData.data[i + 3] = 255;
+  }
 
-    // Initialize buffer to all black with transparency
-    for (i = 0; i < imgData.data.length; i += 4) {
-      imgData.data[i] = 0;
-      imgData.data[i + 1] = 0;
-      imgData.data[i + 2] = 0;
-      imgData.data[i + 3] = 255;
-    }
+  // Data from CSV file
+  for (let i = 2; i < arr.length; i++) {
 
-    // Data from CSV file
-    for (i = 2; i < lines.length; i++) {
+      let line = arr[i];
 
-      // Ignore if blank line
-      if (lines[i].trim().length > 0) {
-
-        var line = lines[i].split(strDelimiter);
-        var x = parseInt(line[0]);
-        var y = parseInt(line[1]);
-        let pixelindex = (y * width + x) * 4;
+      for (let j = 0; j < line.length; j++)
+      {
+        let x = parseInt(line[0]);
+        let y = parseInt(line[1]);
+        let pixelindex = (y * pathdb_util.imgWidth + x) * 4;
 
         // Color
         imgData.data[pixelindex] = parseInt(line[2]);      // R value [0, 255]
@@ -204,18 +153,80 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
         imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
         imgData.data[pixelindex + 3] = 255;                // set alpha channel
       }
-    }
-    // console.log('imgData', imgData);
-    ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
-
-    // Next, create an image file:
-    var dataUri = canvas.toDataURL(); // produces a PNG file
-    return dataUri;
 
   }
+  // console.log('imgData', imgData);
+  ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
+
+  // Return a PNG file:
+  return canvas.toDataURL();
+};
+
+parseMetadata = function (str) {
+
+  // Cleanup
+  str = str.replace(/['""]+/g, '"'); // double quotes
+  // str = str.replace(/['"]+/, ''); // starts with quote
+  // str = str.replace(/^\"/, ''); // starts with quote
+  str = str.replace(/^"/, ''); // starts with quote
+  str = str.replace("}\"", "}");
+  // str = str.replace("\",,,,", ""); // ends with quote and commas
+  if (str.endsWith(",,,,")) {
+    str = str.replace(",,,,", "");
+  }
+  if (str.endsWith(",,,")) {
+    str = str.replace(",,,", "");
+  }
+  console.log(str);
+
+  // Parse JSON Metadata
+  const metadata = JSON.parse(str);
+
+  pathdb_util.imgHeight = parseInt(metadata.png_h);
+  pathdb_util.imgWidth = parseInt(metadata.png_w);
+
+  pathdb_util.slideHeight = parseInt(metadata.img_height);
+  pathdb_util.slideWidth = parseInt(metadata.img_width);
 
 };
 
-pathdb_util.jsUcfirst = function (string) {
+jsUcfirst = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};
+
+ui = function (columns) {
+
+  // Columns => HTML Elements
+  pathdb_util.columns = columns.map(function(item) {
+    return jsUcfirst(item);
+  });
+
+  if (columns.length >= 5) {
+    // should be x, y, red, green, blue
+    let x = document.getElementById('calcTILred');
+    if (columns[2].toUpperCase() === 'TIL') {
+      let head2 = 'TIL';
+      x.innerText = head2;
+      x = document.getElementById('redRangePlay');
+      x.innerText = head2;
+    } else {
+      let head2 = jsUcfirst(columns[2]);
+      x.innerText = head2;
+      x = document.getElementById('redRangePlay');
+      x.innerText = head2;
+    }
+
+    x = document.getElementById('calcTILgreen');
+    x.innerText = jsUcfirst(columns[3]);
+
+    x = document.getElementById('calcTILblue');
+    x.innerText = jsUcfirst(columns[4]);
+
+    x = document.getElementById('greenRangePlay');
+    x.innerText = jsUcfirst(columns[3]);
+
+  } else {
+    alert('Error: Not enough data\nThere are only ' + columns.length() + ' columns.');
+  }
+
 };
