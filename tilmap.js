@@ -46,7 +46,7 @@ tilmap.getQueryVariable = function (variable, queryString) {
 
 tilmap.isItemInArray = function (array, item) {
   for (var i = 0; i < array.length; i++) {
-    if (array[i][0] == item[0] && array[i][1] == item[1]) {
+    if (array[i][0] === item[0] && array[i][1] === item[1]) {
       return true;
     }
   }
@@ -56,8 +56,8 @@ tilmap.isItemInArray = function (array, item) {
 
 // Starting parameters for Sliders
 tilmap.parms = {
-  greenRange: 100,
-  redRange: 100,
+  greenRange: 30,
+  redRange: 70,
   transparency: 20,
   threshold: 0
 };
@@ -83,7 +83,7 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
  */
 tilmap.calcTILfun = function () {
 
-  // Show/hide buttons - TIL green Tissue Original
+  // Show/hide buttons - Red Green Tissue Original
   hideRGBbuttons.onclick = function () {
     if (rgbButtons.hidden) {
       rgbButtons.hidden = false;
@@ -166,7 +166,7 @@ tilmap.calcTILfun = function () {
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
 
-    // Event listeners for buttons - TIL green Tissue Original
+    // Event listeners for buttons - Red Green Tissue Original
     calcTILred.onclick = function () {
       tilmap.from2D(tilmap.imSlice(0))
     };
@@ -182,7 +182,7 @@ tilmap.calcTILfun = function () {
     };
     tilmap.cvBase.onclick = tilmap.img.onclick;
 
-    // Event listener for both sliders - green and TIL
+    // Event listener for both sliders - red and green
     greenRange.onchange = redRange.onchange = function () {
 
       document.getElementById(this.id + 'Val').innerHTML = this.value;
@@ -327,9 +327,18 @@ tilmap.segment = function (event, doTranspire = true) {
       // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
     })
   });
-  greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
-  redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
+  if (redRangeVal.value === '100') {
+    redTiles.textContent = `${countRed} tiles, 100% of tissue`;
+  } else {
+    redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
+  }
+
+  if (greenRangeVal.value === '100') {
+    greenTiles.textContent = `${countGreen} tiles, 100% of tissue`;
+  } else {
+    greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
+  }
 
   // find neighbors
   var n = tilmap.imgData.length;

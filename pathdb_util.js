@@ -5,6 +5,7 @@ pathdb_util = function () {
   pathdb_util.slideHeight = 0;
   pathdb_util.slideWidth = 0;
   pathdb_util.columns = [];
+  pathdb_util.csvData = [];
 
 };
 
@@ -70,6 +71,18 @@ pathdb_util.getDataForImage = function (url) {
 
 };
 
+pathdb_util.data = function (strData) {
+  pathdb_util.csvData = [];
+  let d = strData.split(/\r?\n|\r/);
+  for (let i = 0; i < d.length; i++) {
+    if (i > 0) { //skip 1st line
+      pathdb_util.csvData.push(d[i].split(','));
+    }
+  }
+  // Retrieved data from csv file content
+  console.log(pathdb_util.csvData);
+};
+
 /**
  * Returns a dataURL (PNG)
  *
@@ -86,6 +99,7 @@ pathdb_util.csv2png = function (strData, strDelimiter) {
     console.log('No file, no data!');
     return null;
   } else {
+    pathdb_util.data(strData);
     lines = strData.split(/\r?\n/); // split by newline
 
     // Columns => Buttons
