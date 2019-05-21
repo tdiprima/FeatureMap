@@ -147,15 +147,18 @@ tilmap.calcTILfun = function () {
 
   tilmap.img.onload = function () {
 
-    tilmap.cvBase = document.createElement('canvas');
-    tilmap.cvBase.hidden = true;
+    if (!document.getElementById('cvBase'))
+    {
+      tilmap.cvBase = document.createElement('canvas');
+      tilmap.cvBase.hidden = true;
+      tilmap.cvBase.width = pathdb_util.imgWidth;
+      tilmap.cvBase.height = pathdb_util.imgHeight;
+      tilmap.cvBase.id = "cvBase";
+      tilmap.imgTILDiv.appendChild(tilmap.cvBase);
+    }
 
-    tilmap.cvBase.width = pathdb_util.imgWidth;
-    tilmap.cvBase.height = pathdb_util.imgHeight;
 
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
-    tilmap.cvBase.id = "cvBase";
-    tilmap.imgTILDiv.appendChild(tilmap.cvBase);
     tilmap.ctx = tilmap.cvBase.getContext('2d');
     tilmap.ctx.drawImage(this, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
@@ -226,12 +229,16 @@ tilmap.calcTILfun = function () {
     greenRange.onchange();
     redRange.onchange();
 
-    tilmap.cvTop = document.createElement('canvas');
-    tilmap.cvTop.width = tilmap.img.width;
-    tilmap.cvTop.height = tilmap.img.height;
-    tilmap.cvTop.id = "cvTop";
-    tilmap.imgTILDiv.appendChild(tilmap.cvTop);
-    tilmap.cvTop.style.position = 'absolute';
+    if (!document.getElementById('cvTop'))
+    {
+      tilmap.cvTop = document.createElement('canvas');
+      tilmap.cvTop.width = tilmap.img.width;
+      tilmap.cvTop.height = tilmap.img.height;
+      tilmap.cvTop.id = "cvTop";
+      tilmap.imgTILDiv.appendChild(tilmap.cvTop);
+      tilmap.cvTop.style.position = 'absolute';
+
+    }
     tilmap.canvasAlign();
     tilmap.segment()
   };
@@ -243,9 +250,30 @@ tilmap.calcTILfun = function () {
 
 };
 
+/**
+ * selectedOptions contains the index
+ * @param selectedOptions
+ */
+changeUI = function (selectedOptions) {
+  document.getElementById('calcTILred').innerText = pathdb_util.columns[selectedOptions[0]];
+  document.getElementById('redRangePlay').innerText = pathdb_util.columns[selectedOptions[0]];
+  document.getElementById('calcTILgreen').innerText = pathdb_util.columns[selectedOptions[1]];
+  document.getElementById('greenRangePlay').innerText = pathdb_util.columns[selectedOptions[1]];
+
+  tilmap.img.hidden = false;
+  tilmap.img.src = createImage(pathdb_util.csvData, selectedOptions);
+  // tilmap.img.hidden = true;
+  // tilmap.ctx = tilmap.cvBase.getContext('2d');
+  // tilmap.ctx.drawImage(tilmap.img, 0, 0);
+  // // tilmap.imgData = jmat.imread(tilmap.cvBase);
+  // tilmap.canvasAlign();
+
+};
+
 set_multiple_select = function () {
 
   let columns = pathdb_util.columns;
+
   let sel = document.createElement('select');
   sel.multiple = true;
   sel.id = 'sel1';
@@ -263,17 +291,27 @@ set_multiple_select = function () {
   // add the element to the div
   document.getElementById("choose").appendChild(sel);
 
-  // add event listener
-  sel.addEventListener('click', function (e) {
-    let options = sel.options, count = 0;
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) count++;
-      if (count === 2) {
-        // use the first 2
-        break;
-      }
-    }
+  // Label
+  // let x = document.createElement("LABEL");
+  // let t = document.createTextNode("Select two:");
+  // x.setAttribute("for", "sel1");
+  // x.appendChild(t);
+  //
+  // document.getElementById("choose").insertBefore(x,document.getElementById("sel1"));
 
+  // add event listener
+  let last_valid_selection = null;
+
+  $('#sel1').change(function (event) {
+
+    if ($(this).val().length > 2) {
+
+      $(this).val(last_valid_selection);
+      changeUI(last_valid_selection);
+
+    } else {
+      last_valid_selection = $(this).val();
+    }
   });
 
 };

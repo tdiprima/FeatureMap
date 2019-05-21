@@ -113,7 +113,7 @@ pathdb_util.csv2png = function (strData) {
 
 };
 
-createImage = function (arr) {
+createImage = function (arr, sel) {
 
   // create off-screen canvas element
   let canvas = document.getElementById("myCanvas");
@@ -147,10 +147,21 @@ createImage = function (arr) {
       let pixelindex = (y * pathdb_util.imgWidth + x) * 4;
 
       // Color
-      imgData.data[pixelindex] = parseInt(line[2]);      // R value [0, 255]
-      imgData.data[pixelindex + 1] = parseInt(line[3]);  // G value
-      imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
-      imgData.data[pixelindex + 3] = 255;                // set alpha channel
+      if (sel)
+      {
+        imgData.data[pixelindex] = parseInt(sel[0]);      // R value [0, 255]
+        imgData.data[pixelindex + 1] = parseInt(sel[1]);  // G value
+        imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
+        imgData.data[pixelindex + 3] = 255;                // set alpha channel
+      }
+      else
+      {
+        imgData.data[pixelindex] = parseInt(line[2]);      // R value [0, 255]
+        imgData.data[pixelindex + 1] = parseInt(line[3]);  // G value
+        imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
+        imgData.data[pixelindex + 3] = 255;                // set alpha channel
+      }
+
     }
 
   }
