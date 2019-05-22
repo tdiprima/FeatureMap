@@ -21,6 +21,7 @@ tilmap = function () {
         console.log('Abort.')
       } else {
         tilmap.dataUri = result;
+        // download(tilmap.slide + '.png', result);
         tilmap.calcTILfun()
       }
     });
@@ -147,8 +148,7 @@ tilmap.calcTILfun = function () {
 
   tilmap.img.onload = function () {
 
-    if (!document.getElementById('cvBase'))
-    {
+    if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
       tilmap.cvBase.hidden = true;
       tilmap.cvBase.width = pathdb_util.imgWidth;
@@ -229,8 +229,7 @@ tilmap.calcTILfun = function () {
     greenRange.onchange();
     redRange.onchange();
 
-    if (!document.getElementById('cvTop'))
-    {
+    if (!document.getElementById('cvTop')) {
       tilmap.cvTop = document.createElement('canvas');
       tilmap.cvTop.width = tilmap.img.width;
       tilmap.cvTop.height = tilmap.img.height;
@@ -255,18 +254,17 @@ tilmap.calcTILfun = function () {
  * @param selectedOptions
  */
 changeUI = function (selectedOptions) {
+
   document.getElementById('calcTILred').innerText = pathdb_util.columns[selectedOptions[0]];
   document.getElementById('redRangePlay').innerText = pathdb_util.columns[selectedOptions[0]];
   document.getElementById('calcTILgreen').innerText = pathdb_util.columns[selectedOptions[1]];
   document.getElementById('greenRangePlay').innerText = pathdb_util.columns[selectedOptions[1]];
 
   tilmap.img.hidden = false;
+
+  // download(tilmap.slide + '.png', createImage(pathdb_util.csvData, selectedOptions));
+  tilmap.dataUri = createImage(pathdb_util.csvData, selectedOptions);
   tilmap.img.src = createImage(pathdb_util.csvData, selectedOptions);
-  // tilmap.img.hidden = true;
-  // tilmap.ctx = tilmap.cvBase.getContext('2d');
-  // tilmap.ctx.drawImage(tilmap.img, 0, 0);
-  // // tilmap.imgData = jmat.imread(tilmap.cvBase);
-  // tilmap.canvasAlign();
 
 };
 
@@ -290,14 +288,6 @@ set_multiple_select = function () {
 
   // add the element to the div
   document.getElementById("choose").appendChild(sel);
-
-  // Label
-  // let x = document.createElement("LABEL");
-  // let t = document.createTextNode("Select two:");
-  // x.setAttribute("for", "sel1");
-  // x.appendChild(t);
-  //
-  // document.getElementById("choose").insertBefore(x,document.getElementById("sel1"));
 
   // add event listener
   let last_valid_selection = null;
@@ -468,5 +458,24 @@ tilmap.canvasAlign = function () {
   }
 
 };
+
+/**
+ * Check file creation
+ *
+ * @param filename
+ * @param dataURL
+ */
+function download(filename, dataURL) {
+  var element = document.createElement('a');
+  element.setAttribute('href', dataURL);
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 
 window.onload = tilmap;
