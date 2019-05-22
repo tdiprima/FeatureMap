@@ -149,8 +149,8 @@ createImage = function (arr, sel) {
       // Color
       if (sel)
       {
-        imgData.data[pixelindex] = parseInt(sel[0]);      // R value [0, 255]
-        imgData.data[pixelindex + 1] = parseInt(sel[1]);  // G value
+        imgData.data[pixelindex] = parseInt(line[sel[0]]);      // R value [0, 255]
+        imgData.data[pixelindex + 1] = parseInt(line[sel[1]]);  // G value
         imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
         imgData.data[pixelindex + 3] = 255;                // set alpha channel
       }
