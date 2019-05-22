@@ -57,8 +57,8 @@ isItemInArray = function (array, item) {
 
 // Starting parameters for Sliders
 tilmap.parms = {
-  greenRange: 30,
-  redRange: 70,
+  greenRange: 100,
+  redRange: 100,
   transparency: 20,
   threshold: 0
 };
@@ -192,7 +192,7 @@ tilmap.calcTILfun = function () {
 
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
-      var cm = jmat.colormap();
+      var cm = jmat.colormap();  //[[1, 0, 0], [1, 1, 0], [0, 0, 1]];
       // var k = parseInt(this.value) / 100 //slider value
       var cr = parseInt(greenRange.value) / 100;
       var tr = parseInt(redRange.value) / 100;
@@ -347,26 +347,25 @@ tilmap.segment = function (event, doTranspire = true) {
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
   // generate mask
-  // var k = parseInt(greenRange.value) / 100 // range value
   var cr = parseInt(greenRange.value) / 100;
   var tr = parseInt(redRange.value) / 100;
-  var sv = segmentationRange.value;
-  sv = 2.55 * parseInt((sv === '0') ? '1' : sv);
+  // var sv = 2.55 * parseInt(segmentationRange.value); // segmentation value
+
+  var sv = segmentationRange.value; // segmentation value
+  sv = 2.55 * parseInt((sv === '0') ? '1' : sv); //slider bug
   var sv1 = 2.55 * parseInt(segmentationRange.value);
 
   let countGreen = 0;
   let countRed = 0;
-
   tilmap.segMask = tilmap.imgData.map(dd => {
     return dd.map(d => {
-      // return (d[0] * (k) + d[1] * (1 - k)) > sv
-      // return (d[0] * (k) + d[1] * (1 - k)) >= sv
-      countGreen += (d[1] * cr >= sv) & (d[2] == 255);
-      countRed += (d[0] * tr >= sv) & (d[2] == 255);
-      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] == 255);
-      // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
+      countGreen += (d[1] * cr >= sv) & (d[2] === 255); // use sv for count
+      countRed += (d[0] * tr >= sv) & (d[2] === 255);
+      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] === 255); // use normal sv for mask
     })
   });
+  greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
+  redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
   // find neighbors
   var n = tilmap.imgData.length;
@@ -380,6 +379,7 @@ tilmap.segment = function (event, doTranspire = true) {
       tilmap.segNeig[i][j] = [dd[i - 1][j - 1], dd[i - 1][j], dd[i - 1][j + 1], dd[i][j - 1], dd[i][j], dd[i][j + 1], dd[i + 1][j - 1], dd[i + 1][j], dd[i + 1][j + 1]]
     }
   }
+
   // find edges
   tilmap.segEdge = tilmap.segNeig.map(dd => {
     return dd.map(d => {
@@ -388,10 +388,11 @@ tilmap.segment = function (event, doTranspire = true) {
       // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
     })
   });
+
   // background suppression
-  if (doTranspire) {
-    tilmap.transpire();
-  }
+  if (doTranspire) { tilmap.transpire(); }
+
+  tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} tiles, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
