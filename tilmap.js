@@ -354,7 +354,6 @@ tilmap.segment = function (event, doTranspire = true) {
   sv = 2.55 * parseInt((sv === '0') ? '1' : sv);
   var sv1 = 2.55 * parseInt(segmentationRange.value);
 
-
   let countGreen = 0;
   let countRed = 0;
 
@@ -368,18 +367,6 @@ tilmap.segment = function (event, doTranspire = true) {
       // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
     })
   });
-
-  if (redRange.value === '100') {
-    redTiles.textContent = `${countRed} tiles, 100% of tissue`;
-  } else {
-    redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
-  }
-
-  if (greenRange.value === '100') {
-    greenTiles.textContent = `${countGreen} tiles, 100% of tissue`;
-  } else {
-    greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
-  }
 
   // find neighbors
   var n = tilmap.imgData.length;
