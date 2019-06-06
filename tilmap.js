@@ -177,14 +177,16 @@ tilmap.calcTILfun = function () {
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
-  tilmap.img.width = tilmap.width;
-  tilmap.img.height = tilmap.height;
+  // tilmap.img.width = tilmap.width;
+  // tilmap.img.height = tilmap.height;
 
   tilmap.imgTILDiv.appendChild(tilmap.img);
 
   tilmap.img.onload = function () {
 
     console.log('IMG LOAD');
+    tilmap.img.width = tilmap.width;
+    tilmap.img.height = tilmap.height;
 
     if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
