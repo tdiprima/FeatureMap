@@ -7,8 +7,7 @@ pathdb_util = function () {
   pathdb_util.columns = [];
   pathdb_util.csvData = [];
   pathdb_util.jsonMeta = '';
-  pathdb_util.imgHeight1 = 0;
-  pathdb_util.imgWidth1 = 0;
+  pathdb_util.scale = false;
 
 };
 
@@ -193,8 +192,7 @@ parseMetadata = function (str) {
 
 
   if (parseInt(metadata.patch_w) === 500) {
-    pathdb_util.imgHeight1 = Math.ceil(parseInt(metadata.png_h) * 2);
-    pathdb_util.imgWidth1 = Math.ceil(parseInt(metadata.png_w) * 2);
+    pathdb_util.scale = true;
   }
 
   pathdb_util.imgHeight = parseInt(metadata.png_h);

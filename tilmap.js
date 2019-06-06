@@ -226,7 +226,7 @@ tilmap.calcTILfun = function () {
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
         })
       });
-      jmat.imwrite(tilmap.cvBase, ddd);
+      jmat.imwrite(pathdb_util.scale, tilmap.cvBase, ddd);
       tilmap.segment(event, false);
       //tilmap.segment;
 
@@ -346,7 +346,7 @@ tilmap.from2D = function (dd) {
   });
   // tilmap.ctx.putImageData(jmat.data2imData(ddd), 0, 0)
   // jmat.imwrite(tilmap.img, ddd)
-  jmat.imwrite(tilmap.cvBase, ddd)
+  jmat.imwrite(pathdb_util.scale, tilmap.cvBase, ddd)
 };
 
 /**
@@ -435,7 +435,7 @@ tilmap.transpire = function () {
   var clrMask = [255, 255, 255, tp];
 
 
-  jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
+  jmat.imwrite(pathdb_util.scale, tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
       if (d) {
