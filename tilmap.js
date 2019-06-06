@@ -142,14 +142,9 @@ tilmap.calcTILfun = function () {
   //tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
   //tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
 
-  if (pathdb_util.imgWidth1 > 0) {
-    tilmap.width = pathdb_util.imgWidth1;
-    tilmap.height = pathdb_util.imgHeight1;
-  } else {
-    tilmap.width = pathdb_util.imgWidth;
-    tilmap.height = pathdb_util.imgHeight;
+  tilmap.width = pathdb_util.imgWidth;
+  tilmap.height = pathdb_util.imgHeight;
 
-  }
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
