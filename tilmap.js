@@ -183,7 +183,6 @@ tilmap.calcTILfun = function () {
 
   tilmap.img.onload = function () {
 
-    console.log('IMG LOAD');
     tilmap.img.width = tilmap.width;
     tilmap.img.height = tilmap.height;
 
@@ -301,11 +300,9 @@ changeUI = function (selectedOptions) {
   document.getElementById('calcTILgreen').innerText = pathdb_util.columns[selectedOptions[1]];
   document.getElementById('greenRangePlay').innerText = pathdb_util.columns[selectedOptions[1]];
 
-  tilmap.img.hidden = false;
-
   // download(tilmap.slide + '.png', createImage(pathdb_util.csvData, selectedOptions));
   tilmap.dataUri = createImage(pathdb_util.csvData, selectedOptions);
-  tilmap.img.src = tilmap.dataUri; 
+  tilmap.img.src = tilmap.dataUri;
 
 };
 
