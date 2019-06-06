@@ -138,23 +138,44 @@ tilmap.calcTILfun = function () {
    * CREATE IN-MEMORY IMAGE
    * And also write img DOM element
    */
+  tilmap.imgTILDiv = document.getElementById('imgTILDiv');
+  //tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
+  //tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
+
+  if (pathdb_util.imgWidth1 > 0) {
+    tilmap.width = pathdb_util.imgWidth1;
+    tilmap.height = pathdb_util.imgHeight1;
+  } else {
+    tilmap.width = pathdb_util.imgWidth;
+    tilmap.height = pathdb_util.imgHeight;
+
+  }
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
-  tilmap.img.width = pathdb_util.imgWidth;
-  tilmap.img.height = pathdb_util.imgHeight;
-  tilmap.imgTILDiv = document.getElementById('imgTILDiv');
+  tilmap.img.width = tilmap.width;
+  tilmap.img.height = tilmap.height;
+  // pathdb_util.imgWidth;
+  // pathdb_util.imgHeight;
+
   tilmap.imgTILDiv.appendChild(tilmap.img);
+  // console.log('tilmap.img', tilmap.img.width, tilmap.img.height); // zero here.
 
   tilmap.img.onload = function () {
+
+    console.log('IMG LOAD');
 
     if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
       tilmap.cvBase.hidden = true;
-      tilmap.cvBase.width = pathdb_util.imgWidth;
-      tilmap.cvBase.height = pathdb_util.imgHeight;
+      //Canvas dimensions have to be defined in pixels!
+      // tilmap.cvBase.width = pathdb_util.imgWidth;
+      // tilmap.cvBase.height = pathdb_util.imgHeight;
+      tilmap.cvBase.width = tilmap.width;
+      tilmap.cvBase.height = tilmap.height;
       tilmap.cvBase.id = "cvBase";
       tilmap.imgTILDiv.appendChild(tilmap.cvBase);
+
     }
 
 
@@ -231,8 +252,10 @@ tilmap.calcTILfun = function () {
 
     if (!document.getElementById('cvTop')) {
       tilmap.cvTop = document.createElement('canvas');
-      tilmap.cvTop.width = tilmap.img.width;
-      tilmap.cvTop.height = tilmap.img.height;
+      tilmap.cvTop.width = tilmap.width;
+      tilmap.cvTop.height = tilmap.height;
+      // tilmap.cvTop.width = tilmap.img.width;
+      //tilmap.cvTop.height = tilmap.img.height;
       tilmap.cvTop.id = "cvTop";
       tilmap.imgTILDiv.appendChild(tilmap.cvTop);
       tilmap.cvTop.style.position = 'absolute';
@@ -390,7 +413,9 @@ tilmap.segment = function (event, doTranspire = true) {
   });
 
   // background suppression
-  if (doTranspire) { tilmap.transpire(); }
+  if (doTranspire) {
+    tilmap.transpire();
+  }
 
   tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
@@ -408,6 +433,8 @@ tilmap.transpire = function () {
   // var clrEdge = [255, 255, 0, 255 - tp] // yellow
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
+
+
   jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
@@ -420,7 +447,10 @@ tilmap.transpire = function () {
       // return [255, 255, 255, 255].map(v => v * d) // white
     })
   }));
+
+
   tilmap.parms.transparency = transparencyRange.value
+
 };
 
 window.addEventListener('resize', () => {

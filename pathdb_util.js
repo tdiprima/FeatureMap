@@ -7,6 +7,8 @@ pathdb_util = function () {
   pathdb_util.columns = [];
   pathdb_util.csvData = [];
   pathdb_util.jsonMeta = '';
+  pathdb_util.imgHeight1 = 0;
+  pathdb_util.imgWidth1 = 0;
 
 };
 
@@ -147,15 +149,12 @@ createImage = function (arr, sel) {
       let pixelindex = (y * pathdb_util.imgWidth + x) * 4;
 
       // Color
-      if (sel)
-      {
+      if (sel) {
         imgData.data[pixelindex] = parseInt(line[sel[0]]);      // R value [0, 255]
         imgData.data[pixelindex + 1] = parseInt(line[sel[1]]);  // G value
         imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
         imgData.data[pixelindex + 3] = 255;                // set alpha channel
-      }
-      else
-      {
+      } else {
         imgData.data[pixelindex] = parseInt(line[2]);      // R value [0, 255]
         imgData.data[pixelindex + 1] = parseInt(line[3]);  // G value
         imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
@@ -192,9 +191,17 @@ parseMetadata = function (str) {
   // Parse JSON Metadata
   const metadata = JSON.parse(str);
 
+
+  if (parseInt(metadata.patch_w) === 500) {
+    pathdb_util.imgHeight1 = Math.ceil(parseInt(metadata.png_h) * 2);
+    pathdb_util.imgWidth1 = Math.ceil(parseInt(metadata.png_w) * 2);
+  }
+
   pathdb_util.imgHeight = parseInt(metadata.png_h);
   pathdb_util.imgWidth = parseInt(metadata.png_w);
 
+
+  // Slide
   pathdb_util.slideHeight = parseInt(metadata.img_height);
   pathdb_util.slideWidth = parseInt(metadata.img_width);
 
