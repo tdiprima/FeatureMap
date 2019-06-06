@@ -7,7 +7,8 @@
   <title>Feature Map | QuIP - Quantitative Imaging in Pathology</title>
   <script src="jmat.js"></script>
   <script src="pathdb_util.js"></script>
-  <!-- START PATHDB STYLE
+  <!-- START PATHDB STYLE -->
+  <!-- <link rel="stylesheet" href="/sites/default/files/css/css_cpsSqfwwBDjG3WM91W4Lz4V7y5hn4xoZRx2CHqKt6y0.css?pp4tuk" media="all"> -->
   <link rel="stylesheet" href="/sites/default/files/css/css_Oo2J91hEm89bEsW7NKEyCIyj8KbGKTFRK6hqfSaJzbc.css?pqxtia"
         media="all">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" media="all">
@@ -17,8 +18,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" media="all">
   <link rel="stylesheet" href="/sites/default/files/css/css_FB_8SamOz8_JZSZTL3QZuOwo92EVnOqapDXC3GJryXE.css?pp4tuk"
         media="all">
-  END PATHDB STYLE -->
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" media="all">
+  <!-- END PATHDB STYLE -->
   <script src="./vendor/jquery-1.12.4.min.js"></script>
   <style>
     /*
@@ -39,34 +39,116 @@
 
 </head>
 
-<body>
+<body class="path-frontpage large-screen">
+<div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas="">
+  <!-- Start: Page Wrapper -->
+  <div class="page-wrapper w3-col w3-clear w3-animate-opacity w3-text-theme  ">
+    <!-- Start: Header -->
+    <header id="header" class="w3-col w3-clear w3-theme-l4 " role="banner" aria-label="Site header">
+      <div id="header-inner" class="d8-fade w3-container header-inner "
+           style="opacity: 1; transition: opacity 1s linear 0s;">
+        <nav role="navigation" aria-labelledby="block-drupal8-w3css-theme-account-menu-menu"
+             id="block-drupal8-w3css-theme-account-menu">
+
+          <h2 class="visually-hidden" id="block-drupal8-w3css-theme-account-menu-menu">User account menu</h2>
 
 
-<div id="tilmapDiv" class="container">
-  <table style="width:100%">
-    <tr>
-      <td class="header" style="vertical-align:top; width:40%">
-        <h3 class="w3-margin-left node__title">TIL Maps</h3><br> <br>
-        <div
-            id="tilShowImgDiv" style="color: navy;">
-          <div id="imgTILDiv">
+          <ul class="ul-parent ul-parent-account ul-0" role="menu">
+            <li class="li-item li-item-account li-0" role="none">
+              <a href="https://sbu-bmi.github.io/quip_distro/" class="w3-button li-link li-link-account">About</a>
+            </li>
+            <li class="li-item li-item-account li-0" role="none">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdSt7xU4-j2m-JpFRb5nNkOEuBz212i1--svMHyuHKErNkFvA/viewform"
+                 class="w3-button li-link li-link-account">Feedback</a>
+            </li>
+            <li class="li-item li-item-account li-0" role="none">
+              <a href="/user/login" class="w3-button li-link li-link-account" data-drupal-link-system-path="user/login">Log
+                in</a>
+            </li>
+          </ul>
+
+        </nav>
+
+        <section id="block-drupal8-w3css-theme-branding"
+                 class="w3-block w3-block-wrapper block-system block-system-branding-block">
+
+          <div class="w3-left w3-margin-left">
+            <h1 class="site-name w3-show-block">
+              <a class="w3-xlarge w3-padding" href="/" title="Home" rel="home">QuIP - Quantitative Imaging in
+                Pathology</a>
+            </h1>
           </div>
-          <!-- DIDN'T WORK
-          <div id="imgTILDiv" style="width: 500px"></div> -->
-          <!-- DIDN'T WORK
-          <div id="imgTILDiv" class="ex1"></div> -->
-          <!--
-          <div id="imgTILDiv" class="wrapperA">
-          </div>
-          -->
-          <!-- IF YOU DON'T LOOK AT THE ABOVE COMMENTS, YOU WILL HAVE BAD LUCK!! -->
-          <!--div id="imgTILDiv" style="height:400px; width:600px;"></div-->
-        </div>
-        <div id="calcTIL">
-          <div id="calcTILdiv">
-            <p>
-              <span id="hideRGBbuttons" style="color:maroon;cursor:hand;font-size:small">RGB[-] </span>
-              <span id="rgbButtons">
+        </section>
+
+      </div>
+    </header>
+    <!-- End: Header -->
+    <!-- Start: Main Navigation - Horizontal -->
+    <div id="main-navigation-h" class="w3-col w3-clear main-navigation-wrapper w3-card w3-theme " role="navigation"
+         aria-label="Main Navigation">
+      <div id="main-navigation-inner-h" class="d8-fade w3-row main-navigation-inner-h "
+           style="opacity: 1; transition: opacity 1s linear 0s;">
+        <i class="mobile-nav fa fa-bars w3-hide-large w3-button w3-block w3-right-align w3-xxlarge w3-theme "></i>
+        <nav role="navigation" aria-labelledby="block-drupal8-w3css-theme-main-menu-menu"
+             id="block-drupal8-w3css-theme-main-menu">
+
+          <h2 class="visually-hidden" id="block-drupal8-w3css-theme-main-menu-menu">Main navigation</h2>
+
+
+          <ul class="ul-parent ul-parent-main ul-0" role="menu">
+            <li class="li-item li-item-main li-0" role="none">
+              <a href="/" class="w3-button li-link li-link-main is-active"
+                 data-drupal-link-system-path="<front>">Home</a>
+            </li>
+            <li class="li-item li-item-main li-0" role="none">
+              <a href="/collections" class="w3-button li-link li-link-main" data-drupal-link-system-path="collections">Collections</a>
+            </li>
+            <li class="li-item li-item-main li-0" role="none">
+              <a href="/listofimages" class="w3-button li-link li-link-main"
+                 data-drupal-link-system-path="listofimages">Images</a>
+            </li>
+            <li class="li-item li-item-main li-0" role="none">
+              <a href="/maps" class="w3-button li-link li-link-main" data-drupal-link-system-path="maps">Maps</a>
+            </li>
+          </ul>
+
+
+        </nav>
+
+
+      </div>
+    </div>
+    <!-- End: Main Navigation - Horizontal -->
+    <!-- Start: Highlighted -->
+    <div id="highlighted" class="w3-col w3-clear w3-theme-l2 ">
+      <div id="highlighted-inner" class="d8-fade w3-row highlighted-inner "
+           style="opacity: 1; transition: opacity 1s linear 0s;">
+
+      </div>
+    </div>
+    <!-- End: Highlighted -->
+    <!-- Start: Main -->
+    <div id="main-container" class="w3-col w3-clear w3-theme-l5 ">
+      <div id="main-container-inner" class="w3-container main-container-inner ">
+        <!-- Start Main Container  -->
+        <div class="w3-col w3-clear w3-row-padding">
+          <!-- Start: Main Content -->
+          <div class="w3-col main-region w3css-content">
+            <div id="tilmapDiv" class="container">
+              <table style="width:100%">
+                <tr>
+                  <td style="vertical-align:top; width:100%">
+                    <h3 class="w3-margin-left node__title">TIL Maps</h3><br> <br>
+                    <div
+                        id="tilShowImgDiv" style="color: navy;">
+                      <div id="imgTILDiv">
+                      </div>
+                    </div>
+                    <div id="calcTIL">
+                      <div id="calcTILdiv">
+                        <p>
+                          <span id="hideRGBbuttons" style="color:maroon;cursor:hand;font-size:small">RGB[-] </span>
+                          <span id="rgbButtons">
                           <button id="calcTILred"></button>
                           <button id="calcTILgreen"></button>
                           <button id="calcTILblue"></button>
@@ -108,14 +190,37 @@
           </div>
         </div>
 
-      </td>
+                  </td>
       <td class="content" style="vertical-align:top; width: 60%;">
         <iframe id="caMicrocopeIfr" style="height: 80%" src="about:blank"></iframe>
-      </td>
-    </tr>
-  </table>
+      </td>                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End: Main -->
+    <!-- Footer is too much for viewing on small screen (ie. laptop) -->
+    <!--
+    <div id="copyright" class="w3-col w3-clear w3-theme-d5 ">
+      <div id="copyright-inner" class="w3-row copyright-inner ">
+        -->
+    <!-- Start: Copyright -->
+    <!--
+    <div class="w3-half w3-container w3-mobile">
+      <p class="w3-section w3-left-align w3-opacity w3-hover-opacity-off">U24 CA18092401A1, Tools to Analyze
+        Morphology and Spatially Mapped Molecular Data</p>
+    </div>
+    -->
+    <!-- End: Copyright -->
+    <!--
+  </div>
 </div>
-
+-->
+  </div>
+  <!-- End: Page Wrapper -->
+</div>
 <script src="tilmap.js"></script>
 
 </body>
