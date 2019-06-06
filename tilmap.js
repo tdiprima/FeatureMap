@@ -33,8 +33,7 @@ tilmap = function () {
 };
 
 function scaler(canvas) {
-  if (pathdb_util.scale)
-  {
+  if (pathdb_util.scale) {
     var canvas = document.getElementById(canvas);
     var context = canvas.getContext("2d");
 
@@ -190,19 +189,16 @@ tilmap.calcTILfun = function () {
 
     if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
-      tilmap.cvBase.hidden = true;
-      tilmap.cvBase.width = tilmap.width;
-      tilmap.cvBase.height = tilmap.height;
-      tilmap.cvBase.id = "cvBase";
-      tilmap.imgTILDiv.appendChild(tilmap.cvBase);
-
     }
-
+    tilmap.cvBase.hidden = true;
+    tilmap.cvBase.width = tilmap.width;
+    tilmap.cvBase.height = tilmap.height;
+    tilmap.cvBase.id = "cvBase";
+    tilmap.imgTILDiv.appendChild(tilmap.cvBase);
 
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
     tilmap.ctx = tilmap.cvBase.getContext('2d');
-    if(pathdb_util.scale)
-    {
+    if (pathdb_util.scale) {
       tilmap.ctx.scale(2.0, 2.0);
     }
     tilmap.ctx.drawImage(this, 0, 0);
@@ -309,7 +305,7 @@ changeUI = function (selectedOptions) {
 
   // download(tilmap.slide + '.png', createImage(pathdb_util.csvData, selectedOptions));
   tilmap.dataUri = createImage(pathdb_util.csvData, selectedOptions);
-  tilmap.img.src = createImage(pathdb_util.csvData, selectedOptions);
+  tilmap.img.src = tilmap.dataUri; 
 
 };
 
