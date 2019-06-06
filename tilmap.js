@@ -32,6 +32,29 @@ tilmap = function () {
 
 };
 
+function scaler(canvas) {
+  if (pathdb_util.scale)
+  {
+    var canvas = document.getElementById(canvas);
+    var context = canvas.getContext("2d");
+
+    $("#scaler").click(function () {
+
+      var imageObject = new Image();
+      imageObject.onload = function () {
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.scale(2.0, 2.0);
+        context.drawImage(imageObject, 0, 0);
+
+      };
+      imageObject.src = canvas.toDataURL();
+
+    });
+  }
+
+}
+
 /**
  * Url value extraction
  */
@@ -142,19 +165,22 @@ tilmap.calcTILfun = function () {
   //tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
   //tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
 
-  tilmap.width = pathdb_util.imgWidth;
-  tilmap.height = pathdb_util.imgHeight;
+  if (pathdb_util.imgWidth1 > 0) {
+    tilmap.width = pathdb_util.imgWidth1;
+    tilmap.height = pathdb_util.imgHeight1;
+  } else {
+    tilmap.width = pathdb_util.imgWidth;
+    tilmap.height = pathdb_util.imgHeight;
+
+  }
 
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
   tilmap.img.width = tilmap.width;
   tilmap.img.height = tilmap.height;
-  // pathdb_util.imgWidth;
-  // pathdb_util.imgHeight;
 
   tilmap.imgTILDiv.appendChild(tilmap.img);
-  // console.log('tilmap.img', tilmap.img.width, tilmap.img.height); // zero here.
 
   tilmap.img.onload = function () {
 
@@ -163,9 +189,6 @@ tilmap.calcTILfun = function () {
     if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
       tilmap.cvBase.hidden = true;
-      //Canvas dimensions have to be defined in pixels!
-      // tilmap.cvBase.width = pathdb_util.imgWidth;
-      // tilmap.cvBase.height = pathdb_util.imgHeight;
       tilmap.cvBase.width = tilmap.width;
       tilmap.cvBase.height = tilmap.height;
       tilmap.cvBase.id = "cvBase";
@@ -176,6 +199,10 @@ tilmap.calcTILfun = function () {
 
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
     tilmap.ctx = tilmap.cvBase.getContext('2d');
+    if(pathdb_util.scale)
+    {
+      tilmap.ctx.scale(2.0, 2.0);
+    }
     tilmap.ctx.drawImage(this, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
@@ -221,7 +248,7 @@ tilmap.calcTILfun = function () {
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
         })
       });
-      jmat.imwrite(pathdb_util.scale, tilmap.cvBase, ddd);
+      jmat.imwrite(tilmap.cvBase, ddd);
       tilmap.segment(event, false);
       //tilmap.segment;
 
@@ -249,8 +276,6 @@ tilmap.calcTILfun = function () {
       tilmap.cvTop = document.createElement('canvas');
       tilmap.cvTop.width = tilmap.width;
       tilmap.cvTop.height = tilmap.height;
-      // tilmap.cvTop.width = tilmap.img.width;
-      //tilmap.cvTop.height = tilmap.img.height;
       tilmap.cvTop.id = "cvTop";
       tilmap.imgTILDiv.appendChild(tilmap.cvTop);
       tilmap.cvTop.style.position = 'absolute';
@@ -341,7 +366,7 @@ tilmap.from2D = function (dd) {
   });
   // tilmap.ctx.putImageData(jmat.data2imData(ddd), 0, 0)
   // jmat.imwrite(tilmap.img, ddd)
-  jmat.imwrite(pathdb_util.scale, tilmap.cvBase, ddd)
+  jmat.imwrite(tilmap.cvBase, ddd)
 };
 
 /**
@@ -430,7 +455,7 @@ tilmap.transpire = function () {
   var clrMask = [255, 255, 255, tp];
 
 
-  jmat.imwrite(pathdb_util.scale, tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
+  jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
       if (d) {
