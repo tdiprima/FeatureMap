@@ -457,6 +457,10 @@ window.addEventListener('resize', () => {
   tilmap.canvasAlign()
 });
 
+window.addEventListener('scroll', () => {
+  tilmap.canvasAlign()
+});
+
 /**
  * Make sure both canvases stay aligned with each other.
  */
