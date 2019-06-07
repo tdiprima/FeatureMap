@@ -1,3 +1,6 @@
+# About the input data (the png files):
+# They partition the 350x350 into 200x200 and assign new label for each 200x200
+# cancer patch, then combine them with TIL map.
 import csv
 import os
 
