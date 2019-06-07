@@ -1,8 +1,11 @@
 # About the input data (the png files):
 # Cancer maps are done on 350 X 350 wsi patches (40X).
 # TIL maps are done on 200 x 200 patches (40X).
-# Then they partition the 350x350 into 200x200 and assign new label for each
+# Then we partition the 350x350 into 200x200 and assign new label for each
 # 200x200 cancer patch, then combine them with TIL map.
+# If the mag is 20X, the patch should be 175 instead of 350.
+# If patch width and height do not divide evenly into slide width and height,
+# we ignore the remainder, since it is likely to be glass.
 import csv
 import os
 
