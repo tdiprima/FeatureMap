@@ -15,26 +15,24 @@ for ind, fn in enumerate(fns):
     print(ind, fn)
     slide_ID = fn.split('.png')[0]  # get base name
     png = cv2.imread(png_fol + '/' + fn, cv2.IMREAD_COLOR)  # Loads a color image.
-    # grab the image dimensions
-    h = png.shape[0]
-    w = png.shape[1]
-    print('row, column:', h, w)  # row, column
+    # grab the image dimensions (row, column)
+    h_png = png.shape[0]
+    w_png = png.shape[1]
 
     if not os.path.exists(os.path.join(svs_fol, slide_ID + slide_ext)):
         print('File not found: ', os.path.join(svs_fol, slide_ID + slide_ext))
         continue
 
     # Get patch size
-    pw_20X = 100
     oslide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
-    if openslide.PROPERTY_NAME_MPP_X in oslide.properties:
-        mag = 10.0 / float(oslide.properties[openslide.PROPERTY_NAME_MPP_X])
-    elif "XResolution" in oslide.properties:
-        mag = 10.0 / float(oslide.properties["XResolution"])
-    else:
-        mag = 10.0 / float(0.254)
-    pw = pw_20X * mag / 20.0
-    print('pw', str(pw))
+    '''
+    There is no information about the patch width/height from the png files. The width/height can be computed given the width/height of the WSI.
+    Let's say the width of the WSI is w_wsi, the width of the png is w_png, then the patch width is w_wsi/w_png.
+    '''
+    w_wsi, h_wsi = oslide.dimensions
+    w_patch = w_wsi / w_png
+    h_patch = h_wsi / h_png
+    print(str(w_patch), str(h_patch))
 
     # Get image width and height
     img_width = oslide.dimensions[0]
@@ -50,7 +48,7 @@ for ind, fn in enumerate(fns):
 
         # METADATA
         a_string = '{"img_width":' + str(img_width) + ', "img_height":' + str(img_height) + ', "png_w":' + str(
-            w) + ', "png_h":' + str(h) + ', "patch_w":' + str(pw) + ', "patch_h":' + str(pw) + '}'
+            w_png) + ', "png_h":' + str(h_png) + ', "patch_w":' + str(w_patch) + ', "patch_h":' + str(h_patch) + '}'
         feature_writer.writerow([a_string])
 
         # HEADER
@@ -60,8 +58,8 @@ for ind, fn in enumerate(fns):
         # feature_writer.writerow(['i', 'j', 'TIL', 'Necrosis', 'Tissue'])  # i = x = png_width; j = y = png_height
 
         # loop over the image, pixel by pixel
-        for x in range(0, w):
-            for y in range(0, h):
+        for x in range(0, w_png):
+            for y in range(0, h_png):
                 # opencv is bgr
                 feature_writer.writerow([x, y, png[y, x][2], png[y, x][1], png[y, x][0]])
 
