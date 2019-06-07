@@ -1,6 +1,8 @@
 # About the input data (the png files):
-# They partition the 350x350 into 200x200 and assign new label for each 200x200
-# cancer patch, then combine them with TIL map.
+# Cancer maps are done on 350 X 350 wsi patches (40X).
+# TIL maps are done on 200 x 200 patches (40X).
+# Then they partition the 350x350 into 200x200 and assign new label for each
+# 200x200 cancer patch, then combine them with TIL map.
 import csv
 import os
 
