@@ -61,7 +61,8 @@ def main():
 
             # METADATA
             a_string = '{"img_width":' + str(w_wsi) + ', "img_height":' + str(h_wsi) + ', "png_w":' + str(
-                w_png) + ', "png_h":' + str(h_png) + ', "patch_w":' + str(w_patch) + ', "patch_h":' + str(h_patch) + '}'
+                w_png) + ', "png_h":' + str(h_png) + ', "patch_w":' + str(int(w_patch)) + ', "patch_h":' + str(
+                int(h_patch)) + '}'
             feature_writer.writerow([a_string])
 
             # HEADER
