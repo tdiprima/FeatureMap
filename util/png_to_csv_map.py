@@ -17,60 +17,102 @@ out_fol = './output'
 svs_fol = './svs'
 slide_ext = '.svs'
 
-# Iterate through pngs in input folder
-fns = [f for f in os.listdir(png_fol) if '.png' in f]
-for ind, fn in enumerate(fns):
-    print(ind, fn)
-    slide_ID = fn.split('.png')[0]  # get base name
-    png = cv2.imread(png_fol + '/' + fn, cv2.IMREAD_COLOR)  # Loads a color image.
-    # grab the image dimensions (row, column)
-    h_png = png.shape[0]
-    w_png = png.shape[1]
 
-    if not os.path.exists(os.path.join(svs_fol, slide_ID + slide_ext)):
-        print('File not found: ', os.path.join(svs_fol, slide_ID + slide_ext))
-        continue
+def get_patch_size(slide_ID):
+    pw_20X = 100
+    slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
+    w_wsi, h_wsi = slide.dimensions
+    if openslide.PROPERTY_NAME_MPP_X in slide.properties:
+        mag = 10.0 / float(slide.properties[openslide.PROPERTY_NAME_MPP_X])
+    elif "XResolution" in slide.properties:
+        mag = 10.0 / float(slide.properties["XResolution"])
+    else:
+        mag = 10.0 / float(0.254)
+    w_patch = pw_20X * mag / 20.0
+    h_patch = w_patch
+    return w_wsi, h_wsi, w_patch, h_patch
 
-    # Get patch size
-    oslide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
+
+def main():
+    # Iterate through pngs in input folder
+    fns = [f for f in os.listdir(png_fol) if '.png' in f]
+    for ind, fn in enumerate(fns):
+        slide_ID = fn.split('.png')[0]  # get base name
+        png = cv2.imread(png_fol + '/' + fn, cv2.IMREAD_COLOR)  # Loads a color image.
+        # grab the image dimensions (row, column)
+        h_png = png.shape[0]
+        w_png = png.shape[1]
+
+        if not os.path.exists(os.path.join(svs_fol, slide_ID + slide_ext)):
+            print('File not found: ', os.path.join(svs_fol, slide_ID + slide_ext))
+            continue
+
+        w_wsi, h_wsi, w_patch, h_patch = get_patch_size(slide_ID)
+
+        res_file = os.path.join(out_fol, slide_ID + '.csv')
+        print('OUT: ' + res_file)
+        if os.path.exists(res_file):
+            continue
+        print(ind, fn)
+
+        # Write CSV file from input image pixels
+        with open(res_file, mode='w') as f:
+            feature_writer = csv.writer(f, delimiter=',', quotechar='"')
+
+            # METADATA
+            a_string = '{"img_width":' + str(w_wsi) + ', "img_height":' + str(h_wsi) + ', "png_w":' + str(
+                w_png) + ', "png_h":' + str(h_png) + ', "patch_w":' + str(w_patch) + ', "patch_h":' + str(h_patch) + '}'
+            feature_writer.writerow([a_string])
+
+            # HEADER
+            # TIL, Cancer, and Tissue
+            feature_writer.writerow(['i', 'j', 'TIL', 'Cancer', 'Tissue'])  # i = x = png_width; j = y = png_height
+            # TIL, Necrosis, and Tissue
+            # feature_writer.writerow(['i', 'j', 'TIL', 'Necrosis', 'Tissue'])  # i = x = png_width; j = y = png_height
+
+            # loop over the image, pixel by pixel
+            for x in range(0, w_png):
+                for y in range(0, h_png):
+                    # opencv is bgr
+                    feature_writer.writerow([x, y, png[y, x][2], png[y, x][1], png[y, x][0]])
+
+        f.close()
+    print('Done.')
+
+
+if __name__ == "__main__":
+    main()
+
+
+def get_patch_size2(slide_ID):
+    slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
+    w_wsi = slide.dimensions[0]
+    h_wsi = slide.dimensions[1]
+    if openslide.PROPERTY_NAME_MPP_X in slide.properties:
+        mag = 10.0 / float(slide.properties[openslide.PROPERTY_NAME_MPP_X])
+    elif "XResolution" in slide.properties:
+        mag = 10.0 / float(slide.properties["XResolution"])
+    else:
+        mag = 10.0 / float(0.254)
+
+    if mag >= 40:
+        w_patch = 200
+        h_patch = 200
+    else:
+        w_patch = 100
+        h_patch = 100
+    return w_wsi, h_wsi, w_patch, h_patch
+
+
+def get_patch_size1(slide_ID, w_png, h_png):
+    slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
     '''
-    There is no information about the patch width/height from the png files. The width/height can be computed given the width/height of the WSI.
-    Let's say the width of the WSI is w_wsi, the width of the png is w_png, then the patch width is w_wsi/w_png.
+    There is no information about the patch width/height from the png files.
+    The width/height can be computed given the width/height of the WSI.
+    Let's say the width of the WSI is w_wsi, the width of the png is w_png, then
+    the patch width is w_wsi/w_png.
     '''
-    w_wsi, h_wsi = oslide.dimensions
+    w_wsi, h_wsi = slide.dimensions
     w_patch = w_wsi / w_png
     h_patch = h_wsi / h_png
-    print(str(w_patch), str(h_patch))
-
-    # Get image width and height
-    img_width = oslide.dimensions[0]
-    img_height = oslide.dimensions[1]
-    res_file = os.path.join(out_fol, slide_ID + '.csv')
-    print('OUT: ' + res_file)
-    if os.path.exists(res_file): continue
-    # print(ind, fn)
-
-    # Write CSV file from input image pixels
-    with open(res_file, mode='w') as f:
-        feature_writer = csv.writer(f, delimiter=',', quotechar='"')
-
-        # METADATA
-        a_string = '{"img_width":' + str(img_width) + ', "img_height":' + str(img_height) + ', "png_w":' + str(
-            w_png) + ', "png_h":' + str(h_png) + ', "patch_w":' + str(w_patch) + ', "patch_h":' + str(h_patch) + '}'
-        feature_writer.writerow([a_string])
-
-        # HEADER
-        # TIL, Cancer, and Tissue
-        feature_writer.writerow(['i', 'j', 'TIL', 'Cancer', 'Tissue'])  # i = x = png_width; j = y = png_height
-        # TIL, Necrosis, and Tissue
-        # feature_writer.writerow(['i', 'j', 'TIL', 'Necrosis', 'Tissue'])  # i = x = png_width; j = y = png_height
-
-        # loop over the image, pixel by pixel
-        for x in range(0, w_png):
-            for y in range(0, h_png):
-                # opencv is bgr
-                feature_writer.writerow([x, y, png[y, x][2], png[y, x][1], png[y, x][0]])
-
-    f.close()
-
-print('Done.')
+    return w_wsi, h_wsi, w_patch, h_patch
