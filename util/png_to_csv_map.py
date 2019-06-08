@@ -22,14 +22,58 @@ def get_patch_size(slide_ID):
     pw_20X = 100
     slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
     w_wsi, h_wsi = slide.dimensions
+    magx = mag_x(slide)
+    magy = mag_y(slide)
+    w_patch = pw_20X * magx / 20.0
+    h_patch = pw_20X * magy / 20.0
+    return w_wsi, h_wsi, w_patch, h_patch
+
+
+def mag_x(slide):
     if openslide.PROPERTY_NAME_MPP_X in slide.properties:
         mag = 10.0 / float(slide.properties[openslide.PROPERTY_NAME_MPP_X])
     elif "XResolution" in slide.properties:
         mag = 10.0 / float(slide.properties["XResolution"])
     else:
         mag = 10.0 / float(0.254)
-    w_patch = pw_20X * mag / 20.0
-    h_patch = w_patch
+    return mag
+
+
+def mag_y(slide):
+    if openslide.PROPERTY_NAME_MPP_Y in slide.properties:
+        mag = 10.0 / float(slide.properties[openslide.PROPERTY_NAME_MPP_Y])
+    elif "YResolution" in slide.properties:
+        mag = 10.0 / float(slide.properties["YResolution"])
+    else:
+        mag = 10.0 / float(0.254)
+    return mag
+
+
+def get_patch_size2(slide_ID):
+    slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
+    w_wsi = slide.dimensions[0]
+    h_wsi = slide.dimensions[1]
+
+    if mag_x(slide) >= 40:
+        w_patch = 200
+        h_patch = 200
+    else:
+        w_patch = 100
+        h_patch = 100
+    return w_wsi, h_wsi, w_patch, h_patch
+
+
+def get_patch_size1(slide_ID, w_png, h_png):
+    slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
+    '''
+    There is no information about the patch width/height from the png files.
+    The width/height can be computed given the width/height of the WSI.
+    Let's say the width of the WSI is w_wsi, the width of the png is w_png, then
+    the patch width is w_wsi/w_png.
+    '''
+    w_wsi, h_wsi = slide.dimensions
+    w_patch = w_wsi / float(w_png)
+    h_patch = h_wsi / float(h_png)
     return w_wsi, h_wsi, w_patch, h_patch
 
 
@@ -48,6 +92,7 @@ def main():
             continue
 
         w_wsi, h_wsi, w_patch, h_patch = get_patch_size(slide_ID)
+        # print(w_wsi, w_png, "|", h_wsi, h_png)
 
         res_file = os.path.join(out_fol, slide_ID + '.csv')
         print('OUT: ' + res_file)
@@ -83,37 +128,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-def get_patch_size2(slide_ID):
-    slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
-    w_wsi = slide.dimensions[0]
-    h_wsi = slide.dimensions[1]
-    if openslide.PROPERTY_NAME_MPP_X in slide.properties:
-        mag = 10.0 / float(slide.properties[openslide.PROPERTY_NAME_MPP_X])
-    elif "XResolution" in slide.properties:
-        mag = 10.0 / float(slide.properties["XResolution"])
-    else:
-        mag = 10.0 / float(0.254)
-
-    if mag >= 40:
-        w_patch = 200
-        h_patch = 200
-    else:
-        w_patch = 100
-        h_patch = 100
-    return w_wsi, h_wsi, w_patch, h_patch
-
-
-def get_patch_size1(slide_ID, w_png, h_png):
-    slide = openslide.OpenSlide(os.path.join(svs_fol, slide_ID + slide_ext))
-    '''
-    There is no information about the patch width/height from the png files.
-    The width/height can be computed given the width/height of the WSI.
-    Let's say the width of the WSI is w_wsi, the width of the png is w_png, then
-    the patch width is w_wsi/w_png.
-    '''
-    w_wsi, h_wsi = slide.dimensions
-    w_patch = w_wsi / w_png
-    h_patch = h_wsi / h_png
-    return w_wsi, h_wsi, w_patch, h_patch
