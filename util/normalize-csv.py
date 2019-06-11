@@ -29,7 +29,7 @@ def normalizer(data):
 
 
 def main():
-    filename = 'patch_level_radiomics_feature_TCGA-AO-A0J4-01Z-00-DX1.csv'
+    filename = ''  # TODO: FILENAME
     data = pd.read_csv(filename)
     df = normalizer(data)
     obj = create_json(df)
