@@ -1,0 +1,151 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Feature Map | QuIP - Quantitative Imaging in Pathology</title>
+  <script src="jmat.js"></script>
+  <script src="pathdb_util.js"></script>
+  <!-- START PATHDB STYLE
+  <link rel="stylesheet" href="/sites/default/files/css/css_Oo2J91hEm89bEsW7NKEyCIyj8KbGKTFRK6hqfSaJzbc.css?pqxtia"
+        media="all">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" media="all">
+  <link rel="stylesheet" href="/sites/default/files/css/css_jb9T-ErtZKN7EZ3_3q2a1itV1SxgxFfCfvwVh1O0Xto.css?pp4tuk"
+        media="all">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" media="all">
+  <link rel="stylesheet" href="/sites/default/files/css/css_FB_8SamOz8_JZSZTL3QZuOwo92EVnOqapDXC3GJryXE.css?pp4tuk"
+        media="all">
+  END PATHDB STYLE -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" media="all">
+  <!--script src="./vendor/jquery-1.12.4.min.js"></script-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    /*
+    *{margin:0;padding:0}
+    html {height:100%;width:100%;overflow:hidden}
+    body {height: 100%; overflow: auto;}
+    */
+    table {
+      height: 100%;
+      width: 100%;
+      table-layout: static;
+      border-collapse: collapse
+    }
+
+    iframe {
+      height: 100%;
+      width: 100%
+    }
+
+    .header {
+      border-bottom: 1px solid #000
+    }
+
+    .content {
+      height: 100%
+    }
+
+    /*
+    div.ex1 {width: 500px; margin: auto; border: 3px solid #73AD21;}
+    .wrapperA {width: 100%; max-width: 500px;}
+    canvas {width: 100%;}
+     */
+  </style>
+
+</head>
+
+<body>
+
+<button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="right"
+        title="This is an example of a tooltip">
+  UPLOAD
+</button>
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })</script>
+
+<div id="tilmapDiv" class="container">
+  <table style="width:100%">
+    <tr>
+      <td class="header" style="vertical-align:top; width:40%">
+        <h3 class="w3-margin-left node__title">TIL Maps</h3><br> <br>
+        <div
+            id="tilShowImgDiv" style="color: navy;">
+          <div id="imgTILDiv">
+          </div>
+          <!-- DIDN'T WORK
+          <div id="imgTILDiv" style="width: 500px"></div> -->
+          <!-- DIDN'T WORK
+          <div id="imgTILDiv" class="ex1"></div> -->
+          <!--
+          <div id="imgTILDiv" class="wrapperA">
+          </div>
+          -->
+          <!-- IF YOU DON'T LOOK AT THE ABOVE COMMENTS, YOU WILL HAVE BAD LUCK!! -->
+          <!--div id="imgTILDiv" style="height:400px; width:600px;"></div-->
+        </div>
+        <div id="calcTIL">
+          <div id="calcTILdiv">
+            <p>
+              <span id="hideRGBbuttons" style="color:maroon;cursor:hand;font-size:small">RGB[-] </span>
+              <span id="rgbButtons">
+                          <button id="calcTILred"></button>
+                          <button id="calcTILgreen"></button>
+                          <button id="calcTILblue"></button>
+                          <button id="calcTIL0" style="background-color:white">Original PNG</button>
+                            <span id="tileSize" style="font-size:small"></span>
+                          </span>
+            </p>
+            <p>
+              <!-- Red -->
+              <span id="redRangeVal" style="font-size:small"></span><br>
+              <input id="redRange" type="range" style="width:200px">
+              <button id="redRangePlay" style="background-color:silver" title="play it"></button>
+              <span style="font-size:small"><span id="redTiles">...</span> tiles</span>
+              <br>
+              <!-- Green -->
+              <span id="greenRangeVal" style="font-size:small"></span><br>
+              <input id="greenRange" type="range" style="width:200px">
+              <button id="greenRangePlay" style="background-color:silver" title="play it"></button>
+              <span style="font-size:small"><span id="greenTiles">...</span> tiles</span><br>
+            </p>
+            <p>
+              <!-- Blue / Tissue -->
+              <span id="segmentationRangeVal" style="font-size:small"></span><br>
+              <input id="segmentationRange" type="range" style="width:200px" value="0">
+              <button id="rangeSegmentBt" style="background-color:silver">Background Suppression</button>
+              <span style="font-size:small"><span id="backTiles">...</span> tiles</span>
+              <br>&nbsp;&nbsp;&nbsp;
+              <span style="font-size:small"> 0 ←(Background Threshold)→ 100</span>
+              <br>
+              <span id="transparencyRangeVal" style="font-size:small"></span><br>
+              <input id="transparencyRange" type="range" style="width:200px" value="20">
+              <br>
+              <span style="font-size:small">&nbsp; 0 ← (Segmentation Transparency) → 100</span>
+            </p>
+            <hr>
+            <strong>Select two:</strong><br>
+            <div id="choose" class="btn" data-toggle="tooltip" data-placement="right"
+                 title="Select 2 features, then click on a 3rd one, and the image will be redrawn">
+            </div>
+          </div>
+        </div>
+
+      </td>
+      <td class="content" style="vertical-align:top; width: 60%;">
+        <iframe id="caMicrocopeIfr" style="height: 80%" src="about:blank"></iframe>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script src="tilmap.js"></script>
+
+</body>
+
+</html>
