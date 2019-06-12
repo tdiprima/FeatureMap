@@ -1,5 +1,5 @@
-# Import required modules
 import json
+import os
 
 import numpy as np
 import pandas as pd
@@ -29,17 +29,20 @@ def normalizer(data):
 
 
 def main():
-    filename = ''  # TODO: FILENAME
-    data = pd.read_csv(filename)
-    df = normalizer(data)
-    obj = create_json(df)
-    write_csv(df, obj)
-    print('Done')
+    cwd = os.getcwd()
+    for filename in os.listdir(cwd):
+        if filename.endswith(".csv"):
+            filename = os.path.join(cwd, filename)
+            data = pd.read_csv(filename)
+            df = normalizer(data)
+            obj = create_json(df)
+            filename = filename.replace("patch_level_radiomics_feature_VTRPDAC_Test_", "")
+            write_csv(df, obj, filename)
+            print('Done')
 
 
-def write_csv(df, obj):
-    output = 'output.csv'
-    with open(output, 'w') as f:
+def write_csv(df, obj, filename):
+    with open(filename, 'w') as f:
         f.write(json.dumps(obj) + '\n')
         f.write('i,j,Nuclear Ratio,Cancer,Tissue,Nuclear Avg Area,Nuclear Avg Perimeter\n')
 
@@ -74,7 +77,7 @@ def write_csv(df, obj):
 
     modified.loc[modified['Nuclear Ratio'] > 0, ['Tissue']] = ['255']
 
-    with open(output, 'a') as f:
+    with open(filename, 'a') as f:
         modified.to_csv(f, mode='a', header=False, index=False)
 
 
