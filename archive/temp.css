@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden
+}
+
+body {
+    height: 100%;
+    overflow: auto;
+}
+
+table {
+    height: 100%;
+    width: 100%;
+    table-layout: static;
+    border-collapse: collapse
+}
+
+iframe {
+    height: 100%;
+    width: 100%
+}
+
+.header {
+    border-bottom: 1px solid #000
+}
+
+.content {
+    height: 100%
+}
+
+div.ex1 {
+    width: 500px;
+    margin: auto;
+    border: 3px solid #73AD21;
+}
+
+.wrapperA {
+    width: 100%;
+    max-width: 500px;
+}
+
+canvas {
+    width: 100%;
+}

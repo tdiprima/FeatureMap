@@ -33,7 +33,7 @@ tilmap = function () {
 };
 
 function scaler(canvas) {
-  if (pathdb_util.scale) {
+  if (pathdb_util.scale > 0) {
     var canvas = document.getElementById(canvas);
     var context = canvas.getContext("2d");
 
@@ -43,7 +43,7 @@ function scaler(canvas) {
       imageObject.onload = function () {
 
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.scale(2.0, 2.0);
+        context.scale(parseFloat(pathdb_util.scale), parseFloat(pathdb_util.scale));
         context.drawImage(imageObject, 0, 0);
 
       };
@@ -197,9 +197,12 @@ tilmap.calcTILfun = function () {
 
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
     tilmap.ctx = tilmap.cvBase.getContext('2d');
-    if (pathdb_util.scale) {
-      tilmap.ctx.scale(2.0, 2.0);
+
+
+    if (pathdb_util.scale > 0) {
+      tilmap.ctx.scale(parseFloat(pathdb_util.scale), parseFloat(pathdb_util.scale));
     }
+
     tilmap.ctx.drawImage(this, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
