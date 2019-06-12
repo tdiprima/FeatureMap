@@ -28,19 +28,6 @@ def normalizer(data):
     return df_normalized
 
 
-def main():
-    cwd = os.getcwd()
-    for filename in os.listdir(cwd):
-        if filename.endswith(".csv"):
-            filename = os.path.join(cwd, filename)
-            data = pd.read_csv(filename)
-            df = normalizer(data)
-            obj = create_json(df)
-            filename = filename.replace("patch_level_radiomics_feature_VTRPDAC_Test_", "")
-            write_csv(df, obj, filename)
-            print('Done')
-
-
 def write_csv(df, obj, filename):
     with open(filename, 'w') as f:
         f.write(json.dumps(obj) + '\n')
@@ -95,6 +82,19 @@ def create_json(df):
            "png_h": str(np.ceil(imh / ph).astype(int))}
 
     return obj
+
+
+def main():
+    cwd = os.getcwd()
+    for filename in os.listdir(cwd):
+        if filename.endswith(".csv"):
+            filename = os.path.join(cwd, filename)
+            data = pd.read_csv(filename)
+            df = normalizer(data)
+            obj = create_json(df)
+            filename = filename.replace("", "")
+            write_csv(df, obj, filename)
+            print('Done')
 
 
 if __name__ == "__main__":
