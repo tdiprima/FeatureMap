@@ -210,7 +210,8 @@ tilmap.calcTILfun = function () {
     tilmap.imgDataB = tilmap.imSlice(2);
 
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
-    tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
+    // tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
+    tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => (x > 0))).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
 
     // Event listeners for buttons - Red Green Tissue Original
     calcTILred.onclick = function () {
@@ -219,8 +220,50 @@ tilmap.calcTILfun = function () {
     calcTILgreen.onclick = function () {
       tilmap.from2D(tilmap.imSlice(1))
     };
+    /*
     calcTILblue.onclick = function () {
       tilmap.from2D(tilmap.imSlice(2))
+    };
+     */
+    calcTILblue.onclick = function () {
+      let dd = tilmap.imSlice(2);
+      // tilmap.from2D(dd) <-- this is the base function we are expanding here to represent extracted classifications
+      tilmap.cvBase.hidden = false;
+      tilmap.img.hidden = true;
+      tilmap.cv2D = dd; // keeping current value 2D slice
+      var cm = jmat.colormap();
+      var k = 63 / 255; // png values are between 0-255 and cm 0-63
+      // extract classifications
+      // channel B storing 5 codes:
+      // 255:[tissue, no cancer, no til]
+      // 254:[tissue + cancer + no til]
+      // 253:[tissue + no cancer + til]
+      // 252:[tissue + cancer + til]
+      // 0:[no tissue]
+      var ddd = dd.map(function (d) {
+        return d.map(function (v) {
+          let rgba;
+          switch (v) {
+            case 255: // [tissue + cancer + no til]
+              rgba = [192, 192, 192, 255];
+              break;
+            case 254: // [tissue + cancer + no til]
+              rgba = [255, 255, 0, 255];
+              break;
+            case 253: // [tissue + no cancer + til]
+              rgba = [255, 0, 0, 255];
+              break;
+            case 252: // [tissue + cancer + til]
+              rgba = [255, 165, 0, 255];
+              break;
+            default:
+              rgba = [0, 0, 0, 0] // notice transparency
+              //rgba = cm[Math.round(v*k)].map(x=>Math.round(x*255)).concat(255)
+          }
+          return rgba
+        })
+      });
+      jmat.imwrite(tilmap.cvBase, ddd)
     };
     calcTIL0.onclick = function () {
       tilmap.img.hidden = false;
@@ -269,7 +312,10 @@ tilmap.calcTILfun = function () {
       redRange.onchange()
     };
 
-    greenRange.onchange();
+    // greenRange.onchange();
+    if (!document.getElementById('cvTop')) {
+      calcTILblue.click() // <-- classify first
+    }
     redRange.onchange();
 
     if (!document.getElementById('cvTop')) {
@@ -400,9 +446,9 @@ tilmap.segment = function (event, doTranspire = true) {
   let countRed = 0;
   tilmap.segMask = tilmap.imgData.map(dd => {
     return dd.map(d => {
-      countGreen += (d[1] * cr >= sv) & (d[2] === 255); // use sv for count
-      countRed += (d[0] * tr >= sv) & (d[2] === 255);
-      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] === 255); // use normal sv for mask
+      countGreen += (d[1] * cr >= sv) & (d[2] > 0); // use sv for count
+      countRed += (d[0] * tr >= sv) & (d[2] > 0);
+      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] > 0); // use normal sv for mask
     })
   });
   greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
