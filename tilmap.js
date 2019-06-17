@@ -313,9 +313,9 @@ tilmap.calcTILfun = function () {
     };
 
     // greenRange.onchange();
-    if (!document.getElementById('cvTop')) {
-      calcTILblue.click() // <-- classify first
-    }
+    // if (!document.getElementById('cvTop')) {
+    calcTILblue.click(); // <-- classify first
+    // }
     redRange.onchange();
 
     if (!document.getElementById('cvTop')) {
@@ -328,6 +328,8 @@ tilmap.calcTILfun = function () {
 
     }
     tilmap.canvasAlign();
+    continueTool.style.backgroundColor = "yellow";
+    continueTool.style.color = "red";
     tilmap.segment()
   };
   document.getElementById('caMicrocopeIfr').src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}`;
@@ -543,6 +545,12 @@ tilmap.canvasAlign = function () {
     }
   }
 
+};
+
+continueTool.onclick = function () {
+  tilmap.div.hidden = false;
+  tilmap.homeDiv.hidden = true;
+  setTimeout(tilmap.canvasAlign, 100)
 };
 
 /**
