@@ -220,11 +220,10 @@ tilmap.calcTILfun = function () {
     calcTILgreen.onclick = function () {
       tilmap.from2D(tilmap.imSlice(1))
     };
-    /*
     calcTILblue.onclick = function () {
       tilmap.from2D(tilmap.imSlice(2))
     };
-     */
+    /*
     calcTILblue.onclick = function () {
       let dd = tilmap.imSlice(2);
       // tilmap.from2D(dd) <-- this is the base function we are expanding here to represent extracted classifications
@@ -265,6 +264,7 @@ tilmap.calcTILfun = function () {
       });
       jmat.imwrite(tilmap.cvBase, ddd)
     };
+    */
     calcTIL0.onclick = function () {
       tilmap.img.hidden = false;
       tilmap.cvBase.hidden = true;
@@ -314,7 +314,7 @@ tilmap.calcTILfun = function () {
 
     // greenRange.onchange();
     // if (!document.getElementById('cvTop')) {
-    calcTILblue.click(); // <-- classify first
+    // calcTILblue.click(); // <-- classify first
     // }
     redRange.onchange();
 
@@ -328,8 +328,8 @@ tilmap.calcTILfun = function () {
 
     }
     tilmap.canvasAlign();
-    continueTool.style.backgroundColor = "yellow";
-    continueTool.style.color = "red";
+    //continueTool.style.backgroundColor = "yellow";
+    //continueTool.style.color = "red";
     tilmap.segment()
   };
   document.getElementById('caMicrocopeIfr').src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}`;
@@ -547,11 +547,13 @@ tilmap.canvasAlign = function () {
 
 };
 
+/*
 continueTool.onclick = function () {
   tilmap.div.hidden = false;
   tilmap.homeDiv.hidden = true;
   setTimeout(tilmap.canvasAlign, 100)
 };
+*/
 
 /**
  * Check file creation
