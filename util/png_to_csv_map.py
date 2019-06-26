@@ -119,8 +119,9 @@ def main():
             # loop over the image, pixel by pixel
             for x in range(0, w_png):
                 for y in range(0, h_png):
-                    # opencv is bgr
-                    feature_writer.writerow([x, y, png[y, x][2], png[y, x][1], png[y, x][0]])
+                    if not (png[y, x][0] == 0 and png[y, x][1] == 0 and png[y, x][2] == 0):
+                        # OpenCV is bgr
+                        feature_writer.writerow([x, y, png[y, x][2], png[y, x][1], png[y, x][0]])
 
         f.close()
     print('Done.')
