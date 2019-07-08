@@ -43,6 +43,7 @@ zoom2loc = function (event) {
 
     // Build new iFrame src
     let slideDim = {};
+    let success = true;
 
     try {
       // slideDim.width = result.field_width[0].value;
