@@ -45,8 +45,11 @@ zoom2loc = function (event) {
     let slideDim = {};
 
     try {
-      slideDim.width = result.field_width[0].value;
-      slideDim.height = result.field_height[0].value;
+      // slideDim.width = result.field_width[0].value;
+      // slideDim.height = result.field_height[0].value;
+      slideDim.width = result.imagedvolumewidth[0].value;
+      slideDim.height = result.imagedvolumeheight[0].value;
+
     } catch(e) {
       success = false;
       console.log({"exception_was": e});
