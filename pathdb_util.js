@@ -2,13 +2,13 @@ pathdb_util = function () {
 
   pathdb_util.imgHeight = 0;
   pathdb_util.imgWidth = 0;
+  pathdb_util.imgHeight1 = 0;
+  pathdb_util.imgWidth1 = 0;
   pathdb_util.slideHeight = 0;
   pathdb_util.slideWidth = 0;
   pathdb_util.columns = [];
   pathdb_util.csvData = [];
   pathdb_util.jsonMeta = '';
-  pathdb_util.imgWidth1 = 0;
-  pathdb_util.imgHeight1 = 0;
   pathdb_util.scale = 0;
 
 };
@@ -194,22 +194,18 @@ parseMetadata = function (str) {
 
   pathdb_util.imgHeight = parseInt(metadata.png_h);
   pathdb_util.imgWidth = parseInt(metadata.png_w);
-  if (parseInt(metadata.patch_w) === 500) {
-    // pathdb_util.imgHeight1 = Math.ceil(parseInt(metadata.png_h) * 2);
-    // pathdb_util.imgWidth1 = Math.ceil(parseInt(metadata.png_w) * 2);
 
-    let num = parseInt(metadata.patch_w) / pathdb_util.imgWidth;
-    num = parseInt(num);
-    console.log('old', pathdb_util.imgWidth, pathdb_util.imgHeight);
-    console.log('num', num); // s/b int
+  pathdb_util.scale = parseFloat(600.0 / pathdb_util.imgWidth);
+  // console.log('pathdb_util.scale', pathdb_util.scale);
 
-    pathdb_util.imgHeight1 = num * pathdb_util.imgHeight;
-    pathdb_util.imgWidth1 = num * pathdb_util.imgWidth;
-    console.log('new', pathdb_util.imgWidth1, pathdb_util.imgHeight1);
+  pathdb_util.imgHeight1 = pathdb_util.scale * pathdb_util.imgHeight;
+  pathdb_util.imgWidth1 = pathdb_util.scale * pathdb_util.imgWidth;
+  // console.log('w,h', pathdb_util.imgWidth1, pathdb_util.imgHeight1);
 
-    pathdb_util.scale = num;
+  pathdb_util.imgWidth1 = Math.ceil(parseInt(pathdb_util.imgWidth1));
+  pathdb_util.imgHeight1 = Math.ceil(parseInt(pathdb_util.imgHeight1));
+  // console.log('w,h 1', pathdb_util.imgWidth1, pathdb_util.imgHeight1);
 
-  }
 
   // Slide
   pathdb_util.slideHeight = parseInt(metadata.img_height);

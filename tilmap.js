@@ -163,7 +163,6 @@ tilmap.calcTILfun = function () {
   tilmap.imgTILDiv = document.getElementById('imgTILDiv');
   //tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
   //tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
-
   if (pathdb_util.imgWidth1 > 0) {
     tilmap.width = pathdb_util.imgWidth1;
     tilmap.height = pathdb_util.imgHeight1;
@@ -176,34 +175,36 @@ tilmap.calcTILfun = function () {
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
-  // tilmap.img.width = tilmap.width;
-  // tilmap.img.height = tilmap.height;
+  tilmap.img.width = tilmap.width;
+  tilmap.img.height = tilmap.height;
 
   tilmap.imgTILDiv.appendChild(tilmap.img);
 
   tilmap.img.onload = function () {
 
-    tilmap.img.width = tilmap.width;
-    tilmap.img.height = tilmap.height;
+    console.log('w,h', tilmap.width, tilmap.height);
 
     if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
+
+      tilmap.cvBase.hidden = true;
+      tilmap.cvBase.width = tilmap.width;
+      tilmap.cvBase.height = tilmap.height;
+      tilmap.cvBase.id = "cvBase";
+      tilmap.imgTILDiv.appendChild(tilmap.cvBase);
     }
-    tilmap.cvBase.hidden = true;
-    tilmap.cvBase.width = tilmap.width;
-    tilmap.cvBase.height = tilmap.height;
-    tilmap.cvBase.id = "cvBase";
-    tilmap.imgTILDiv.appendChild(tilmap.cvBase);
 
     tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
     tilmap.ctx = tilmap.cvBase.getContext('2d');
 
 
     if (pathdb_util.scale > 0) {
+      console.log('scale', pathdb_util.scale);
       tilmap.ctx.scale(parseFloat(pathdb_util.scale), parseFloat(pathdb_util.scale));
     }
 
-    tilmap.ctx.drawImage(this, 0, 0);
+    // tilmap.ctx.drawImage(this, 0, 0);
+    tilmap.ctx.drawImage(tilmap.img, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
     // extract blue channel
