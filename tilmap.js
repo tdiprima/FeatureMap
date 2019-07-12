@@ -145,10 +145,6 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 
 createImage = function () {
 
-  debugger;
-
-  console.log('createImage1');
-
   // create off-screen canvas element
   let canvas = document.getElementById("myCanvas");
 
@@ -191,15 +187,16 @@ createImage = function () {
   let B = features[names[2]];
 
   // TEMP.
+  /*
   for (i = 0; i < imgData.data.length; i += 4) {
     imgData.data[i + 0] = R[i];
     imgData.data[i + 1] = G[i];
     imgData.data[i + 2] = B[i];
     imgData.data[i + 3] = 255;
   }
+   */
 
   // JSON data to image
-  /*
   for (let n = 0; n < imgData.data.length; n++) {
 
     let x = index.i[n];
@@ -209,10 +206,10 @@ createImage = function () {
 
     // First 3 features R G B
 
-    imgData.data[pixelindex] = features[names[0]];      // R value [0, 255]
-    imgData.data[pixelindex + 1] = features[names[1]];  // G value
-    imgData.data[pixelindex + 2] = features[names[2]];  // B value
-    imgData.data[pixelindex + 3] = 255;          // set alpha channel
+    imgData.data[pixelindex]     = R[i];  // R value [0, 255]
+    imgData.data[pixelindex + 1] = G[i];  // G value
+    imgData.data[pixelindex + 2] = B[i];  // B value
+    imgData.data[pixelindex + 3] = 255;   // set alpha channel
 
     /*
     // Color
@@ -226,11 +223,10 @@ createImage = function () {
     }
      */
 
-  //}
+  }
   // console.log('imgData', imgData);
   ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
 
-  console.log('createImage2');
   return canvas;
 };
 
@@ -239,7 +235,6 @@ createImage = function () {
  * Calculate TIL, build dynamic interface.
  */
 tilmap.calcTILfun = function () {
-  console.log('calcTILfun1');
 
   // Show/hide buttons - Red Green Tissue Original
   hideRGBbuttons.onclick = function () {
@@ -299,7 +294,6 @@ tilmap.calcTILfun = function () {
 
   let canvas = createImage();
   tilmap.dataUri = canvas.toDataURL();
-  console.log('calcTILfun2');
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
