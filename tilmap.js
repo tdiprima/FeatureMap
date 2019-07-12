@@ -15,14 +15,16 @@ tilmap = function () {
     tilmap.slide = getQueryVariable('slideId', str); // drupal node of slide
     tilmap.mode = getQueryVariable('mode', str); // camic toggle switch
 
-    promiseA = pathdb_util.getDataForImage(tilmap.map);
+    promiseA = pathdb_util.fetch_data(tilmap.map);
     promiseA.then(function (result) {
       if (result === null) {
         console.log('Abort.')
       } else {
-        tilmap.dataUri = result;
-        // download(tilmap.slide + '.png', result);
-        tilmap.calcTILfun()
+        console.log('result');
+        console.log(result);
+        // tilmap.dataUri = result;
+        // // download(tilmap.slide + '.png', result);
+        // tilmap.calcTILfun()
       }
     });
 
