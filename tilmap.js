@@ -14,6 +14,7 @@ tilmap = function () {
     tilmap.map = getQueryVariable('map', str); // csv
     tilmap.slide = getQueryVariable('slideId', str); // drupal node of slide
     tilmap.mode = getQueryVariable('mode', str); // camic toggle switch
+    tilmap.flag = true;
 
     promiseA = fetch_data(tilmap.map);
     promiseA.then(function (result) {
@@ -337,7 +338,7 @@ tilmap.calcTILfun = function () {
     tilmap.ctx = tilmap.cvBase.getContext('2d');
 
 
-    if (tilmap.scale > 0) {
+    if (tilmap.scale > 0 && tilmap.flag) {
       console.log('scale', tilmap.scale);
       tilmap.ctx.scale(parseFloat(tilmap.scale), parseFloat(tilmap.scale));
     }
@@ -508,6 +509,7 @@ changeUI = function (selectedOptions) {
   let canvas = createImage(selectedOptions);
   tilmap.dataUri = canvas.toDataURL();
   tilmap.img.src = tilmap.dataUri;
+  tilmap.flag = false;
 
 };
 
