@@ -317,15 +317,17 @@ tilmap.calcTILfun = function () {
     tilmap.ctx.drawImage(tilmap.img, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
+    /*
     const features = tilmap.data.data.features;
     let names = Object.getOwnPropertyNames(features);
     // let num_cols = names.length; // number of columns
     let R = features[names[0]];
     let G = features[names[1]];
     let B = features[names[2]];
+     */
 
     // extract blue channel
-    tilmap.imgDataB = B; // tilmap.imSlice(2);
+    tilmap.imgDataB = tilmap.imSlice(2);
 
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     // tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
@@ -333,16 +335,16 @@ tilmap.calcTILfun = function () {
 
     // Event listeners for buttons - Red Green Tissue Original
     calcTILred.onclick = function () {
-      tilmap.from2D(R);
-      // tilmap.from2D(tilmap.imSlice(0))
+      // tilmap.from2D(R);
+      tilmap.from2D(tilmap.imSlice(0))
     };
     calcTILgreen.onclick = function () {
-      tilmap.from2D(G);
-      // tilmap.from2D(tilmap.imSlice(1))
+      // tilmap.from2D(G);
+      tilmap.from2D(tilmap.imSlice(1))
     };
     calcTILblue.onclick = function () {
-      tilmap.from2D(B);
-      // tilmap.from2D(tilmap.imSlice(2))
+      // tilmap.from2D(B);
+      tilmap.from2D(tilmap.imSlice(2))
     };
     /*
     calcTILblue.onclick = function () {
