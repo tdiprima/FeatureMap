@@ -81,11 +81,11 @@ pathdb_util.data = function (strData) {
   let d = strData.split(/\r?\n|\r/);
 
   if ((typeof (pathdb_util.jsonMeta) === 'undefined') || pathdb_util.jsonMeta.length === 0) {
-    parseMetadata(d[0]);
+    parseMetadata(d[0]); // parse & set metadata variables
   }
 
   for (let i = 0; i < d.length; i++) {
-    pathdb_util.csvData.push(d[i].split(','));
+    pathdb_util.csvData.push(d[i].split(',')); // convert to array
   }
   return pathdb_util.csvData;
 };
@@ -98,14 +98,14 @@ pathdb_util.data = function (strData) {
  */
 pathdb_util.csv2png = function (strData) {
 
-  let arr = strData;
+  let arr = strData; // csv data, stringified
 
   if (typeof strData === 'undefined') {
     console.log('No file, no data!');
     return null;
   } else {
     if (typeof strData === 'string') {
-      arr = pathdb_util.data(strData);
+      arr = pathdb_util.data(strData); // array-ify the data
     }
 
     ui(arr[1]);
@@ -140,6 +140,7 @@ createImage = function (arr, sel) {
   }
 
   // Data from CSV file
+  // Length is m x n
   for (let i = 2; i < arr.length; i++) {
 
     let line = arr[i];
