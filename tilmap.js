@@ -145,6 +145,8 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 
 createImage = function () {
 
+  console.log('createImage1');
+
   // create off-screen canvas element
   let canvas = document.getElementById("myCanvas");
 
@@ -213,8 +215,7 @@ createImage = function () {
   // console.log('imgData', imgData);
   ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
 
-  // Return a PNG file:
-  // return canvas.toDataURL();
+  console.log('createImage2');
   return canvas;
 };
 
@@ -223,6 +224,7 @@ createImage = function () {
  * Calculate TIL, build dynamic interface.
  */
 tilmap.calcTILfun = function () {
+  console.log('calcTILfun1');
 
   // Show/hide buttons - Red Green Tissue Original
   hideRGBbuttons.onclick = function () {
@@ -282,7 +284,7 @@ tilmap.calcTILfun = function () {
 
   let canvas = createImage();
   tilmap.dataUri = canvas.toDataURL();
-
+  console.log('calcTILfun2');
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
   tilmap.img.id = 'imgTIL';
