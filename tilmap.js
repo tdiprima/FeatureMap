@@ -148,26 +148,26 @@ ui = function (feature_names) {
   if (feature_names.length >= 3) {
     // should be red, green, blue
     let x = document.getElementById('calcTILred');
-    if (feature_names[2].toUpperCase() === 'TIL') {
+    if (feature_names[0].toUpperCase() === 'TIL') {
       let head2 = 'TIL';
       x.innerText = head2;
       x = document.getElementById('redRangePlay');
       x.innerText = head2;
     } else {
-      let head2 = feature_names[2];
+      let head2 = feature_names[0];
       x.innerText = head2;
       x = document.getElementById('redRangePlay');
       x.innerText = head2;
     }
 
     x = document.getElementById('calcTILgreen');
-    x.innerText = feature_names[3];
+    x.innerText = feature_names[1];
 
     x = document.getElementById('calcTILblue');
-    x.innerText = feature_names[4];
+    x.innerText = feature_names[2];
 
     x = document.getElementById('greenRangePlay');
-    x.innerText = feature_names[3];
+    x.innerText = feature_names[1];
 
   } else {
     alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');
