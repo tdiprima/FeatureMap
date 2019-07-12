@@ -143,7 +143,7 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 };
 
 
-createImage = function () {
+createImage = function (sel) {
 
   // create off-screen canvas element
   let canvas = document.getElementById("myCanvas");
@@ -194,24 +194,22 @@ createImage = function () {
 
     let pixelindex = (y * png_w + x) * 4; // increment our pointer
 
-    // First 3 features R G B
-
-    imgData.data[pixelindex]     = R[i];  // R value [0, 255]
-    imgData.data[pixelindex + 1] = G[i];  // G value
-    imgData.data[pixelindex + 2] = B[i];  // B value
-    imgData.data[pixelindex + 3] = 255;   // set alpha channel
-
-    /*
     // Color
     if (sel) {
+
+      /*
       imgData.data[pixelindex] = parseInt(line[sel[0]]);      // R value [0, 255]
       imgData.data[pixelindex + 1] = parseInt(line[sel[1]]);  // G value
       imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
       imgData.data[pixelindex + 3] = 255;                // set alpha channel
+       */
     } else {
-
+      // First 3 features R G B
+      imgData.data[pixelindex]     = R[n];  // R value [0, 255]
+      imgData.data[pixelindex + 1] = G[n];  // G value
+      imgData.data[pixelindex + 2] = B[n];  // B value
+      imgData.data[pixelindex + 3] = 255;   // set alpha channel
     }
-     */
 
   }
   // console.log('imgData', imgData);
