@@ -145,8 +145,8 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 ui = function (feature_names) {
 
   // feature_names => HTML Elements
-  if (feature_names.length >= 5) {
-    // should be x, y, red, green, blue
+  if (feature_names.length >= 3) {
+    // should be red, green, blue
     let x = document.getElementById('calcTILred');
     if (feature_names[2].toUpperCase() === 'TIL') {
       let head2 = 'TIL';
