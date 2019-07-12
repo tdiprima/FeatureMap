@@ -186,12 +186,15 @@ createImage = function () {
   const features = d.data.features;
   let names = Object.getOwnPropertyNames(features);
   let num_cols = names.length; // number of columns
+  let R = features[names[0]];
+  let G = features[names[1]];
+  let B = features[names[2]];
 
   // TEMP.
   for (i = 0; i < imgData.data.length; i += 4) {
-    imgData.data[i + 0] = features[names[0]];
-    imgData.data[i + 1] = features[names[1]];
-    imgData.data[i + 2] = features[names[2]];
+    imgData.data[i + 0] = R[i];
+    imgData.data[i + 1] = G[i];
+    imgData.data[i + 2] = B[i];
     imgData.data[i + 3] = 255;
   }
 
