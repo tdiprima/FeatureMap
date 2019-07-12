@@ -158,7 +158,8 @@ createImage = function () {
   // size and scale
   png_w = parseInt(d.metadata.png_w);
   png_h = parseInt(d.metadata.png_h);
-  tilmap.scale = parseFloat(600.0 / png_w);
+  scale = parseFloat(600.0 / png_w);
+  tilmap.scale = scale;
   tilmap.width = Math.ceil(parseInt(scale * png_w));
   tilmap.height = Math.ceil(parseInt(scale * png_h));
   canvas.width = tilmap.width;
