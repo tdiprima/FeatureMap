@@ -188,15 +188,6 @@ createImage = function (sel) {
   let G = features[names[1]];
   let B = features[names[2]];
 
-  if (sel)
-  {
-    console.log('sel', sel);
-    console.log(names[sel[0]]);
-    console.log(names[sel[1]]);
-    console.log(features[names[sel[0]]]);
-    console.log(features[names[sel[1]]]);
-  }
-
   // create off-screen canvas element
   let canvas = document.getElementById("myCanvas");
 
@@ -217,7 +208,6 @@ createImage = function (sel) {
 
   let ctx = canvas.getContext("2d");
   // Create a (png_w * png_h) pixels ImageData object
-  //https://www.w3schools.com/tags/canvas_createimagedata.asp
   let imgData = ctx.createImageData(png_w, png_h);
 
   // Initialize buffer to all black with transparency
@@ -515,7 +505,8 @@ changeUI = function (selectedOptions) {
   document.getElementById('calcTILgreen').innerText = names[selectedOptions[1]];
   document.getElementById('greenRangePlay').innerText = names[selectedOptions[1]];
   // download(tilmap.slide + '.png', createImage(selectedOptions));
-  tilmap.dataUri = (createImage(selectedOptions)).toDataURL();
+  let canvas = createImage(selectedOptions);
+  tilmap.dataUri = canvas.toDataURL();
   tilmap.img.src = tilmap.dataUri;
 
 };
