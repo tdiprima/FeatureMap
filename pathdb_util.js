@@ -149,7 +149,7 @@ createImage = function (arr, sel) {
     for (let j = 0; j < num_cols; j++) {
       let x = parseInt(line[0]);
       let y = parseInt(line[1]);
-      let pixelindex = (y * pathdb_util.imgWidth + x) * 4;
+      let pixelindex = (y * pathdb_util.imgWidth + x) * 4; // increment our pointer
 
       // Color
       if (sel) {
