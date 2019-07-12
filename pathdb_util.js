@@ -129,6 +129,7 @@ createImage = function (arr, sel) {
   canvas.height = pathdb_util.imgHeight;
 
   let ctx = canvas.getContext("2d");
+  // Create a (png_w * png_h) pixels ImageData object
   let imgData = ctx.createImageData(pathdb_util.imgWidth, pathdb_util.imgHeight);
 
   // Initialize buffer to all black with transparency
