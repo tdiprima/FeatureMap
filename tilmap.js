@@ -145,6 +145,8 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
 
 createImage = function () {
 
+  debugger;
+
   console.log('createImage1');
 
   // create off-screen canvas element
@@ -169,6 +171,7 @@ createImage = function () {
 
   let ctx = canvas.getContext("2d");
   // Create a (png_w * png_h) pixels ImageData object
+  //https://www.w3schools.com/tags/canvas_createimagedata.asp
   let imgData = ctx.createImageData(png_w, png_h);
 
   // Initialize buffer to all black with transparency
@@ -184,13 +187,21 @@ createImage = function () {
   let names = Object.getOwnPropertyNames(features);
   let num_cols = names.length; // number of columns
 
+  for (i = 0; i < imgData.data.length; i += 4) {
+    imgData.data[i + 0] = 255;
+    imgData.data[i + 1] = 0;
+    imgData.data[i + 2] = 0;
+    imgData.data[i + 3] = 255;
+  }
+
   // JSON data to image
+  /*
   for (let n = 0; n < imgData.data.length; n++) {
 
     let x = index.i[n];
     let y = index.j[n];
 
-    let pixelindex = (y * tilmap.width + x) * 4; // increment our pointer
+    let pixelindex = (y * png_w + x) * 4; // increment our pointer
 
     // First 3 features R G B
 
@@ -211,7 +222,7 @@ createImage = function () {
     }
      */
 
-  }
+  //}
   // console.log('imgData', imgData);
   ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
 
