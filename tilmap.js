@@ -153,7 +153,7 @@ createImage = function () {
     canvas.id = 'myCanvas';
   }
 
-  const d = tilmap.data.data;
+  const d = tilmap.data;
 
   // size and scale
   png_w = parseInt(d.metadata.png_w);
@@ -176,8 +176,8 @@ createImage = function () {
     imgData.data[i + 3] = 255;
   }
 
-  const index = d.locations;
-  const features = d.features;
+  const index = d.data.locations;
+  const features = d.data.features;
   let names = Object.getOwnPropertyNames(features);
   let num_cols = names.length; // number of columns
 
@@ -187,7 +187,7 @@ createImage = function () {
     let x = index.i[n];
     let y = index.j[n];
 
-    let pixelindex = (y * png_w + x) * 4; // increment our pointer
+    let pixelindex = (y * tilmap.width + x) * 4; // increment our pointer
 
     // First 3 features R G B
 
