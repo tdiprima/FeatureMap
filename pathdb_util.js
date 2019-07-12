@@ -144,8 +144,9 @@ createImage = function (arr, sel) {
   for (let i = 2; i < arr.length; i++) {
 
     let line = arr[i];
+    let num_cols = line.length; // number of columns
 
-    for (let j = 0; j < line.length; j++) {
+    for (let j = 0; j < num_cols; j++) {
       let x = parseInt(line[0]);
       let y = parseInt(line[1]);
       let pixelindex = (y * pathdb_util.imgWidth + x) * 4;
