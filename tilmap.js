@@ -507,7 +507,7 @@ changeUI = function (selectedOptions) {
   document.getElementById('calcTILgreen').innerText = names[selectedOptions[1]];
   document.getElementById('greenRangePlay').innerText = names[selectedOptions[1]];
   // download(tilmap.slide + '.png', createImage(selectedOptions));
-  tilmap.dataUri = createImage(selectedOptions);
+  tilmap.dataUri = (createImage(selectedOptions)).toDataURL();
   tilmap.img.src = tilmap.dataUri;
 
 };
