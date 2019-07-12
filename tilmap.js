@@ -178,6 +178,25 @@ ui = function (feature_names) {
 
 createImage = function (sel) {
 
+  const d = tilmap.data;
+  const index = d.data.locations;
+  const features = d.data.features;
+  let names = Object.getOwnPropertyNames(features);
+  ui(names);
+  // let num_cols = names.length; // number of columns
+  let R = features[names[0]];
+  let G = features[names[1]];
+  let B = features[names[2]];
+
+  if (sel)
+  {
+    console.log('sel', sel);
+    console.log(names[sel[0]]);
+    console.log(names[sel[1]]);
+    console.log(features[names[sel[0]]]);
+    console.log(features[names[sel[1]]]);
+  }
+
   // create off-screen canvas element
   let canvas = document.getElementById("myCanvas");
 
@@ -185,8 +204,6 @@ createImage = function (sel) {
     canvas = document.createElement('canvas');
     canvas.id = 'myCanvas';
   }
-
-  const d = tilmap.data;
 
   // size and scale
   png_w = parseInt(d.metadata.png_w);
@@ -210,15 +227,6 @@ createImage = function (sel) {
     imgData.data[i + 2] = 0;
     imgData.data[i + 3] = 255;
   }
-
-  const index = d.data.locations;
-  const features = d.data.features;
-  let names = Object.getOwnPropertyNames(features);
-  ui(names);
-  // let num_cols = names.length; // number of columns
-  let R = features[names[0]];
-  let G = features[names[1]];
-  let B = features[names[2]];
 
   // JSON data to image
   for (let n = 0; n < imgData.data.length; n++) {
