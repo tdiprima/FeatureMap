@@ -238,8 +238,8 @@ createImage = function (sel) {
 
     // Color
     if (sel) {
-      imgData.data[pixelindex] = features[names[sel[0]]];      // R value [0, 255]
-      imgData.data[pixelindex + 1] = features[names[sel[1]]];  // G value
+      imgData.data[pixelindex] = features[names[sel[0]]][n];      // R value [0, 255]
+      imgData.data[pixelindex + 1] = features[names[sel[1]]][n];  // G value
       imgData.data[pixelindex + 2] = B[n];  // Set to blue channel
       imgData.data[pixelindex + 3] = 255;   // set alpha channel
     } else {
