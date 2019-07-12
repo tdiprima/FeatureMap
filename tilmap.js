@@ -23,7 +23,7 @@ tilmap = function () {
         tilmap.data = JSON.parse(result);
         // tilmap.dataUri = result;
         // // download(tilmap.slide + '.png', result);
-        // tilmap.calcTILfun()
+        tilmap.calcTILfun()
       }
     });
 
@@ -74,7 +74,7 @@ fetch_data = function (url) {
 };
 
 function scaler(canvas) {
-  if (pathdb_util.scale > 0) {
+  if (tilmap.scale > 0) {
     var canvas = document.getElementById(canvas);
     var context = canvas.getContext("2d");
 
@@ -84,7 +84,7 @@ function scaler(canvas) {
       imageObject.onload = function () {
 
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.scale(parseFloat(pathdb_util.scale), parseFloat(pathdb_util.scale));
+        context.scale(parseFloat(tilmap.scale), parseFloat(tilmap.scale));
         context.drawImage(imageObject, 0, 0);
 
       };
@@ -141,6 +141,81 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
   };
   return tilmap.calcTILdiv
 };
+
+
+createImage = function () {
+
+  // create off-screen canvas element
+  let canvas = document.getElementById("myCanvas");
+
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'myCanvas';
+  }
+
+  // size and scale
+  png_w = parseInt(metadata.png_w);
+  png_h = parseInt(metadata.png_h);
+  tilmap.scale = parseFloat(600.0 / png_w);
+  tilmap.width = Math.ceil(parseInt(scale * png_w));
+  tilmap.height = Math.ceil(parseInt(scale * png_h));
+  canvas.width = tilmap.width;
+  canvas.height = tilmap.height;
+
+  let ctx = canvas.getContext("2d");
+  // Create a (png_w * png_h) pixels ImageData object
+  let imgData = ctx.createImageData(png_w, png_h);
+
+  // Initialize buffer to all black with transparency
+  for (let i = 0; i < imgData.data.length; i += 4) {
+    imgData.data[i] = 0;
+    imgData.data[i + 1] = 0;
+    imgData.data[i + 2] = 0;
+    imgData.data[i + 3] = 255;
+  }
+
+  // JSON data to image
+  const d = tilmap.data.data;
+  const index = d.locations;
+  const features = d.features;
+  let names = Object.getOwnPropertyNames(feat);
+  let num_cols = names.length; // number of columns
+
+  for (let n = 0; n < imgData.data.length; n++) {
+
+    let x = index.i[n];
+    let y = index.j[n];
+
+    let pixelindex = (y * png_w + x) * 4; // increment our pointer
+
+    // First 3 features R G B
+
+    imgData.data[pixelindex] = features[0];      // R value [0, 255]
+    imgData.data[pixelindex + 1] = features[1];  // G value
+    imgData.data[pixelindex + 2] = features[2];  // B value
+    imgData.data[pixelindex + 3] = 255;          // set alpha channel
+
+    /*
+    // Color
+    if (sel) {
+      imgData.data[pixelindex] = parseInt(line[sel[0]]);      // R value [0, 255]
+      imgData.data[pixelindex + 1] = parseInt(line[sel[1]]);  // G value
+      imgData.data[pixelindex + 2] = parseInt(line[4]);  // B value
+      imgData.data[pixelindex + 3] = 255;                // set alpha channel
+    } else {
+
+    }
+     */
+
+  }
+  // console.log('imgData', imgData);
+  ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
+
+  // Return a PNG file:
+  // return canvas.toDataURL();
+  return canvas;
+};
+
 
 /**
  * Calculate TIL, build dynamic interface.
@@ -202,16 +277,9 @@ tilmap.calcTILfun = function () {
    * And also write img DOM element
    */
   tilmap.imgTILDiv = document.getElementById('imgTILDiv');
-  //tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
-  //tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
-  if (pathdb_util.imgWidth1 > 0) {
-    tilmap.width = pathdb_util.imgWidth1;
-    tilmap.height = pathdb_util.imgHeight1;
-  } else {
-    tilmap.width = pathdb_util.imgWidth;
-    tilmap.height = pathdb_util.imgHeight;
 
-  }
+  let canvas = createImage();
+  tilmap.dataUri = canvas.toDataURL();
 
   tilmap.img = new Image();
   tilmap.img.src = tilmap.dataUri;
@@ -239,9 +307,9 @@ tilmap.calcTILfun = function () {
     tilmap.ctx = tilmap.cvBase.getContext('2d');
 
 
-    if (pathdb_util.scale > 0) {
-      console.log('scale', pathdb_util.scale);
-      tilmap.ctx.scale(parseFloat(pathdb_util.scale), parseFloat(pathdb_util.scale));
+    if (tilmap.scale > 0) {
+      console.log('scale', tilmap.scale);
+      tilmap.ctx.scale(parseFloat(tilmap.scale), parseFloat(tilmap.scale));
     }
 
     // tilmap.ctx.drawImage(this, 0, 0);
@@ -249,7 +317,7 @@ tilmap.calcTILfun = function () {
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
     // extract blue channel
-    tilmap.imgDataB = tilmap.imSlice(2);
+    tilmap.imgDataB = tilmap.data.data.features[2]; // tilmap.imSlice(2);
 
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     // tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
@@ -257,13 +325,16 @@ tilmap.calcTILfun = function () {
 
     // Event listeners for buttons - Red Green Tissue Original
     calcTILred.onclick = function () {
-      tilmap.from2D(tilmap.imSlice(0))
+      tilmap.from2D(tilmap.data.data.features[0]);
+      // tilmap.from2D(tilmap.imSlice(0))
     };
     calcTILgreen.onclick = function () {
-      tilmap.from2D(tilmap.imSlice(1))
+      tilmap.from2D(tilmap.data.data.features[1]);
+      // tilmap.from2D(tilmap.imSlice(1))
     };
     calcTILblue.onclick = function () {
-      tilmap.from2D(tilmap.imSlice(2))
+      tilmap.from2D(tilmap.data.data.features[2]);
+      // tilmap.from2D(tilmap.imSlice(2))
     };
     /*
     calcTILblue.onclick = function () {
