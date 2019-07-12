@@ -142,6 +142,39 @@ tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
   return tilmap.calcTILdiv
 };
 
+ui = function (feature_names) {
+
+  // feature_names => HTML Elements
+  if (feature_names.length >= 5) {
+    // should be x, y, red, green, blue
+    let x = document.getElementById('calcTILred');
+    if (feature_names[2].toUpperCase() === 'TIL') {
+      let head2 = 'TIL';
+      x.innerText = head2;
+      x = document.getElementById('redRangePlay');
+      x.innerText = head2;
+    } else {
+      let head2 = feature_names[2];
+      x.innerText = head2;
+      x = document.getElementById('redRangePlay');
+      x.innerText = head2;
+    }
+
+    x = document.getElementById('calcTILgreen');
+    x.innerText = feature_names[3];
+
+    x = document.getElementById('calcTILblue');
+    x.innerText = feature_names[4];
+
+    x = document.getElementById('greenRangePlay');
+    x.innerText = feature_names[3];
+
+  } else {
+    alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');
+  }
+
+};
+
 
 createImage = function (sel) {
 
@@ -181,6 +214,7 @@ createImage = function (sel) {
   const index = d.data.locations;
   const features = d.data.features;
   let names = Object.getOwnPropertyNames(features);
+  ui(names);
   // let num_cols = names.length; // number of columns
   let R = features[names[0]];
   let G = features[names[1]];
@@ -196,7 +230,6 @@ createImage = function (sel) {
 
     // Color
     if (sel) {
-
       /*
       imgData.data[pixelindex] = parseInt(line[sel[0]]);      // R value [0, 255]
       imgData.data[pixelindex + 1] = parseInt(line[sel[1]]);  // G value
@@ -469,13 +502,14 @@ tilmap.calcTILfun = function () {
  */
 changeUI = function (selectedOptions) {
 
-  document.getElementById('calcTILred').innerText = pathdb_util.columns[selectedOptions[0]];
-  document.getElementById('redRangePlay').innerText = pathdb_util.columns[selectedOptions[0]];
-  document.getElementById('calcTILgreen').innerText = pathdb_util.columns[selectedOptions[1]];
-  document.getElementById('greenRangePlay').innerText = pathdb_util.columns[selectedOptions[1]];
-
-  // download(tilmap.slide + '.png', createImage(pathdb_util.csvData, selectedOptions));
-  tilmap.dataUri = createImage(pathdb_util.csvData, selectedOptions);
+  const features = tilmap.data.data.features;
+  let names = Object.getOwnPropertyNames(features);
+  document.getElementById('calcTILred').innerText = names[selectedOptions[0]];
+  document.getElementById('redRangePlay').innerText = names[selectedOptions[0]];
+  document.getElementById('calcTILgreen').innerText = names[selectedOptions[1]];
+  document.getElementById('greenRangePlay').innerText = names[selectedOptions[1]];
+  // download(tilmap.slide + '.png', createImage(selectedOptions));
+  tilmap.dataUri = createImage(selectedOptions);
   tilmap.img.src = tilmap.dataUri;
 
 };
