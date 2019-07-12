@@ -20,7 +20,7 @@ tilmap = function () {
       if (result === null) {
         console.log('Abort.')
       } else {
-        tilmap.data = result;
+        tilmap.data = JSON.parse(result);
         // tilmap.dataUri = result;
         // // download(tilmap.slide + '.png', result);
         // tilmap.calcTILfun()
