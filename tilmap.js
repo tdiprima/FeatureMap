@@ -153,9 +153,11 @@ createImage = function () {
     canvas.id = 'myCanvas';
   }
 
+  const d = tilmap.data.data;
+
   // size and scale
-  png_w = parseInt(metadata.png_w);
-  png_h = parseInt(metadata.png_h);
+  png_w = parseInt(d.metadata.png_w);
+  png_h = parseInt(d.metadata.png_h);
   tilmap.scale = parseFloat(600.0 / png_w);
   tilmap.width = Math.ceil(parseInt(scale * png_w));
   tilmap.height = Math.ceil(parseInt(scale * png_h));
@@ -174,13 +176,12 @@ createImage = function () {
     imgData.data[i + 3] = 255;
   }
 
-  // JSON data to image
-  const d = tilmap.data.data;
   const index = d.locations;
   const features = d.features;
-  let names = Object.getOwnPropertyNames(feat);
+  let names = Object.getOwnPropertyNames(features);
   let num_cols = names.length; // number of columns
 
+  // JSON data to image
   for (let n = 0; n < imgData.data.length; n++) {
 
     let x = index.i[n];
@@ -190,9 +191,9 @@ createImage = function () {
 
     // First 3 features R G B
 
-    imgData.data[pixelindex] = features[0];      // R value [0, 255]
-    imgData.data[pixelindex + 1] = features[1];  // G value
-    imgData.data[pixelindex + 2] = features[2];  // B value
+    imgData.data[pixelindex] = features[names[0]];      // R value [0, 255]
+    imgData.data[pixelindex + 1] = features[names[1]];  // G value
+    imgData.data[pixelindex + 2] = features[names[2]];  // B value
     imgData.data[pixelindex + 3] = 255;          // set alpha channel
 
     /*
