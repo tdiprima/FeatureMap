@@ -181,20 +181,10 @@ createImage = function () {
   const index = d.data.locations;
   const features = d.data.features;
   let names = Object.getOwnPropertyNames(features);
-  let num_cols = names.length; // number of columns
+  // let num_cols = names.length; // number of columns
   let R = features[names[0]];
   let G = features[names[1]];
   let B = features[names[2]];
-
-  // TEMP.
-  /*
-  for (i = 0; i < imgData.data.length; i += 4) {
-    imgData.data[i + 0] = R[i];
-    imgData.data[i + 1] = G[i];
-    imgData.data[i + 2] = B[i];
-    imgData.data[i + 3] = 255;
-  }
-   */
 
   // JSON data to image
   for (let n = 0; n < imgData.data.length; n++) {
@@ -329,8 +319,15 @@ tilmap.calcTILfun = function () {
     tilmap.ctx.drawImage(tilmap.img, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
+    const features = tilmap.data.data.features;
+    let names = Object.getOwnPropertyNames(features);
+    // let num_cols = names.length; // number of columns
+    let R = features[names[0]];
+    let G = features[names[1]];
+    let B = features[names[2]];
+
     // extract blue channel
-    tilmap.imgDataB = tilmap.data.data.features[2]; // tilmap.imSlice(2);
+    tilmap.imgDataB = B; // tilmap.imSlice(2);
 
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     // tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
@@ -338,15 +335,15 @@ tilmap.calcTILfun = function () {
 
     // Event listeners for buttons - Red Green Tissue Original
     calcTILred.onclick = function () {
-      tilmap.from2D(tilmap.data.data.features[0]);
+      tilmap.from2D(R);
       // tilmap.from2D(tilmap.imSlice(0))
     };
     calcTILgreen.onclick = function () {
-      tilmap.from2D(tilmap.data.data.features[1]);
+      tilmap.from2D(G);
       // tilmap.from2D(tilmap.imSlice(1))
     };
     calcTILblue.onclick = function () {
-      tilmap.from2D(tilmap.data.data.features[2]);
+      tilmap.from2D(B);
       // tilmap.from2D(tilmap.imSlice(2))
     };
     /*
@@ -485,20 +482,22 @@ changeUI = function (selectedOptions) {
 
 set_multiple_select = function () {
 
-  let columns = pathdb_util.columns;
+  const features = tilmap.data.data.features;
+  let names = Object.getOwnPropertyNames(features);
+  let num_cols = names.length; // number of columns
 
   let sel = document.createElement('select');
   sel.multiple = true;
   sel.id = 'sel1';
-  if (columns.length < 10) {
-    sel.size = columns.length;
+  if (num_cols < 10) {
+    sel.size = num_cols;
   } else {
     sel.size = 10;
   }
 
-  for (let i = 0; i < columns.length; i++) {
+  for (let i = 0; i < num_cols; i++) {
     // Add the options
-    sel.options[sel.options.length] = new Option(columns[i], i);
+    sel.options[sel.options.length] = new Option(names[i], i);
   }
 
   // add the element to the div
