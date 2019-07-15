@@ -18,7 +18,12 @@ def get_metadata(filename):
                 # Get the metadata
                 if line_count == 0:
                     line_count += 1
-                    x = json.loads(row[0])
+                    if len(row) > 1:
+                        # Concatenate list
+                        blah = ','.join(row)
+                        x = json.loads(blah)
+                    else:
+                        x = json.loads(row[0])
                     my_obj["metadata"] = x
         csv_file.close()
     except FileNotFoundError as e:
