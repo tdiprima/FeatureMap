@@ -21,9 +21,9 @@ tilmap = function () {
       if (result === null) {
         console.log('Abort.')
       } else {
-        tilmap.data = JSON.parse(result);
+        tilmap.data = JSON.parse(result); // if it borks here, file might be csv
         // tilmap.dataUri = result;
-        // // download(tilmap.slide + '.png', result);
+        // download(tilmap.slide + '.png', result);
         tilmap.calcTILfun()
       }
     });
