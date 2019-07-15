@@ -3,7 +3,7 @@ import json
 import sys
 
 import pandas as pd
-from time import perf_counter
+# from time import perf_counter
 
 
 def get_metadata(filename):
@@ -74,10 +74,11 @@ if __name__ == '__main__':
         print('File name is...?')
         exit(1)
 
-    start_clock = perf_counter()
+    # start_clock = perf_counter()
     f = sys.argv[1]
+    print(f)
     meta = get_metadata(f)
     data = get_data(f)
     save_file(f.replace("csv", "json"), meta, data)
-    duration = perf_counter() - start_clock
-    print(duration)
+    # duration = perf_counter() - start_clock
+    # print(duration)
