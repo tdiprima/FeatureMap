@@ -465,11 +465,11 @@ tilmap.calcTILfun = function () {
       redRange.onchange()
     };
 
-    // greenRange.onchange();
     // if (!document.getElementById('cvTop')) {
     // calcTILblue.click(); // <-- classify first
     // }
     redRange.onchange();
+    greenRange.onchange();
 
     if (!document.getElementById('cvTop')) {
       tilmap.cvTop = document.createElement('canvas');
