@@ -200,7 +200,12 @@ createImage = function (sel) {
   // size and scale
   png_w = parseInt(d.metadata.png_w);
   png_h = parseInt(d.metadata.png_h);
-  scale = parseFloat(600.0 / png_w);
+  if (png_w > png_h) {
+    scale = parseFloat(600.0 / png_w);
+  } else {
+    scale = parseFloat(500.0 / png_h);
+  }
+
   tilmap.scale = scale;
   tilmap.width = Math.ceil(parseInt(scale * png_w));
   tilmap.height = Math.ceil(parseInt(scale * png_h));
