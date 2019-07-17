@@ -96,15 +96,14 @@ function scaler(canvas) {
 
 }
 
-function ExpandToBound(d)
-{
+function ExpandToBound(d) {
   console.log("ExpandToBound");
 
   tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
   tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
 
   boundingBox = {
-    "Width" : tilmap.width,
+    "Width": tilmap.width,
     "Height": tilmap.height
   };
   console.log("boundingBox", boundingBox);
@@ -127,7 +126,7 @@ function ExpandToBound(d)
 
   // Math.ceil or no
   result = {
-    "Width" : parseInt(image.Width * scale),
+    "Width": parseInt(image.Width * scale),
     "Height": parseInt(image.Height * scale),
     "scale": scale,
     "original": image
@@ -239,18 +238,28 @@ createImage = function (sel) {
   }
 
   // size and scale
-  dim = ExpandToBound(d);
+  ////dim = ExpandToBound(d);
+  png_w = parseInt(d.metadata.png_w);
+  png_h = parseInt(d.metadata.png_h);
+  if (png_w > png_h) {
+    scale = parseFloat(600.0 / png_w);
+  } else {
+    scale = parseFloat(500.0 / png_h);
+  }
 
-  tilmap.scale = dim.scale;
-  tilmap.width = dim.Width;
-  tilmap.height = dim.Height;
-
+  tilmap.scale = scale;
+  tilmap.width = Math.ceil(parseInt(scale * png_w));
+  tilmap.height = Math.ceil(parseInt(scale * png_h));
+  //tilmap.scale = dim.scale;
+  //tilmap.width = dim.Width;
+  //tilmap.height = dim.Height;
   canvas.width = tilmap.width;
   canvas.height = tilmap.height;
 
   let ctx = canvas.getContext("2d");
   // Create a (png_w * png_h) pixels ImageData object
-  let imgData = ctx.createImageData(dim.original.Width, dim.original.Height);
+  let imgData = ctx.createImageData(png_w, png_h);
+  //let imgData = ctx.createImageData(dim.original.Width, dim.original.Height);
 
   // Initialize buffer to all black with transparency
   for (let i = 0; i < imgData.data.length; i += 4) {
@@ -266,7 +275,8 @@ createImage = function (sel) {
     let x = index.i[n];
     let y = index.j[n];
 
-    let pixelindex = (y * dim.original.Width + x) * 4; // increment our pointer
+    let pixelindex = (y * png_w + x) * 4; // increment our pointer
+    //let pixelindex = (y * dim.original.Width + x) * 4; // increment our pointer
 
     // Color
     if (sel) {
