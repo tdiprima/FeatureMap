@@ -389,8 +389,6 @@ tilmap.calcTILfun = function () {
 
   tilmap.img.onload = function () {
 
-    console.log('w,h', tilmap.width, tilmap.height);
-
     if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
 
