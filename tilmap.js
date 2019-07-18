@@ -96,38 +96,44 @@ function scaler(canvas) {
 
 }
 
-function ExpandToBound(d) {
-  console.log("ExpandToBound");
-
+function getBoundingBox() {
   tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
   tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
 
   boundingBox = {
-    "Width": tilmap.width,
-    "Height": tilmap.height
+    "width": tilmap.width,
+    "height": tilmap.height
   };
   console.log("boundingBox", boundingBox);
 
+  return boundingBox;
+}
+
+function expandToBound(d) {
+  console.log("expandToBound");
+
+  boundingBox = getBoundingBox();
+
   image = {
-    "Width": parseInt(d.metadata.png_w),
-    "Height": parseInt(d.metadata.png_h)
+    "width": parseInt(d.metadata.png_w),
+    "height": parseInt(d.metadata.png_h)
   };
 
   widthScale = 0;
   heightScale = 0;
 
-  if (image.Width !== 0)
-    widthScale = boundingBox.Width / image.Width;
+  if (image.width !== 0)
+    widthScale = boundingBox.width / image.width;
 
-  if (image.Height !== 0)
-    heightScale = boundingBox.Height / image.Height;
+  if (image.height !== 0)
+    heightScale = boundingBox.height / image.height;
 
   scale = Math.min(widthScale, heightScale);
 
   // Math.ceil or no
   result = {
-    "Width": parseInt(image.Width * scale),
-    "Height": parseInt(image.Height * scale),
+    "width": parseInt(image.width * scale),
+    "height": parseInt(image.height * scale),
     "scale": scale,
     "original": image
   };
@@ -238,9 +244,17 @@ createImage = function (sel) {
   }
 
   // size and scale
-  ////dim = ExpandToBound(d);
+  ////dim = expandToBound(d);
   png_w = parseInt(d.metadata.png_w);
   png_h = parseInt(d.metadata.png_h);
+  //boundingBox = getBoundingBox();
+
+  //if (png_w > boundingBox.width)
+  //{
+
+  //}
+
+
   if (png_w > png_h) {
     scale = parseFloat(600.0 / png_w);
   } else {
@@ -251,15 +265,15 @@ createImage = function (sel) {
   tilmap.width = Math.ceil(parseInt(scale * png_w));
   tilmap.height = Math.ceil(parseInt(scale * png_h));
   //tilmap.scale = dim.scale;
-  //tilmap.width = dim.Width;
-  //tilmap.height = dim.Height;
+  //tilmap.width = dim.width;
+  //tilmap.height = dim.height;
   canvas.width = tilmap.width;
   canvas.height = tilmap.height;
 
   let ctx = canvas.getContext("2d");
   // Create a (png_w * png_h) pixels ImageData object
   let imgData = ctx.createImageData(png_w, png_h);
-  //let imgData = ctx.createImageData(dim.original.Width, dim.original.Height);
+  //let imgData = ctx.createImageData(dim.original.width, dim.original.height);
 
   // Initialize buffer to all black with transparency
   for (let i = 0; i < imgData.data.length; i += 4) {
@@ -276,7 +290,7 @@ createImage = function (sel) {
     let y = index.j[n];
 
     let pixelindex = (y * png_w + x) * 4; // increment our pointer
-    //let pixelindex = (y * dim.original.Width + x) * 4; // increment our pointer
+    //let pixelindex = (y * dim.original.width + x) * 4; // increment our pointer
 
     // Color
     if (sel) {
