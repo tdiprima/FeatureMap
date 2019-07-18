@@ -109,35 +109,49 @@ function getBoundingBox() {
   return boundingBox;
 }
 
-function expandToBound(d) {
-  console.log("expandToBound");
+function fitInBox(initWidth, initHeight, maxWidth, maxHeight) {
+  console.log("init w,h", initWidth, initHeight);
 
-  boundingBox = getBoundingBox();
-
-  image = {
-    "width": parseInt(d.metadata.png_w),
-    "height": parseInt(d.metadata.png_h)
-  };
-
-  widthScale = 0;
-  heightScale = 0;
-
-  if (image.width !== 0)
-    widthScale = boundingBox.width / image.width;
-
-  if (image.height !== 0)
-    heightScale = boundingBox.height / image.height;
-
+  // First pass
+  widthScale = maxWidth / initWidth;
+  heightScale = maxHeight / initHeight;
   scale = Math.min(widthScale, heightScale);
 
-  // Math.ceil or no
+  new_width = parseInt(initWidth * scale);
+  new_height = parseInt(initHeight * scale);
+  console.log("new w,h", new_width, new_height);
+
+  // Second pass
+  let aspect = parseFloat(initWidth / initHeight);
+
+  if (new_width > maxWidth) {
+    new_width = maxWidth;
+    new_height = Math.floor(initWidth / aspect);
+    console.log("new_width > maxWidth !!");
+    console.log("new w,h", new_width, new_height);
+  }
+
+  if (new_height > maxHeight) {
+    new_height = maxHeight;
+    new_width = Math.floor(initWidth * aspect);
+    console.log("height > maxHeight !!");
+    console.log("new w,h", new_width, new_height);
+  }
+
+  if (new_width > maxWidth || new_height > maxHeight)
+  {
+    scale = 1.0;
+    new_width = initWidth;
+    new_height = initHeight;
+    console.log("still n/g :(");
+    console.log("new w,h", new_width, new_height);
+  }
+
   result = {
-    "width": parseInt(image.width * scale),
-    "height": parseInt(image.height * scale),
-    "scale": scale,
-    "original": image
+    "width": Math.ceil(new_width),
+    "height": Math.ceil(new_height),
+    "scale": scale
   };
-  console.log("result", result);
 
   return result;
 }
@@ -244,36 +258,25 @@ createImage = function (sel) {
   }
 
   // size and scale
-  ////dim = expandToBound(d);
+  // Initialize
+  tilmap.scale = 1.0;
   png_w = parseInt(d.metadata.png_w);
   png_h = parseInt(d.metadata.png_h);
-  //boundingBox = getBoundingBox();
+  tilmap.width = png_w;
+  tilmap.height = png_h;
+  boundingBox = getBoundingBox();
+  dim = fitInBox(png_w, png_h, boundingBox.width, boundingBox.height);
 
-  //if (png_w > boundingBox.width)
-  //{
+  tilmap.scale = dim.scale;
+  tilmap.width = dim.width;
+  tilmap.height = dim.height;
 
-  //}
-
-
-  if (png_w > png_h) {
-    scale = parseFloat(600.0 / png_w);
-  } else {
-    scale = parseFloat(500.0 / png_h);
-  }
-
-  tilmap.scale = scale;
-  tilmap.width = Math.ceil(parseInt(scale * png_w));
-  tilmap.height = Math.ceil(parseInt(scale * png_h));
-  //tilmap.scale = dim.scale;
-  //tilmap.width = dim.width;
-  //tilmap.height = dim.height;
   canvas.width = tilmap.width;
   canvas.height = tilmap.height;
 
   let ctx = canvas.getContext("2d");
   // Create a (png_w * png_h) pixels ImageData object
   let imgData = ctx.createImageData(png_w, png_h);
-  //let imgData = ctx.createImageData(dim.original.width, dim.original.height);
 
   // Initialize buffer to all black with transparency
   for (let i = 0; i < imgData.data.length; i += 4) {
@@ -290,7 +293,6 @@ createImage = function (sel) {
     let y = index.j[n];
 
     let pixelindex = (y * png_w + x) * 4; // increment our pointer
-    //let pixelindex = (y * dim.original.width + x) * 4; // increment our pointer
 
     // Color
     if (sel) {
