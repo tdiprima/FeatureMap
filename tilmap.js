@@ -271,8 +271,8 @@ createImage = function (sel) {
   tilmap.width = dim.width;
   tilmap.height = dim.height;
 
-  canvas.width = tilmap.width;
-  canvas.height = tilmap.height;
+  canvas.width = png_w;
+  canvas.height = png_h;
 
   let ctx = canvas.getContext("2d");
   // Create a (png_w * png_h) pixels ImageData object
