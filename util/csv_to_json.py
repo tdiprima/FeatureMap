@@ -1,9 +1,9 @@
 import csv
 import json
+import os
 import sys
 
 import pandas as pd
-# from time import perf_counter
 
 
 def get_metadata(filename):
@@ -70,15 +70,10 @@ def save_file(filename, data1, data2):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        print('File name is...?')
-        exit(1)
-
-    # start_clock = perf_counter()
-    f = sys.argv[1]
-    print(f)
-    meta = get_metadata(f)
-    data = get_data(f)
-    save_file(f.replace("csv", "json"), meta, data)
-    # duration = perf_counter() - start_clock
-    # print(duration)
+    for file in os.listdir("./input"):
+        if file.endswith(".csv"):
+            f = os.path.join("./input", file)
+            print(f)
+            meta = get_metadata(f)
+            data = get_data(f)
+            save_file(f.replace("csv", "json"), meta, data)
