@@ -1,5 +1,3 @@
-console.log('zoom2loc.js loaded');
-
 /**
  * This code is run when someone clicks on the png file.
  * It changes the location, zooming in the slide viewer.

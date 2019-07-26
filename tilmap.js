@@ -1,5 +1,3 @@
-console.log('tilmap.js loaded');
-
 /**
  * Parses querystring for parameters.
  * Transforms CSV to image.
@@ -11,7 +9,11 @@ tilmap = function () {
   if (queryString.length > 1) {
 
     let str = location.search.slice(1);
-    tilmap.map = getQueryVariable('map', str); // csv
+    tilmap.map = getQueryVariable('map', str); // json
+    if (tilmap.map.endsWith("csv")) {
+      alert('Expecting JSON file, got CSV.\nQuitting.');
+      throw new Error('file error');
+    }
     tilmap.slide = getQueryVariable('slideId', str); // drupal node of slide
     tilmap.mode = getQueryVariable('mode', str); // camic toggle switch
     tilmap.flag = true;

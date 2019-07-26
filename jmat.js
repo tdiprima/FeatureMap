@@ -1,5 +1,3 @@
-console.log('jmat :-)');
-
 jmat = {
 	
 abs:function(x){ // absolute value
