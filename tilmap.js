@@ -612,9 +612,10 @@ set_multiple_select = function () {
 
     var textnode = document.createTextNode("Ctrl-click to select 3 features, ctrl-click 4th feature to display selection.");
     // add the element to the div
-    let div = document.getElementById("choose");
-    div.appendChild(sel);
-    div.appendChild(textnode);
+    let myDiv = document.getElementById("choose");
+    myDiv.appendChild(sel);
+    myDiv.appendChild(document.createElement("br"));
+    myDiv.appendChild(textnode);
 
     // add event listener
     let last_valid_selection = null;
