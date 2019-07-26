@@ -614,7 +614,9 @@ set_multiple_select = function () {
     // add the element to the div
     let myDiv = document.getElementById("choose");
     myDiv.appendChild(sel);
-    myDiv.appendChild(document.createElement("br"));
+    let br = document.createElement("br");
+    myDiv.appendChild(br);
+    myDiv.appendChild(br);
     myDiv.appendChild(textnode);
 
     // add event listener
