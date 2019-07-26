@@ -427,8 +427,13 @@ tilmap.calcTILfun = function () {
     let B = features[names[2]];
      */
 
+    tilmap.imgDataR = tilmap.imSlice(0);
+    console.log('Red channel zeroes?', tilmap.imgDataR.every(item => item === 0));
+    tilmap.imgDataG = tilmap.imSlice(1);
+    console.log('Green channel zeroes?', tilmap.imgDataG.every(item => item === 0));
     // extract blue channel
     tilmap.imgDataB = tilmap.imSlice(2);
+    console.log('Blue channel zeroes?', tilmap.imgDataB.every(item => item === 0));
 
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     // tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
