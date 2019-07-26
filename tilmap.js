@@ -590,37 +590,39 @@ set_multiple_select = function () {
   let names = Object.getOwnPropertyNames(features);
   let num_cols = names.length; // number of columns
 
-  let sel = document.createElement('select');
-  sel.multiple = true;
-  sel.id = 'sel1';
-  if (num_cols < 10) {
-    sel.size = num_cols;
-  } else {
-    sel.size = 10;
-  }
-
-  for (let i = 0; i < num_cols; i++) {
-    // Add the options
-    sel.options[sel.options.length] = new Option(names[i], i);
-  }
-
-  // add the element to the div
-  document.getElementById("choose").appendChild(sel);
-
-  // add event listener
-  let last_valid_selection = null;
-
-  $('#sel1').change(function (event) {
-
-    if ($(this).val().length > 2) {
-
-      $(this).val(last_valid_selection);
-      changeUI(last_valid_selection);
-
+  if (num_cols > 5) {
+    let sel = document.createElement('select');
+    sel.multiple = true;
+    sel.id = 'sel1';
+    if (num_cols < 10) {
+      sel.size = num_cols;
     } else {
-      last_valid_selection = $(this).val();
+      sel.size = 10;
     }
-  });
+
+    for (let i = 0; i < num_cols; i++) {
+      // Add the options
+      sel.options[sel.options.length] = new Option(names[i], i);
+    }
+
+    // add the element to the div
+    document.getElementById("choose").appendChild(sel);
+
+    // add event listener
+    let last_valid_selection = null;
+
+    $('#sel1').change(function (event) {
+
+      if ($(this).val().length > 3) {
+
+        $(this).val(last_valid_selection);
+        changeUI(last_valid_selection);
+
+      } else {
+        last_valid_selection = $(this).val();
+      }
+    });
+  }
 
 };
 
@@ -729,7 +731,6 @@ tilmap.transpire = function () {
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
 
-
   jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
@@ -742,7 +743,6 @@ tilmap.transpire = function () {
       // return [255, 255, 255, 255].map(v => v * d) // white
     })
   }));
-
 
   tilmap.parms.transparency = transparencyRange.value
 
