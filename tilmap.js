@@ -23,7 +23,7 @@ tilmap = function () {
       if (result === null) {
         console.log('Abort.')
       } else {
-        tilmap.data = JSON.parse(result); // if it borks here, file might be csv
+        tilmap.data = JSON.parse(result);
         // tilmap.dataUri = result;
         // download(tilmap.slide + '.png', result);
         tilmap.calcTILfun()
@@ -610,8 +610,11 @@ set_multiple_select = function () {
       sel.options[sel.options.length] = new Option(names[i], i);
     }
 
+    var textnode = document.createTextNode("Ctrl-click to select 3 features, ctrl-click 4th feature to display selection.");
     // add the element to the div
-    document.getElementById("choose").appendChild(sel);
+    let div = document.getElementById("choose");
+    div.appendChild(sel);
+    div.appendChild(textnode);
 
     // add event listener
     let last_valid_selection = null;
