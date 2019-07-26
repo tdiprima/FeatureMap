@@ -140,8 +140,7 @@ function fitInBox(initWidth, initHeight, maxWidth, maxHeight) {
     console.log("new w,h", new_width, new_height);
   }
 
-  if (new_width > maxWidth || new_height > maxHeight)
-  {
+  if (new_width > maxWidth || new_height > maxHeight) {
     scale = 1.0;
     new_width = initWidth;
     new_height = initHeight;
@@ -245,11 +244,21 @@ createImage = function (sel) {
   const index = d.data.locations;
   const features = d.data.features;
   let names = Object.getOwnPropertyNames(features);
-  ui(names);
+
   // let num_cols = names.length; // number of columns
-  let R = features[names[0]];
-  let G = features[names[1]];
-  let B = features[names[2]];
+
+  let R, G, B;
+  if (sel) {
+    ui([names[sel[0]], names[sel[1]], names[sel[2]]]);
+    R = features[names[sel[0]]];
+    G = features[names[sel[1]]];
+    B = features[names[sel[2]]];
+  } else {
+    ui(names);
+    R = features[names[0]];
+    G = features[names[1]];
+    B = features[names[2]];
+  }
 
   // create off-screen canvas element
   let canvas = document.getElementById("myCanvas");
@@ -297,18 +306,13 @@ createImage = function (sel) {
     let pixelindex = (y * png_w + x) * 4; // increment our pointer
 
     // Color
-    if (sel) {
-      imgData.data[pixelindex] = features[names[sel[0]]][n];      // R value [0, 255]
-      imgData.data[pixelindex + 1] = features[names[sel[1]]][n];  // G value
-      imgData.data[pixelindex + 2] = B[n];  // Set to blue channel
-      imgData.data[pixelindex + 3] = 255;   // set alpha channel
-    } else {
-      // First 3 features R G B
-      imgData.data[pixelindex] = R[n];      // R value [0, 255]
-      imgData.data[pixelindex + 1] = G[n];  // G value
-      imgData.data[pixelindex + 2] = B[n];  // B value
-      imgData.data[pixelindex + 3] = 255;   // set alpha channel
-    }
+
+    // First 3 features R G B
+    imgData.data[pixelindex] = R[n];      // R value [0, 255]
+    imgData.data[pixelindex + 1] = G[n];  // G value
+    imgData.data[pixelindex + 2] = B[n];  // B value
+    imgData.data[pixelindex + 3] = 255;   // set alpha channel
+
 
   }
   // console.log('imgData', imgData);
