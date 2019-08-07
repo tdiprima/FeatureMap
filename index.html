@@ -157,7 +157,8 @@
                   <tr>
                     <!--td style="vertical-align:top; width:40%"-->
                     <td style="vertical-align:top; width:600px">
-                      <h3 class="w3-margin-left node__title">Feature Maps</h3><br> <br>
+                      <h3 class="w3-margin-left node__title">Feature Maps</h3><br>
+                      <p><br></p>
                       <div><select id="navigation-dropdown" name="navigation">
                         </select>
                       </div>
@@ -167,14 +168,24 @@
                         dropdown.append('<option selected="true" disabled>Choose Slide</option>');
                         dropdown.prop('selectedIndex', 0);
 
-                        const url = '/listofimages/3?_format=json';
+                        // /maps/3  (where 3 is the PathDB ID for the image)
+                        const url = '/listofimages/3?_format=json'; // where 3 is the image id
 
                         // Populate dropdown with list of slides
                         $.getJSON(url, function (data) {
                           console.log(data)
                           $.each(data, function (key, entry) {
-                            console.log(key, entry)
-                            // dropdown.append($('<option></option>').attr('value', entry.abbreviation).text(entry.name));
+                            try {
+                              let name = entry.imageid[0].value;
+                              let nid = entry.nid[0].value;
+                              // TODO: ONCLICK
+                              dropdown.append($('<option></option>').attr('value', nid).text(name));
+                            }
+                            catch (error) {
+                              console.error(error);
+                              // expected output: ReferenceError: nonExistentFunction is not defined
+                              // Note - error messages will vary depending on browser
+                            }
                           })
                         });
                       </script>
