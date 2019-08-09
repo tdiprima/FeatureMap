@@ -159,16 +159,26 @@
                     <td style="vertical-align:top; width:600px">
                       <h3 class="w3-margin-left node__title">Feature Maps</h3><br>
                       <script>
+                        if (typeof (Storage) !== "undefined") {
+                          // Code for localStorage/sessionStorage.
+                          if (sessionStorage.selectedIndex) {
+                            sessionStorage.selectedIndex = Number(sessionStorage.selectedIndex) + 1;
+                          }
+                        } else {
+                          // Sorry! No Web Storage support..
+                        }
+
                         function nav(el) {
                           //alert(el.length);
-                          //alert(el.selectedIndex)
+                          sessionStorage.selectedIndex = el.selectedIndex;
                           location.href = el.value;
                         }
                       </script>
                       <!-- NAVIGATION -->
                       <div>
                         <!-- <button class="w3-button w3-large w3-circle w3-light-grey">‹</button> -->
-                        <select id="navigation-dropdown" name="navigation" onchange="nav(this);">
+                        <select id="navigation-dropdown" name="navigation"
+                          onchange="javascript:if(this.value){nav(this);}">
                         </select>
                         <!-- <button class="w3-button w3-large w3-circle w3-light-grey">›</button> -->
                       </div>
