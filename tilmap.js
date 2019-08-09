@@ -54,7 +54,7 @@ function navigation() {
     // field_map[0].url
     //   console.log('VENUS', data);
       const url3 = '/listofimages/' + collection + '?_format=json';
-      console.log('VIERNES', url2);
+      console.log('VIERNES', url3);
       $.getJSON(url3, function(data){
         console.log('VENUS', data);
         $.each(data, function (key, entry) {
