@@ -93,7 +93,7 @@ function navigation() {
       });
     });
   });
-  
+
   // let selIdx = 0;
   // if (sessionStorage.selectedIndex) {
   //   selIdx = sessionStorage.selectedIndex;
@@ -113,7 +113,7 @@ function navigation() {
   };
 
   // var dataPromise = sessionStorage.selectedIndex;
-  asyncLocalStorage.getItem('selectedIndex', data).then(function () {
+  asyncLocalStorage.getItem('selectedIndex').then(function () {
     return asyncLocalStorage.getItem('selectedIndex');
   }).then(function (value) {
     console.log('Value has been set to:', value);
