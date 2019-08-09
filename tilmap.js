@@ -65,7 +65,7 @@ function navigation() {
         let arr = entry.field_iip_path[0].value.split("/");
         let x = arr.length;
         let name = arr[x - 1];
-        if (x > 23) {
+        if (name.length > 23) {
           name = name.substring(23);
         }
         // console.log('name', name);
@@ -77,7 +77,7 @@ function navigation() {
           try {
             map = data[0].field_map[0].url;
             map = map.substring(len);
-            console.log('map', map);
+            // console.log('map', map);
           } catch (e1) {
             console.error('no map for this image', name, e1);
           }
