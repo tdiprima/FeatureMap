@@ -48,10 +48,11 @@ function navigation() {
   $.getJSON(url1, function(data){
     console.log('WEEKEND.', data);
     let collection = data.field_collection[0].target_id;
-    const url2 = '/maps/' + tilmap.slide + '?_format=json';
-    console.log('VIERNES', url2);
-    $.getJSON(url2, function(data){
-      console.log('VENUS', data);
+    // const url2 = '/maps/' + tilmap.slide + '?_format=json';
+    // console.log('VIERNES', url2);
+    // $.getJSON(url2, function(data){
+    // field_map[0].url
+    //   console.log('VENUS', data);
       const url3 = '/listofimages/' + collection + '?_format=json';
       console.log('VIERNES', url2);
       $.getJSON(url3, function(data){
@@ -70,7 +71,7 @@ function navigation() {
           }
         });
       });
-    });
+    // });
   });
 
 }
