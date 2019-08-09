@@ -646,7 +646,7 @@ tilmap.from2D = function (dd) {
   tilmap.img.hidden = true;
   tilmap.cv2D = dd; // keeping current value 2D slice
   var cm = jmat.colormap();
-  var k = 63 / 255; // png values are between 0-255 and cm 0-63
+  var k = 63 / 255; // png values are between 0-255. there are 64 color map values.
   var ddd = dd.map(function (d) {
     return d.map(function (v) {
       return cm[Math.round(v * k)].map(x => Math.round(x * 255)).concat(255)
