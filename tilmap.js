@@ -60,7 +60,7 @@ function navigation() {
     const url2 = '/listofimages/' + collection + '?_format=json';
     console.log('url2', url2);
 
-    $.getJSON(url3, function (data) {
+    $.getJSON(url2, function (data) {
       console.log('3.', data);
       $.each(data, function (key, entry) {
         let nid = entry.nid[0].value;
