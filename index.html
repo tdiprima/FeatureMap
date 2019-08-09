@@ -170,16 +170,14 @@
                       <script>
                         function nav(el) {
                           //alert(el.length);
-                          /*
                           asyncLocalStorage.setItem('selectedIndex', el.selectedIndex).then(function () {
                             return asyncLocalStorage.getItem('selectedIndex');
                           }).then(function (value) {
                             console.log('Value has been set to:', value);
                             location.href = el.value;
                           });
-                           */
-                          sessionStorage.selectedIndex = el.value;
-                          location.href = el.value;
+                          // sessionStorage.selectedIndex = el.value;
+                          // location.href = el.value;
                         }
                       </script>
                       <!-- NAVIGATION -->

@@ -106,12 +106,14 @@ function navigation() {
     console.log('Value has been set to:', value);
 
     dropdown.find('option').each(function (item, idx) {
+      console.log('item, idx, value', item, idx, value);
+      /*
       var $this = $(this);
       if (idx === parseInt(value)) {
-        console.log('idx,val', idx, value);
         $this.attr('selected', 'selected');
         return false;
       }
+       */
     });
   });
 }
