@@ -66,7 +66,7 @@ function navigation() {
         let x = arr.length;
         let name = arr[x - 1];
         if (name.length > 23) {
-          name = name.substring(23);
+          name = name.substring(0, 23);
         }
         // console.log('name', name);
         const url3 = '/maps/' + tilmap.slide + '?_format=json';
