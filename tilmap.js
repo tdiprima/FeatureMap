@@ -65,7 +65,10 @@ function navigation() {
         let arr = entry.field_iip_path[0].value.split("/");
         let x = arr.length;
         let name = arr[x - 1];
-        console.log('name', name);
+        if (x > 23) {
+          name = name.substring(23);
+        }
+        // console.log('name', name);
         const url3 = '/maps/' + tilmap.slide + '?_format=json';
         // console.log('url3', url3);
         $.getJSON(url3, function (data) {
