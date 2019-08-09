@@ -104,10 +104,12 @@ function navigation() {
     return asyncLocalStorage.getItem('selectedIndex');
   }).then(function (value) {
     console.log('Value has been set to:', value);
-    var country = document.getElementById("navigation-dropdown");
-    console.log('thing', country);
-    // country.options[country.options.selectedIndex].selected = true;
-    country.options[value].selected = true;
+    console.log('dropdown', dropdown);
+    console.log('length', dropdown.length);
+    // var country = document.getElementById("navigation-dropdown");
+    // console.log('thing', country);
+    // // country.options[country.options.selectedIndex].selected = true;
+    // country.options[value].selected = true;
   });
 }
 
