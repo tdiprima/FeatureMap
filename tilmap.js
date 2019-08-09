@@ -79,7 +79,7 @@ function navigation() {
             map = map.substring(len);
             // console.log('map', map);
           } catch (e1) {
-            console.error('no map for this image', name, e1);
+            console.log('no map for this image', name);
           }
           let constructaurl;
           if (map) {
