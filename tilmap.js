@@ -17,6 +17,7 @@ tilmap = function () {
     tilmap.slide = getQueryVariable('slideId', str); // drupal node of slide
     tilmap.mode = getQueryVariable('mode', str); // camic toggle switch
     tilmap.flag = true;
+    navigation();
 
     promiseA = fetch_data(tilmap.map);
     promiseA.then(function (result) {
@@ -35,6 +36,45 @@ tilmap = function () {
   }
 
 };
+
+function navigation() {
+  let dropdown = $('#navigation-dropdown');
+  dropdown.empty();
+  dropdown.append('<option selected="true" disabled>Choose Slide</option>');
+  dropdown.prop('selectedIndex', 0);
+
+  // Populate dropdown with list of slides
+  const url1 = '/node/' + tilmap.slide + '?_format=json';
+  $.getJSON(url1, function(data){
+    console.log('WEEKEND.', data);
+    let collection = data.field_collection[0].target_id;
+    const url2 = '/maps/' + tilmap.slide + '?_format=json';
+    console.log('VIERNES', url2);
+    $.getJSON(url2, function(data){
+      console.log('VENUS', data);
+      const url3 = '/listofimages/' + collection + '?_format=json';
+      console.log('VIERNES', url2);
+      $.getJSON(url3, function(data){
+        console.log('VENUS', data);
+        $.each(data, function (key, entry) {
+          let nid = entry.nid[0].value;
+          let name = data.imageid[0].value;
+          try {
+            let constructaurl = '/FeatureMap/?mode=pathdb&slideId='+nid+'&map=/system/files/2019-07/new_kabibble.json';
+            dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
+          }
+          catch (error) {
+            console.error(error);
+            // expected output: ReferenceError: nonExistentFunction is not defined
+            // Note - error messages will vary depending on browser
+          }
+        });
+      });
+    });
+  });
+
+}
+
 
 fetch_data = function (url) {
 
@@ -673,7 +713,7 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
 tilmap.segment = function (event, doTranspire = true) {
-//tilmap.segment = function () {
+  //tilmap.segment = function () {
 
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
