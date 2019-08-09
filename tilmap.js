@@ -104,17 +104,10 @@ function navigation() {
     return asyncLocalStorage.getItem('selectedIndex');
   }).then(function (value) {
     console.log('Value has been set to:', value);
-
-    dropdown.find('option').each(function (item, idx) {
-      console.log('item, idx, value', item, idx, value);
-      /*
-      var $this = $(this);
-      if (idx === parseInt(value)) {
-        $this.attr('selected', 'selected');
-        return false;
-      }
-       */
-    });
+    var country = document.getElementById("navigation-dropdown");
+    console.log('thing', country);
+    // country.options[country.options.selectedIndex].selected = true;
+    country.options[value].selected = true;
   });
 }
 
