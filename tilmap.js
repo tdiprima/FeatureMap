@@ -93,7 +93,17 @@ function navigation() {
       });
     });
   });
-
+  let selIdx = 0;
+  if (sessionStorage.selectedIndex) {
+    selIdx = sessionStorage.selectedIndex;
+  }
+  dropdown.find('option').each(function (item, idx) {
+    var $this = $(this);
+    if (idx === selIdx) {
+      $this.attr('selected', 'selected');
+      return false;
+    }
+  });
 }
 
 
