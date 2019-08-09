@@ -56,14 +56,18 @@ function navigation() {
     // console.log('1.', data);
     let collection = data.field_collection[0].target_id;
     const url2 = '/listofimages/' + collection + '?_format=json';
-    console.log('url2', url2);
+    // console.log('url2', url2);
     $.getJSON(url2, function (data) {
-      console.log('2.', data);
+      // console.log('2.', data);
       $.each(data, function (key, entry) {
         let nid = entry.nid[0].value;
-        let name = entry.imageid[0].value;
+        // let name = entry.imageid[0].value;
+        let arr = entry.field_iip_path[0].value.split("/");
+        let x = arr.length;
+        let name = arr[x - 1];
+        console.log('name', name);
         const url3 = '/maps/' + tilmap.slide + '?_format=json';
-        console.log('url3', url3);
+        // console.log('url3', url3);
         $.getJSON(url3, function (data) {
           // console.log('3.', data);
           let map;
