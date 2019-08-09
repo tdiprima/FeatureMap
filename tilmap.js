@@ -106,9 +106,9 @@ function navigation() {
     console.log('Value has been set to:', value);
 
     dropdown.find('option').each(function (item, idx) {
-      console.log('xxx', item, idx);
       var $this = $(this);
       if (idx === parseInt(value)) {
+        console.log('idx,val', idx, value);
         $this.attr('selected', 'selected');
         return false;
       }
