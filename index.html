@@ -56,7 +56,20 @@
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
-    })</script>
+    });
+    const asyncLocalStorage = {
+      setItem: function (key, value) {
+        return Promise.resolve().then(function () {
+          localStorage.setItem(key, value);
+        });
+      },
+      getItem: function (key) {
+        return Promise.resolve().then(function () {
+          return localStorage.getItem(key);
+        });
+      }
+    };
+  </script>
 </head>
 
 <body class="path-frontpage large-screen">
@@ -157,8 +170,12 @@
                       <script>
                         function nav(el) {
                           //alert(el.length);
-                          sessionStorage.selectedIndex = el.selectedIndex;
-                          location.href = el.value;
+                          asyncLocalStorage.setItem('selectedIndex', el.selectedIndex).then(function () {
+                            return asyncLocalStorage.getItem('selectedIndex');
+                          }).then(function (value) {
+                            console.log('Value has been set to:', value);
+                            location.href = value;
+                          });
                         }
                       </script>
                       <!-- NAVIGATION -->
