@@ -105,7 +105,12 @@ function navigation() {
   }).then(function (value) {
     console.log('Value has been set to:', value);
     console.log('dropdown', dropdown);
-    console.log('length', dropdown.length);
+
+    //$("#navigation-dropdown").prop('selectedIndex', parseInt(value));
+
+    // sets selected index of a select box the actual index of 0
+    //$("select#elem").attr('selectedIndex', 21);
+
     // var country = document.getElementById("navigation-dropdown");
     // console.log('thing', country);
     // // country.options[country.options.selectedIndex].selected = true;
