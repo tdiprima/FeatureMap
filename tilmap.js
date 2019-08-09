@@ -17,16 +17,22 @@ tilmap = function () {
     tilmap.slide = getQueryVariable('slideId', str); // drupal node of slide
     tilmap.mode = getQueryVariable('mode', str); // camic toggle switch
     tilmap.flag = true;
+    navigation();
 
     promiseA = fetch_data(tilmap.map);
     promiseA.then(function (result) {
       if (result === null) {
         console.log('Abort.')
       } else {
-        tilmap.data = JSON.parse(result);
-        // tilmap.dataUri = result;
-        // download(tilmap.slide + '.png', result);
-        tilmap.calcTILfun()
+        try {
+          tilmap.data = JSON.parse(result);
+          // tilmap.dataUri = result;
+          // download(tilmap.slide + '.png', result);
+          tilmap.calcTILfun()
+        } catch (error) {
+          // If you failed here, it's 404, and you were already notified.
+          console.log();
+        }
       }
     });
 
@@ -35,6 +41,61 @@ tilmap = function () {
   }
 
 };
+
+function navigation() {
+  let dropdown = $('#navigation-dropdown');
+  dropdown.empty();
+  dropdown.append('<option selected="true" disabled>Choose Slide</option>');
+  dropdown.prop('selectedIndex', 0);
+  const loc = window.location;
+  const len = loc.origin.length;
+  // Populate dropdown with list of slides
+  const url1 = '/node/' + tilmap.slide + '?_format=json';
+  // console.log('url1', url1);
+  $.getJSON(url1, function (data) {
+    // console.log('1.', data);
+    let collection = data.field_collection[0].target_id;
+    const url2 = '/listofimages/' + collection + '?_format=json';
+    // console.log('url2', url2);
+    $.getJSON(url2, function (data) {
+      // console.log('2.', data);
+      $.each(data, function (key, entry) {
+        let nid = entry.nid[0].value;
+        // let name = entry.imageid[0].value;
+        let arr = entry.field_iip_path[0].value.split("/");
+        let x = arr.length;
+        let name = arr[x - 1];
+        if (name.length > 23) {
+          name = name.substring(0, 23);
+        }
+        // console.log('name', name);
+        const url3 = '/maps/' + nid + '?_format=json';
+        // console.log('url3', url3);
+        $.getJSON(url3, function (data) {
+          // console.log('3.', data);
+          let map;
+          try {
+            map = data[0].field_map[0].url;
+            map = map.substring(len);
+            // console.log('map', map);
+          } catch (e1) {
+            console.log('no map for this image', name);
+          }
+          let constructaurl;
+          if (map) {
+            constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map;
+          } else {
+            constructaurl = '';
+            name = (name + ": no featuremap");
+          }
+          dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
+        });
+      });
+    });
+  });
+
+}
+
 
 fetch_data = function (url) {
 
@@ -673,7 +734,7 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
 tilmap.segment = function (event, doTranspire = true) {
-//tilmap.segment = function () {
+  //tilmap.segment = function () {
 
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
