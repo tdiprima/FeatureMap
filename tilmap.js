@@ -79,7 +79,7 @@ function navigation() {
             map = map.substring(len);
             // console.log('map', map);
           } catch (e1) {
-            console.log('no map for this image', name);
+            // console.log('no map for this image', name);
           }
           let constructaurl;
           if (map) {
@@ -98,6 +98,7 @@ function navigation() {
     selIdx = sessionStorage.selectedIndex;
   }
   dropdown.find('option').each(function (item, idx) {
+    console.log('xxx', item, idx);
     var $this = $(this);
     if (idx === selIdx) {
       $this.attr('selected', 'selected');
