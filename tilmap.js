@@ -45,32 +45,32 @@ function navigation() {
 
   // Populate dropdown with list of slides
   const url1 = '/node/' + tilmap.slide + '?_format=json';
-  $.getJSON(url1, function(data){
+  $.getJSON(url1, function (data) {
     console.log('WEEKEND.', data);
     let collection = data.field_collection[0].target_id;
+    // CAN'T TEST THE DARN THING YET.
     // const url2 = '/maps/' + tilmap.slide + '?_format=json';
     // console.log('VIERNES', url2);
     // $.getJSON(url2, function(data){
     // field_map[0].url
     //   console.log('VENUS', data);
-      const url3 = '/listofimages/' + collection + '?_format=json';
-      console.log('VIERNES', url3);
-      $.getJSON(url3, function(data){
-        console.log('VENUS', data);
-        $.each(data, function (key, entry) {
-          let nid = entry.nid[0].value;
-          let name = data.imageid[0].value;
-          try {
-            let constructaurl = '/FeatureMap/?mode=pathdb&slideId='+nid+'&map=/system/files/2019-07/new_kabibble.json';
-            dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
-          }
-          catch (error) {
-            console.error(error);
-            // expected output: ReferenceError: nonExistentFunction is not defined
-            // Note - error messages will vary depending on browser
-          }
-        });
+    const url3 = '/listofimages/' + collection + '?_format=json';
+    console.log('VIERNES', url3);
+    $.getJSON(url3, function (data) {
+      console.log('VENUS', data);
+      $.each(data, function (key, entry) {
+        let nid = entry.nid[0].value;
+        let name = entry.imageid[0].value;
+        try {
+          let constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=/T/B/A/tba.json';
+          dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
+        } catch (error) {
+          console.error(error);
+          // expected output: ReferenceError: nonExistentFunction is not defined
+          // Note - error messages will vary depending on browser
+        }
       });
+    });
     // });
   });
 
