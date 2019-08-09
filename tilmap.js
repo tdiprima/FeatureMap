@@ -97,6 +97,7 @@ function navigation() {
   if (sessionStorage.selectedIndex) {
     selIdx = sessionStorage.selectedIndex;
   }
+  console.log('selIdx', selIdx);
   dropdown.find('option').each(function (item, idx) {
     console.log('xxx', item, idx);
     var $this = $(this);

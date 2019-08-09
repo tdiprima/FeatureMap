@@ -155,15 +155,6 @@
                     <td style="vertical-align:top; width:600px">
                       <h3 class="w3-margin-left node__title">Feature Maps</h3><br>
                       <script>
-                        if (typeof (Storage) !== "undefined") {
-                          // Code for localStorage/sessionStorage.
-                          if (sessionStorage.selectedIndex) {
-                            sessionStorage.selectedIndex = Number(sessionStorage.selectedIndex) + 1;
-                          }
-                        } else {
-                          // Sorry! No Web Storage support..
-                        }
-
                         function nav(el) {
                           //alert(el.length);
                           sessionStorage.selectedIndex = el.selectedIndex;
