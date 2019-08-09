@@ -51,7 +51,7 @@ function navigation() {
   const len = loc.origin.length;
   // Populate dropdown with list of slides
   const url1 = '/node/' + tilmap.slide + '?_format=json';
-  console.log('url1', url1);
+  // console.log('url1', url1);
   $.getJSON(url1, function (data) {
     // console.log('1.', data);
     let collection = data.field_collection[0].target_id;
@@ -69,7 +69,7 @@ function navigation() {
           name = name.substring(0, 23);
         }
         // console.log('name', name);
-        const url3 = '/maps/' + tilmap.slide + '?_format=json';
+        const url3 = '/maps/' + nid + '?_format=json';
         // console.log('url3', url3);
         $.getJSON(url3, function (data) {
           // console.log('3.', data);
@@ -89,9 +89,7 @@ function navigation() {
             name = (name + ": no featuremap");
           }
           dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
-
         });
-
       });
     });
   });
