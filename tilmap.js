@@ -24,10 +24,15 @@ tilmap = function () {
       if (result === null) {
         console.log('Abort.')
       } else {
-        tilmap.data = JSON.parse(result);
-        // tilmap.dataUri = result;
-        // download(tilmap.slide + '.png', result);
-        tilmap.calcTILfun()
+        try {
+          tilmap.data = JSON.parse(result);
+          // tilmap.dataUri = result;
+          // download(tilmap.slide + '.png', result);
+          tilmap.calcTILfun()
+        } catch (error) {
+          // If you failed here, it's 404, and you were already notified.
+          console.log();
+        }
       }
     });
 
@@ -43,37 +48,37 @@ function navigation() {
   dropdown.append('<option selected="true" disabled>Choose Slide</option>');
   dropdown.prop('selectedIndex', 0);
 
-  // Populate dropdown with list of slides
-  const url1 = '/node/' + tilmap.slide + '?_format=json';
-  $.getJSON(url1, function (data) {
-    console.log('WEEKEND.', data);
-    let collection = data.field_collection[0].target_id;
-    // CAN'T TEST THE DARN THING YET.
-    // const url2 = '/maps/' + tilmap.slide + '?_format=json';
-    // console.log('VIERNES', url2);
-    // $.getJSON(url2, function(data){
-    // field_map[0].url
-    //   console.log('VENUS', data);
-    const url3 = '/listofimages/' + collection + '?_format=json';
-    console.log('VIERNES', url3);
-    $.getJSON(url3, function (data) {
-      console.log('VENUS', data);
-      $.each(data, function (key, entry) {
-        let nid = entry.nid[0].value;
-        let name = entry.imageid[0].value;
-        try {
-          let constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=/T/B/A/tba.json';
-          dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
-        } catch (error) {
-          console.error(error);
-          // expected output: ReferenceError: nonExistentFunction is not defined
-          // Note - error messages will vary depending on browser
-        }
+  try {
+    // Populate dropdown with list of slides
+    const url1 = '/node/' + tilmap.slide + '?_format=json';
+    $.getJSON(url1, function (data) {
+      console.log('1.', data);
+      let collection = data.field_collection[0].target_id;
+      const url2 = '/maps/' + tilmap.slide + '?_format=json';
+      console.log('2.', url2);
+      $.getJSON(url2, function (data) {
+        const map = data.field_map[0].url;
+        console.log('3.', data);
+        const url3 = '/listofimages/' + collection + '?_format=json';
+        console.log('VIERNES', url3);
+        $.getJSON(url3, function (data) {
+          console.log('VENUS', data);
+          $.each(data, function (key, entry) {
+            let nid = entry.nid[0].value;
+            let name = entry.imageid[0].value;
+            try {
+              let constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map;
+              dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
+            } catch (e1) {
+              console.error(e1);
+            }
+          });
+        });
       });
     });
-    // });
-  });
-
+  } catch (e2) {
+    console.error(e2);
+  }
 }
 
 
