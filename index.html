@@ -158,9 +158,19 @@
                     <!--td style="vertical-align:top; width:40%"-->
                     <td style="vertical-align:top; width:600px">
                       <h3 class="w3-margin-left node__title">Feature Maps</h3><br>
-                      <div><select id="navigation-dropdown" name="navigation"
-                          onchange="javascript:location.href=this.value;">
+                      <script>
+                        function nav(el) {
+                          //alert(el.length);
+                          //alert(el.selectedIndex)
+                          location.href = el.value;
+                        }
+                      </script>
+                      <!-- NAVIGATION -->
+                      <div>
+                        <!-- <button class="w3-button w3-large w3-circle w3-light-grey">‹</button> -->
+                        <select id="navigation-dropdown" name="navigation" onchange="nav(this);">
                         </select>
+                        <!-- <button class="w3-button w3-large w3-circle w3-light-grey">›</button> -->
                       </div>
                       <p><br></p>
                       <div id="tilShowImgDiv" style="color: navy;">
