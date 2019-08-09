@@ -93,18 +93,40 @@ function navigation() {
       });
     });
   });
-  let selIdx = 0;
-  if (sessionStorage.selectedIndex) {
-    selIdx = sessionStorage.selectedIndex;
-  }
-  console.log('selIdx', selIdx);
-  dropdown.find('option').each(function (item, idx) {
-    console.log('xxx', item, idx);
-    var $this = $(this);
-    if (idx === selIdx) {
-      $this.attr('selected', 'selected');
-      return false;
+  
+  // let selIdx = 0;
+  // if (sessionStorage.selectedIndex) {
+  //   selIdx = sessionStorage.selectedIndex;
+  // }
+
+  const asyncLocalStorage = {
+    setItem: function (key, value) {
+      return Promise.resolve().then(function () {
+        localStorage.setItem(key, value);
+      });
+    },
+    getItem: function (key) {
+      return Promise.resolve().then(function () {
+        return localStorage.getItem(key);
+      });
     }
+  };
+
+  // var dataPromise = sessionStorage.selectedIndex;
+  asyncLocalStorage.getItem('selectedIndex', data).then(function () {
+    return asyncLocalStorage.getItem('selectedIndex');
+  }).then(function (value) {
+    console.log('Value has been set to:', value);
+    /*
+    dropdown.find('option').each(function (item, idx) {
+      console.log('xxx', item, idx);
+      var $this = $(this);
+      if (idx === selIdx) {
+        $this.attr('selected', 'selected');
+        return false;
+      }
+    });
+     */
   });
 }
 
