@@ -47,7 +47,9 @@ function navigation() {
   dropdown.empty();
   dropdown.append('<option selected="true" disabled>Choose Slide</option>');
   dropdown.prop('selectedIndex', 0);
-
+  const loc = window.location;
+  const len = loc.origin.length;
+  console.log('kdkdkdjhdfhf', len);
   try {
     // Populate dropdown with list of slides
     const url1 = '/node/' + tilmap.slide + '?_format=json';
@@ -57,12 +59,14 @@ function navigation() {
       const url2 = '/maps/' + tilmap.slide + '?_format=json';
       console.log('2.', url2);
       $.getJSON(url2, function (data) {
-        const map = data.field_map[0].url;
         console.log('3.', data);
+        let map = data[0].field_map[0].url;
+        map = map.substring(len);
+        console.log('map', map);
+
         const url3 = '/listofimages/' + collection + '?_format=json';
-        console.log('VIERNES', url3);
         $.getJSON(url3, function (data) {
-          console.log('VENUS', data);
+          console.log('4.', data);
           $.each(data, function (key, entry) {
             let nid = entry.nid[0].value;
             let name = entry.imageid[0].value;
