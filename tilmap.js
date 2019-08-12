@@ -89,16 +89,29 @@ function navigation() {
             name = (name + ": no featuremap");
           }
 
+
           if (parseInt(tilmap.slide) === nid) {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
 
-          } else {
+          }
+          else {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
           }
         });
       });
     });
   });
+
+  var selectedOption = $('#navigation-dropdown option:selected');
+
+  if (selectedOption.prev().val()) { $('btnPrev').attr("hidden", false); } else { $('btnPrev').attr("hidden", true); }
+  if (selectedOption.next().val()) { $('btnNext').attr("hidden", false); } else { $('btnNext').attr("hidden", true); }
+
+  //if (dropdown.) {
+  //$('btnPrev')
+
+
+  //}
 }
 
 

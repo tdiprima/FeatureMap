@@ -57,6 +57,18 @@
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     });
+    const asyncLocalStorage = {
+      setItem: function (key, value) {
+        return Promise.resolve().then(function () {
+          localStorage.setItem(key, value);
+        });
+      },
+      getItem: function (key) {
+        return Promise.resolve().then(function () {
+          return localStorage.getItem(key);
+        });
+      }
+    };
   </script>
 </head>
 
@@ -156,6 +168,19 @@
                     <td style="vertical-align:top; width:600px">
                       <h3 class="w3-margin-left node__title">Feature Maps</h3><br>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                       <div>
                         <button id='btnPrev' class="w3-button w3-large w3-circle w3-light-grey">‹</button>
                         <select id="navigation-dropdown" name="navigation">
@@ -165,29 +190,18 @@
                       </div>
                       <p><br></p>
                       <script>
-                        selectedOption = $('#navigation-dropdown option:selected');
-                        if (selectedOption.prev().val()) { $('btnPrev').attr("hidden", false); } else { $('btnPrev').attr("hidden", true); }
-                        if (selectedOption.next().val()) { $('btnNext').attr("hidden", false); } else { $('btnNext').attr("hidden", true); }
-
-                        $('#btnPrev').click(function () {
-                          if (selectedOption.prev().val()) {
-                            location.href = selectedOption.prev().val();
-                          }
-                        });
-
-                        $('#btnNext').click(function () {
-                          if (selectedOption.next().val()) {
-                            location.href = selectedOption.next().val();
-                          }
-                        });
-
                         $('#navigation-dropdown').change(function () {
+
+                          var selectedOption = $('#navigation-dropdown option:selected');
+
                           if (selectedOption.val()) {
                             location.href = selectedOption.val();
                           }
-                        });
 
+                        });
                       </script>
+
+
 
                       <div id="tilShowImgDiv" style="color: navy;">
                         <!--div id="imgTILDiv"-->
