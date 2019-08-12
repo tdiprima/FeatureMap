@@ -45,8 +45,8 @@ tilmap = function () {
 function navigation() {
   let dropdown = $('#navigation-dropdown');
   dropdown.empty();
-  dropdown.append('<option selected="true" disabled>Choose Slide</option>');
-  dropdown.prop('selectedIndex', 0);
+  //dropdown.append('<option selected="true" disabled>Choose Slide</option>');
+  //dropdown.prop('selectedIndex', 0);
   const loc = window.location;
   const len = loc.origin.length;
   // Populate dropdown with list of slides
@@ -88,33 +88,16 @@ function navigation() {
             constructaurl = '';
             name = (name + ": no featuremap");
           }
-          dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
+
+          if (parseInt(tilmap.slide) === nid) {
+            dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
+
+          } else {
+            dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
+          }
         });
       });
     });
-  });
-
-  // let selIdx = 0;
-  // if (sessionStorage.selectedIndex) {
-  //   selIdx = sessionStorage.selectedIndex;
-  // }
-
-  // var dataPromise = sessionStorage.selectedIndex;
-  asyncLocalStorage.getItem('selectedIndex').then(function () {
-    return asyncLocalStorage.getItem('selectedIndex');
-  }).then(function (value) {
-    console.log('Value has been set to:', value);
-    console.log('dropdown', dropdown);
-
-    //$("#navigation-dropdown").prop('selectedIndex', parseInt(value));
-
-    // sets selected index of a select box the actual index of 0
-    //$("select#elem").attr('selectedIndex', 21);
-
-    // var country = document.getElementById("navigation-dropdown");
-    // console.log('thing', country);
-    // // country.options[country.options.selectedIndex].selected = true;
-    // country.options[value].selected = true;
   });
 }
 
