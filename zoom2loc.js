@@ -3,6 +3,8 @@
  * It changes the location, zooming in the slide viewer.
  */
 zoom2loc = function (event) {
+  
+  let e = event;
 
   // Get click position
   let clickPos = {};
