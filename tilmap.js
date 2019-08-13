@@ -187,7 +187,7 @@ function getBoundingBox() {
 }
 
 function fitInBox(initWidth, initHeight, maxWidth, maxHeight) {
-  console.log("init w,h", initWidth, initHeight);
+  // console.log("init w,h", initWidth, initHeight);
 
   // First pass
   widthScale = maxWidth / initWidth;
@@ -196,7 +196,7 @@ function fitInBox(initWidth, initHeight, maxWidth, maxHeight) {
 
   new_width = parseInt(initWidth * scale);
   new_height = parseInt(initHeight * scale);
-  console.log("new w,h", new_width, new_height);
+  // console.log("new w,h", new_width, new_height);
 
   // Second pass
   let aspect = parseFloat(initWidth / initHeight);
@@ -485,7 +485,7 @@ tilmap.calcTILfun = function () {
 
 
     if (tilmap.scale > 0 && tilmap.flag) {
-      console.log('scaling', tilmap.scale);
+      // console.log('scaling', tilmap.scale);
       tilmap.ctx.scale(parseFloat(tilmap.scale), parseFloat(tilmap.scale));
     }
 
@@ -503,12 +503,12 @@ tilmap.calcTILfun = function () {
      */
 
     tilmap.imgDataR = tilmap.imSlice(0);
-    console.log('Red channel zeroes?', tilmap.imgDataR.every(item => item === 0));
+    // console.log('Red channel zeroes?', tilmap.imgDataR.every(item => item === 0));
     tilmap.imgDataG = tilmap.imSlice(1);
-    console.log('Green channel zeroes?', tilmap.imgDataG.every(item => item === 0));
+    // console.log('Green channel zeroes?', tilmap.imgDataG.every(item => item === 0));
     // extract blue channel
     tilmap.imgDataB = tilmap.imSlice(2);
-    console.log('Blue channel zeroes?', tilmap.imgDataB.every(item => item === 0));
+    // console.log('Blue channel zeroes?', tilmap.imgDataB.every(item => item === 0));
 
     // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
     // tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
