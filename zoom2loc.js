@@ -8,7 +8,36 @@ zoom2loc = function (event) {
   let clickPos = {};
   clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - document.getElementById("imgTILDiv").offsetLeft;
   clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - document.getElementById("imgTILDiv").offsetTop;
-  //console.log("clickPos", clickPos);
+  console.log("clickPos", clickPos);
+  
+    function calcPageXY(e) {
+      e = e || window.event;
+
+      var pageX = e.pageX;
+      var pageY = e.pageY;
+      if (pageX === undefined) {
+        pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      }
+
+      console.log('pageXY', [pageX, pageY]);
+    }
+  calcPageXY(e);
+  
+    function normHeh(e) {
+      e = e || window.event;
+
+      var target = e.target || e.srcElement,
+        style = target.currentStyle || window.getComputedStyle(target, null),
+        borderLeftWidth = parseInt(style['borderLeftWidth'], 10),
+        borderTopWidth = parseInt(style['borderTopWidth'], 10),
+        rect = target.getBoundingClientRect(),
+        offsetX = e.clientX - borderLeftWidth - rect.left,
+        offsetY = e.clientY - borderTopWidth - rect.top;
+
+      console.log('offset', [offsetX, offsetY]);
+    }
+  normHeh(e);
 
   // Get image size
   let canvases = document.getElementsByTagName("canvas");
