@@ -21,7 +21,7 @@ zoom2loc = function (event) {
   }
   else {
     console.log('Using diff between pageX and div offset left');
-    event.offsetX = event.pageX - mydiv.offsetLeft;
+    clickPos.x = event.pageX - mydiv.offsetLeft;
   }
 
   if (event.offsetY) {
@@ -30,7 +30,7 @@ zoom2loc = function (event) {
   }
   else {
     console.log('Using diff between pageY and div offset top')
-    event.offsetY = event.pageY - mydiv.offsetTop;
+    clickPos.y = event.pageY - mydiv.offsetTop;
   }
   console.log("clickPos", clickPos);
 
