@@ -9,12 +9,30 @@ zoom2loc = function (event) {
   // Get click position
   let clickPos = {};
   let mydiv = document.getElementById("imgTILDiv");
-  clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - mydiv.offsetLeft;
-  clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - mydiv.offsetTop;
-  console.log('e.offsetXY ', [event.offsetX, event.offsetY]);
-  console.log('e.pageXY   ', [event.pageX, event.pageY]);
-  console.log('e.offsetDiv', [mydiv.offsetLeft, mydiv.offsetTop]);
-  // console.log("clickPos", clickPos);
+  // clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - mydiv.offsetLeft;
+  // clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - mydiv.offsetTop;
+  // console.log('e.offsetXY ', [event.offsetX, event.offsetY]); // 0,0 in FireFox, no good.
+  // console.log('e.pageXY   ', [event.pageX, event.pageY]); // Different
+  // console.log('e.offsetDiv', [mydiv.offsetLeft, mydiv.offsetTop]); // Equal both browsers
+
+  if (event.offsetX) {
+    console.log('Using offsetX');
+    clickPos.x = event.offsetX;
+  }
+  else {
+    console.log('Using diff between pageX and div offset left');
+    event.offsetX = event.pageX - mydiv.offsetLeft;
+  }
+
+  if (event.offsetY) {
+    console.log('Using offsetX');
+    clickPos.y = event.offsetY;
+  }
+  else {
+    console.log('Using diff between pageY and div offset top')
+    event.offsetY = event.pageY - mydiv.offsetTop;
+  }
+  console.log("clickPos", clickPos);
 
   function calcPageXY(e) {
     e = e || window.event;
@@ -25,10 +43,9 @@ zoom2loc = function (event) {
       pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
       pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
     }
-
-    console.log('pageXY', [pageX, pageY]);
+    // console.log('pageXY', [pageX, pageY]); // Same as this e.pageXY
   }
-  calcPageXY(e);
+  // calcPageXY(e);
 
   function normHeh(e) {
     e = e || window.event;
@@ -40,10 +57,9 @@ zoom2loc = function (event) {
       rect = target.getBoundingClientRect(),
       offsetX = e.clientX - borderLeftWidth - rect.left,
       offsetY = e.clientY - borderTopWidth - rect.top;
-
-    console.log('offset', [offsetX, offsetY]);
+    // console.log('offset', [offsetX, offsetY]); // Both browsers are close
   }
-  normHeh(e);
+  // normHeh(e);
 
   // Get image size
   let canvases = document.getElementsByTagName("canvas");
