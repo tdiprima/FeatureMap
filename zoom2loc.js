@@ -25,7 +25,7 @@ zoom2loc = function (event) {
   }
 
   if (event.offsetY) {
-    console.log('Using offsetX');
+    console.log('Using offsetY');
     clickPos.y = event.offsetY;
   }
   else {
