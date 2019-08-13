@@ -8,8 +8,12 @@ zoom2loc = function (event) {
 
   // Get click position
   let clickPos = {};
-  clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - document.getElementById("imgTILDiv").offsetLeft;
-  clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - document.getElementById("imgTILDiv").offsetTop;
+  let mydiv = document.getElementById("imgTILDiv");
+  clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - mydiv.offsetLeft;
+  clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - mydiv.offsetTop;
+  console.log('event.offsetXY', [event.offsetX, event.offsetY]);
+  console.log('event.pageXY', [event.pageX, event.pageY]);
+  console.log('mydiv.offsetLeft/Top', [mydiv.offsetLeft, mydiv.offsetTop]);
   console.log("clickPos", clickPos);
   
     function calcPageXY(e) {
