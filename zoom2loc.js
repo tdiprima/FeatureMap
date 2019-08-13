@@ -3,7 +3,7 @@
  * It changes the location, zooming in the slide viewer.
  */
 zoom2loc = function (event) {
-  
+
   let e = event;
 
   // Get click position
@@ -11,38 +11,38 @@ zoom2loc = function (event) {
   let mydiv = document.getElementById("imgTILDiv");
   clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - mydiv.offsetLeft;
   clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - mydiv.offsetTop;
-  console.log('event.offsetXY', [event.offsetX, event.offsetY]);
-  console.log('event.pageXY', [event.pageX, event.pageY]);
-  console.log('mydiv.offsetLeft/Top', [mydiv.offsetLeft, mydiv.offsetTop]);
-  console.log("clickPos", clickPos);
-  
-    function calcPageXY(e) {
-      e = e || window.event;
+  console.log('e.offsetXY ', [event.offsetX, event.offsetY]);
+  console.log('e.pageXY   ', [event.pageX, event.pageY]);
+  console.log('e.offsetDiv', [mydiv.offsetLeft, mydiv.offsetTop]);
+  // console.log("clickPos", clickPos);
 
-      var pageX = e.pageX;
-      var pageY = e.pageY;
-      if (pageX === undefined) {
-        pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-      }
+  function calcPageXY(e) {
+    e = e || window.event;
 
-      console.log('pageXY', [pageX, pageY]);
+    var pageX = e.pageX;
+    var pageY = e.pageY;
+    if (pageX === undefined) {
+      pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
     }
+
+    console.log('pageXY', [pageX, pageY]);
+  }
   calcPageXY(e);
-  
-    function normHeh(e) {
-      e = e || window.event;
 
-      var target = e.target || e.srcElement,
-        style = target.currentStyle || window.getComputedStyle(target, null),
-        borderLeftWidth = parseInt(style['borderLeftWidth'], 10),
-        borderTopWidth = parseInt(style['borderTopWidth'], 10),
-        rect = target.getBoundingClientRect(),
-        offsetX = e.clientX - borderLeftWidth - rect.left,
-        offsetY = e.clientY - borderTopWidth - rect.top;
+  function normHeh(e) {
+    e = e || window.event;
 
-      console.log('offset', [offsetX, offsetY]);
-    }
+    var target = e.target || e.srcElement,
+      style = target.currentStyle || window.getComputedStyle(target, null),
+      borderLeftWidth = parseInt(style['borderLeftWidth'], 10),
+      borderTopWidth = parseInt(style['borderTopWidth'], 10),
+      rect = target.getBoundingClientRect(),
+      offsetX = e.clientX - borderLeftWidth - rect.left,
+      offsetY = e.clientY - borderTopWidth - rect.top;
+
+    console.log('offset', [offsetX, offsetY]);
+  }
   normHeh(e);
 
   // Get image size
@@ -84,11 +84,11 @@ zoom2loc = function (event) {
       slideDim.width = result.imagedvolumewidth[0].value;
       slideDim.height = result.imagedvolumeheight[0].value;
 
-    } catch(e) {
+    } catch (e) {
       success = false;
-      console.log({"exception_was": e});
+      console.log({ "exception_was": e });
     }
-    if(!success) {
+    if (!success) {
       slideDim.width = pathdb_util.slideWidth;
       slideDim.height = pathdb_util.slideHeight;
     }
