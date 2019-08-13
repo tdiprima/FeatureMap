@@ -181,7 +181,7 @@ function getBoundingBox() {
     "width": tilmap.width,
     "height": tilmap.height
   };
-  console.log("boundingBox", boundingBox);
+  // console.log("boundingBox", boundingBox);
 
   return boundingBox;
 }
