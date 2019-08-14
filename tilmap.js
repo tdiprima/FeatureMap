@@ -101,12 +101,12 @@ function navigation() {
     });
   });
 
-  // var selectedOption = $('#navigation-dropdown option:selected');
-  // if (selectedOption.prev().val()) { $('btnPrev').attr("hidden", false); } else { $('btnPrev').attr("hidden", true); }
-  // if (selectedOption.next().val()) { $('btnNext').attr("hidden", false); } else { $('btnNext').attr("hidden", true); }
-  //if (dropdown.) {
-  //$('btnPrev')
-  //}
+  let selectedOption = $('#navigation-dropdown option:selected');
+  console.log('selectedOption.prev().val()', selectedOption.prev().val());
+  console.log('selectedOption.next().val()', selectedOption.next().val());
+  if (selectedOption.prev().val()) { $('btnPrev').attr("hidden", false); } else { $('btnPrev').attr("hidden", true); }
+  if (selectedOption.next().val()) { $('btnNext').attr("hidden", false); } else { $('btnNext').attr("hidden", true); }
+
 }
 
 
