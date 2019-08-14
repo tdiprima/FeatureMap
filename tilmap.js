@@ -118,6 +118,7 @@ function navigation() {
   }
    */
 
+  /*
   $("#btnNext").click(function () {
     var isLastElementSelected = $('#navigation-dropdown > option:selected').index() == $('#navigation-dropdown > option').length - 1;
 
@@ -140,6 +141,7 @@ function navigation() {
     }
 
   });
+   */
 
 }
 
