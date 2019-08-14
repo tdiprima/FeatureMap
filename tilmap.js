@@ -328,27 +328,24 @@ ui = function (feature_names) {
   // feature_names => HTML Elements
   if (feature_names.length >= 3) {
     // should be red, green, blue
-    let x = document.getElementById('calcTILred');
-    if (feature_names[0].toUpperCase() === 'TIL') {
-      let head2 = 'TIL';
-      x.innerText = head2;
-      x = document.getElementById('redRangePlay');
-      x.innerText = head2;
-    } else {
-      let head2 = feature_names[0];
-      x.innerText = head2;
-      x = document.getElementById('redRangePlay');
-      x.innerText = head2;
-    }
+    let redBtn = document.getElementById('calcTILred');
+    let what = (feature_names[0].toUpperCase() === 'TIL') ? 'TIL' : feature_names[0];
+    redBtn.innerText = what;
+    redBtn.title = "Showing " + what + " vs. " + what;
+    console.log('redBtn title', redBtn.title);
 
-    x = document.getElementById('calcTILgreen');
-    x.innerText = feature_names[1];
+    document.getElementById('redRangePlay').innerText = what;
 
-    x = document.getElementById('calcTILblue');
-    x.innerText = feature_names[2];
+    let greenBtn = document.getElementById('calcTILgreen');
+    greenBtn.innerText = feature_names[1];
+    greenBtn.title = "Showing " + feature_names[1] + " vs. " + feature_names[1];
 
-    x = document.getElementById('greenRangePlay');
-    x.innerText = feature_names[1];
+    let blueBtn = document.getElementById('calcTILblue');
+    blueBtn.innerText = feature_names[2];
+    blueBtn.title = "Showing " + feature_names[2] + " vs. " + feature_names[2];
+
+    let greenPlay = document.getElementById('greenRangePlay');
+    greenPlay.innerText = feature_names[1];
 
   } else {
     alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');
