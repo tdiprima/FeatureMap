@@ -4,7 +4,7 @@
  * Displays image to user.
  */
 tilmap = function () {
-  
+
   // default blue-red colormap in statistical computing env (Matlab)
   tilmap.colormap = jmat.colormap();
   // *** if we want different one, then generate or borrow the new array, under a new switch "case" in jmat.colormap() ***
@@ -336,13 +336,14 @@ ui = function (feature_names) {
     let what = (feature_names[0].toUpperCase() === 'TIL') ? 'TIL' : feature_names[0];
     redBtn.innerText = what;
     redBtn.title = "Showing " + what + " vs. " + what;
-    console.log('redBtn title', redBtn.title);
+    document.getElementById('redTiles').title = "total tissue area and percent tissue area classified as " + what;
 
     document.getElementById('redRangePlay').innerText = what;
 
     let greenBtn = document.getElementById('calcTILgreen');
     greenBtn.innerText = feature_names[1];
     greenBtn.title = "Showing " + feature_names[1] + " vs. " + feature_names[1];
+    document.getElementById('greenTiles').title = "total tissue area and percent tissue area classified as " + feature_names[1];
 
     let blueBtn = document.getElementById('calcTILblue');
     blueBtn.innerText = feature_names[2];
