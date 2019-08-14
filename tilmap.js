@@ -464,7 +464,7 @@ tilmap.calcTILfun = function () {
   tilmap.zoom2loc();
   greenRange.value = tilmap.parms.greenRange;
   redRange.value = tilmap.parms.redRange;
-  //rangeSegmentBt.onclick = tilmap.segment;
+  rangeSegmentBt.onclick = tilmap.segment;
 
   greenRangePlay.onclick = redRangePlay.onclick = function () {
 
