@@ -616,10 +616,11 @@ tilmap.calcTILfun = function () {
     };
     tilmap.cvBase.onclick = tilmap.img.onclick;
 
-    // Event listener for both sliders - red and green
+    // Event listener for both sliders
     greenRange.onchange = redRange.onchange = function () {
 
-      document.getElementById(this.id + 'Val').innerHTML = this.value;
+      // redRangeVal, greenRangeVal
+      document.getElementById(this.id + 'Val').innerHTML = this.value; // TODO: tag type (%)?
 
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
