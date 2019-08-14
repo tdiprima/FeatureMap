@@ -82,7 +82,7 @@ function navigation() {
             if (type.length > 5) {
               type = type.substring(0, 5)
             }
-            name = type + ' ' + name;
+            name = (type + ' ' + name);
             // console.log('map', map);
           } catch (e1) {
             // console.log('no map for this image', name);
@@ -92,7 +92,7 @@ function navigation() {
             constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map;
           } else {
             constructaurl = '';
-            name = (name + ": no featuremap");
+            name = ("none " + name);
           }
 
           if (parseInt(tilmap.slide) === nid) {
