@@ -102,10 +102,8 @@ function navigation() {
   });
 
   let selectedOption = $('#navigation-dropdown option:selected');
-  console.log('selectedOption.prev().val()', selectedOption.prev().val());
-  console.log('selectedOption.next().val()', selectedOption.next().val());
-  if (selectedOption.prev().val()) { $('btnPrev').attr("hidden", false); } else { $('btnPrev').attr("hidden", true); }
-  if (selectedOption.next().val()) { $('btnNext').attr("hidden", false); } else { $('btnNext').attr("hidden", true); }
+  if (selectedOption.prev().val()) { $('btnPrev').attr("disabled", false); } else { $('btnPrev').attr("disabled", true); }
+  if (selectedOption.next().val()) { $('btnNext').attr("disabled", false); } else { $('btnNext').attr("disabled", true); }
 
 }
 
