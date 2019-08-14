@@ -57,18 +57,6 @@
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     });
-    const asyncLocalStorage = {
-      setItem: function (key, value) {
-        return Promise.resolve().then(function () {
-          localStorage.setItem(key, value);
-        });
-      },
-      getItem: function (key) {
-        return Promise.resolve().then(function () {
-          return localStorage.getItem(key);
-        });
-      }
-    };
   </script>
 </head>
 
@@ -207,9 +195,9 @@
                           <p>
                             <span id="hideRGBbuttons" style="color:maroon;cursor:hand;font-size:small">RGB[-] </span>
                             <span id="rgbButtons">
-                              <button id="calcTILred"></button>
-                              <button id="calcTILgreen"></button>
-                              <button id="calcTILblue"></button>
+                              <button id="calcTILred" class="btn" data-toggle="tooltip" data-placement="right" title="This is an example of a tooltip"></button>
+                              <button id="calcTILgreen" class="btn" data-toggle="tooltip" data-placement="right" title="This is an example of a tooltip"></button>
+                              <button id="calcTILblue" class="btn" data-toggle="tooltip" data-placement="right" title="This is an example of a tooltip"></button>
                               <button id="calcTIL0" style="background-color:white">Original PNG</button>
                               <span id="tileSize" style="font-size:small"></span>
                             </span>
