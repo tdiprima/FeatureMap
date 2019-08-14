@@ -74,9 +74,15 @@ function navigation() {
         $.getJSON(url3, function (data) {
           // console.log('3.', data);
           let map;
+          let type;
           try {
             map = data[0].field_map[0].url;
             map = map.substring(len);
+            type = data[0].field_map_type[0].value;
+            if (type.length > 5) {
+              type = type.substring(0, 5)
+            }
+            name = type + ' ' + name;
             // console.log('map', map);
           } catch (e1) {
             // console.log('no map for this image', name);
