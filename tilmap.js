@@ -94,6 +94,7 @@ function navigation() {
             constructaurl = '';
             name = ("none " + name);
           }
+          name = name.toUpperCase();
 
           if (parseInt(tilmap.slide) === nid) {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
