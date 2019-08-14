@@ -92,8 +92,7 @@ function navigation() {
           if (parseInt(tilmap.slide) === nid) {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
 
-          }
-          else {
+          } else {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name));
           }
         });
@@ -101,9 +100,46 @@ function navigation() {
     });
   });
 
+  /*
   let selectedOption = $('#navigation-dropdown option:selected');
-  if (selectedOption.prev().val()) { $('#btnPrev').attr("disabled", false); } else { $('#btnPrev').attr("disabled", true); }
-  if (selectedOption.next().val()) { $('#btnNext').attr("disabled", false); } else { $('#btnNext').attr("disabled", true); }
+  if (selectedOption.prev().val()) {
+    console.log(selectedOption.prev().val());
+    $('#btnPrev').attr("disabled", false);
+  } else {
+    console.log(selectedOption.prev().val());
+    $('#btnPrev').attr("disabled", true);
+  }
+  if (selectedOption.next().val()) {
+    console.log(selectedOption.next().val());
+    $('#btnNext').attr("disabled", false);
+  } else {
+    console.log(selectedOption.next().val());
+    $('#btnNext').attr("disabled", true);
+  }
+   */
+
+  $("#btnNext").click(function () {
+    var isLastElementSelected = $('#navigation-dropdown > option:selected').index() == $('#navigation-dropdown > option').length - 1;
+
+    if (!isLastElementSelected) {
+      $('#navigation-dropdown > option:selected').removeAttr('selected').btnNext('option').attr('selected', 'selected');
+    } else {
+      $('#navigation-dropdown > option:selected').removeAttr('selected');
+      $('#navigation-dropdown > option').first().attr('selected', 'selected');
+    }
+  });
+
+  $("#btnPrev").click(function () {
+    var isFirstElementSelected = $('#navigation-dropdown > option:selected').index() == 0;
+
+    if (!isFirstElementSelected) {
+      $('#navigation-dropdown > option:selected').removeAttr('selected').btnPrev('option').attr('selected', 'selected');
+    } else {
+      $('#navigation-dropdown > option:selected').removeAttr('selected');
+      $('#navigation-dropdown > option').last().attr('selected', 'selected');
+    }
+
+  });
 
 }
 
