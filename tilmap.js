@@ -49,13 +49,13 @@ function navigation() {
   //dropdown.prop('selectedIndex', 0);
   const loc = window.location;
   const len = loc.origin.length;
-  // Populate dropdown with list of slides
-  const url1 = '/node/' + tilmap.slide + '?_format=json';
+  // POPULATE DROPDOWN WITH LIST OF SLIDES
+  const url1 = '/node/' + tilmap.slide + '?_format=json'; // GET SLIDE INFO TO GET COLLECTION
   // console.log('url1', url1);
   $.getJSON(url1, function (data) {
     // console.log('1.', data);
     let collection = data.field_collection[0].target_id;
-    const url2 = '/listofimages/' + collection + '?_format=json';
+    const url2 = '/listofimages/' + collection + '?_format=json'; // GET COLLECTION TO GET LIST OF IMAGES
     // console.log('url2', url2);
     $.getJSON(url2, function (data) {
       // console.log('2.', data);
@@ -64,25 +64,27 @@ function navigation() {
         // let name = entry.imageid[0].value;
         let arr = entry.field_iip_path[0].value.split("/");
         let x = arr.length;
-        let name = arr[x - 1];
+        let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
         if (name.length > 23) {
           name = name.substring(0, 23);
         }
         // console.log('name', name);
-        const url3 = '/maps/' + nid + '?_format=json';
+        const url3 = '/maps/' + nid + '?_format=json'; // GET MAP TO GET FILE URI
         // console.log('url3', url3);
-        $.getJSON(url3, function (data) {
+        $.getJSON(url3, function (data) { // TODO:
           // console.log('3.', data);
           let map;
           let type;
           try {
             map = data[0].field_map[0].url;
             map = map.substring(len);
-            type = data[0].field_map_type[0].value;
+            /*
+            type = data[0].field_map_type[0].value; // TODO: We're not getting into this loop. Fix!
             if (type.length > 5) {
               type = type.substring(0, 5)
             }
             name = (type + ' ' + name);
+             */
             // console.log('map', map);
           } catch (e1) {
             // console.log('no map for this image', name);
@@ -92,9 +94,9 @@ function navigation() {
             constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map;
           } else {
             constructaurl = '';
-            name = ("none " + name);
+            name = ("None: " + name);
           }
-          name = name.toUpperCase();
+          // name = name.toUpperCase();
 
           if (parseInt(tilmap.slide) === nid) {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
