@@ -4,6 +4,10 @@
  * Displays image to user.
  */
 tilmap = function () {
+  
+  // default blue-red colormap in statistical computing env (Matlab)
+  tilmap.colormap = jmat.colormap();
+  // *** if we want different one, then generate or borrow the new array, under a new switch "case" in jmat.colormap() ***
 
   var queryString = location.search;
   if (queryString.length > 1) {
@@ -624,7 +628,7 @@ tilmap.calcTILfun = function () {
 
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
-      var cm = jmat.colormap();  //[[1, 0, 0], [1, 1, 0], [0, 0, 1]];
+      var cm = tilmap.colormap;  //[[1, 0, 0], [1, 1, 0], [0, 0, 1]];
       // var k = parseInt(this.value) / 100 //slider value
       var cr = parseInt(greenRange.value) / 100;
       var tr = parseInt(redRange.value) / 100;
@@ -762,7 +766,7 @@ tilmap.from2D = function (dd) {
   tilmap.cvBase.hidden = false;
   tilmap.img.hidden = true;
   tilmap.cv2D = dd; // keeping current value 2D slice
-  var cm = jmat.colormap();
+  var cm = tilmap.colormap;
   var k = 63 / 255; // png values are between 0-255. there are 64 color map values (0-63).
   var ddd = dd.map(function (d) {
     return d.map(function (v) {
