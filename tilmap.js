@@ -102,8 +102,8 @@ function navigation() {
   });
 
   let selectedOption = $('#navigation-dropdown option:selected');
-  if (selectedOption.prev().val()) { $('btnPrev').attr("disabled", false); } else { $('btnPrev').attr("disabled", true); }
-  if (selectedOption.next().val()) { $('btnNext').attr("disabled", false); } else { $('btnNext').attr("disabled", true); }
+  if (selectedOption.prev().val()) { $('#btnPrev').attr("disabled", false); } else { $('#btnPrev').attr("disabled", true); }
+  if (selectedOption.next().val()) { $('#btnNext').attr("disabled", false); } else { $('#btnNext').attr("disabled", true); }
 
 }
 
