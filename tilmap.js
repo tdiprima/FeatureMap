@@ -89,7 +89,6 @@ function navigation() {
             name = (name + ": no featuremap");
           }
 
-
           if (parseInt(tilmap.slide) === nid) {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
 
