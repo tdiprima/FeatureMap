@@ -336,8 +336,7 @@ ui = function (feature_names) {
     let what = (feature_names[0].toUpperCase() === 'TIL') ? 'TIL' : feature_names[0];
     redBtn.innerText = what;
     redBtn.title = "Showing " + what + " vs. " + what;
-    document.getElementById('redTiles').title = "total tissue area and percent tissue area classified as " + what;
-
+    // document.getElementById('redTiles').title = "total tissue area and percent tissue area classified as " + what;
     document.getElementById('redRangePlay').innerText = what;
 
     let greenBtn = document.getElementById('calcTILgreen');
@@ -350,8 +349,7 @@ ui = function (feature_names) {
     blueBtn.title = "Showing " + feature_names[2] + " vs. " + feature_names[2];
     document.getElementById('backTiles').title = "total tissue area and percent tissue area classified as " + feature_names[2];
 
-    let greenPlay = document.getElementById('greenRangePlay');
-    greenPlay.innerText = feature_names[1];
+    getElementById('greenRangePlay').innerText = feature_names[1];
 
   } else {
     alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');
