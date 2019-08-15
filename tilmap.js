@@ -343,7 +343,7 @@ ui = function (feature_names) {
     greenBtn.innerText = feature_names[1];
     greenBtn.title = "Showing " + feature_names[1] + " vs. " + feature_names[1];
     document.getElementById('greenTiles').title = "total tissue area and percent tissue area classified as " + feature_names[1];
-    getElementById('greenRangePlay').innerText = feature_names[1];
+    document.getElementById('greenRangePlay').innerText = feature_names[1];
 
     // TODO: not background anymore
     let blueBtn = document.getElementById('calcTILblue');
