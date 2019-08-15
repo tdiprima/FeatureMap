@@ -5,7 +5,7 @@
  */
 tilmap = function () {
 
-  // default blue-red colormap in statistical computing env (Matlab)
+  // blue-red colormap, 'default' in statistical computing env (Matlab)
   tilmap.colormap = jmat.colormap();
   // *** if we want different one, then generate or borrow the new array, under a new switch "case" in jmat.colormap() ***
 
