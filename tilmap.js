@@ -348,6 +348,7 @@ ui = function (feature_names) {
     let blueBtn = document.getElementById('calcTILblue');
     blueBtn.innerText = feature_names[2];
     blueBtn.title = "Showing " + feature_names[2] + " vs. " + feature_names[2];
+    document.getElementById('backTiles').title = "total tissue area and percent tissue area classified as " + feature_names[2];
 
     let greenPlay = document.getElementById('greenRangePlay');
     greenPlay.innerText = feature_names[1];
