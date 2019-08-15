@@ -817,6 +817,10 @@ tilmap.segment = function (event, doTranspire = true) {
       return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] > 0); // use normal sv for mask
     })
   });
+  /*
+  Tile size is equal for both TILs and tumor after registration of the sizes of tiles during the overlay.
+  Even if the original grid would differ between tumor and TIL, it would be matched in a similarly gridded tiled.
+  */
   greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
   redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
