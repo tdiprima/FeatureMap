@@ -702,6 +702,8 @@ changeUI = function (selectedOptions) {
   document.getElementById('redRangePlay').innerText = names[selectedOptions[0]];
   document.getElementById('calcTILgreen').innerText = names[selectedOptions[1]];
   document.getElementById('greenRangePlay').innerText = names[selectedOptions[1]];
+  document.getElementById('calcTILblue').innerText = names[selectedOptions[2]];
+  //document.getElementById('TBA').innerText = names[selectedOptions[2]];
   // download(tilmap.slide + '.png', createImage(selectedOptions));
   let canvas = createImage(selectedOptions);
   tilmap.dataUri = canvas.toDataURL();
