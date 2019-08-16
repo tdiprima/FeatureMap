@@ -4,7 +4,8 @@
  * Displays image to user.
  */
 tilmap = function () {
-
+  $('[data-toggle="tooltip"]').tooltip();
+  
   tilmap.myBrowser = getBrowser(); // global variable for which browser we've got
 
   // blue-red colormap, 'default' in statistical computing env (Matlab)
