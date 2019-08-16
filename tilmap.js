@@ -326,21 +326,22 @@ ui = function (feature_names) {
     let redBtn = document.getElementById('calcTILred');
     let what = (feature_names[0].toUpperCase() === 'TIL') ? 'TIL' : feature_names[0];
     redBtn.innerText = what;
-    redBtn.title = "Showing " + what + " vs. " + what;
-    document.getElementById('redTiles').title = "total tissue area and percent tissue area classified as " + what;
+    // TOOLTIPS DON'T WORK IF YOU'RE GONNA SET THE TITLE DYNAMICALLY
+    // redBtn.title = "Showing " + what + " vs. " + what;
+    // document.getElementById('redTiles').title = "total tissue area and percent tissue area classified as " + what;
     document.getElementById('redRangePlay').innerText = what;
 
     let greenBtn = document.getElementById('calcTILgreen');
     greenBtn.innerText = feature_names[1];
-    greenBtn.title = "Showing " + feature_names[1] + " vs. " + feature_names[1];
-    document.getElementById('greenTiles').title = "total tissue area and percent tissue area classified as " + feature_names[1];
+    // greenBtn.title = "Showing " + feature_names[1] + " vs. " + feature_names[1];
+    // document.getElementById('greenTiles').title = "total tissue area and percent tissue area classified as " + feature_names[1];
     document.getElementById('greenRangePlay').innerText = feature_names[1];
 
     // TODO: not background anymore
     let blueBtn = document.getElementById('calcTILblue');
     blueBtn.innerText = feature_names[2];
-    blueBtn.title = "Showing " + feature_names[2] + " vs. " + feature_names[2];
-    document.getElementById('backTiles').title = "total tissue area and percent tissue area classified as " + feature_names[2];
+    // blueBtn.title = "Showing " + feature_names[2] + " vs. " + feature_names[2];
+    // document.getElementById('backTiles').title = "total tissue area and percent tissue area classified as " + feature_names[2];
 
   } else {
     alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');

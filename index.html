@@ -166,12 +166,12 @@
                       <div id="calcTIL">
                         <div id="calcTILdiv">
                           <p>
-                            <span id="hideRGBbuttons" style="color:blue; cursor:pointer; font-size:small;">RGB[+] </span>
+                            <span id="hideRGBbuttons" data-toggle="tooltip" data-placement="top" title="Click +/- to toggle open/closed" style="color:blue; cursor:pointer; font-size:small;">RGB[+] </span>
                             <span id="rgbButtons" hidden="true">
-                              <button id="calcTILred" data-toggle="tooltip" data-placement="top" title=""></button>
-                              <button id="calcTILgreen" data-toggle="tooltip" data-placement="top" title=""></button>
-                              <button id="calcTILblue" data-toggle="tooltip" data-placement="top" title=""></button>
-                              <button id="calcTIL0" style="background-color:white">Original PNG</button>
+                              <button id="calcTILred" data-toggle="tooltip" data-placement="top" title="Show this feature vs. itself"></button>
+                              <button id="calcTILgreen" data-toggle="tooltip" data-placement="top" title="Show this feature vs. itself"></button>
+                              <button id="calcTILblue" data-toggle="tooltip" data-placement="top" title="Show this feature vs. itself"></button>
+                              <button id="calcTIL0" data-toggle="tooltip" data-placement="top" title="Show original data">Original PNG</button>
                               <span id="tileSize" style="font-size: small"></span>
                             </span>
                           </p>
@@ -179,15 +179,15 @@
                             <!--span style="font-size: small; font-weight: bold">Red range values</span><br-->
                             <span id="redRangeVal" style="font-size: small"></span><br>
                             <input id="redRange" type="range" style="width:200px">
-                            <button id="redRangePlay" style="background-color:silver" title="play it"></button>
-                            <span style="color: navy;"><span id="redTiles" data-toggle="tooltip" data-placement="auto">counting ...</span></span>
+                            <button id="redRangePlay" style="background-color:silver" data-toggle="tooltip" data-placement="top" title="Play it!"></button>
+                            <span style="color: navy;"><span id="redTiles" data-toggle="tooltip" data-placement="top" title="Total tissue area and % tissue area classified as [feature]">counting ...</span></span>
                             </p>
                           <p><!-- Green -->
                             <!--span style="font-size: small; font-weight: bold">Green range values</span><br-->
                             <span id="greenRangeVal" style="font-size: small"></span><br>
                             <input id="greenRange" type="range" style="width:200px">
-                            <button id="greenRangePlay" style="background-color:silver" title="play it"></button>
-                            <span style="color: navy;"><span id="greenTiles" data-toggle="tooltip" data-placement="auto">counting ...</span></span>
+                            <button id="greenRangePlay" style="background-color:silver" data-toggle="tooltip" data-placement="top" title="Play it!"></button>
+                            <span style="color: navy;"><span id="greenTiles" data-toggle="tooltip" data-placement="top" title="Total tissue area and % tissue area classified as [feature]">counting ...</span></span>
                           </p>
                           <p><!-- Blue / Tissue -->
                             <!--span style="font-size: small; font-weight: bold">Blue range (tissue) values</span><br-->
@@ -197,15 +197,19 @@
                             The point of that design was to allow for the user to change the proportions of the things segmented
                             - for example removing the Cancer 'heatmap' to highlight what is TIL.
                             But now for example when you turn the cancerRange all the way to zero, the count will also change. -->
-                            <button id="rangeSegmentBt" style="background-color:silver">Bkgnd Suppr</button>
-                            <span style="color: navy;"><span id="backTiles">...</span></span>
+                            <button id="rangeSegmentBt" style="background-color:silver" data-toggle="tooltip" data-placement="top" title="Background Suppression">Bkgnd Suppr</button>
+                            <span style="color: navy;">
+                              <!-- ??? -->
+                              <!--<span id="backTiles" data-toggle="tooltip" data-placement="top" title="Out of this many tiles, how much of it is tissue (TIL type maps only)">...</span>-->
+                              <span id="backTiles">counting ...</span>
+                            </span>
                             <br>
                             <span style="color: navy;">0 ←(segmentation threshold)→ 1</span>
                           </p>
                           <p>
                             <span id="transparencyRangeVal" style="font-size: small"></span><br>
                             <input id="transparencyRange" type="range" style="width:200px" value="20">
-                            <span style="color: navy;">0 ←(segmentation transparency)→ 1</span>
+                            <span style="color: navy;" data-toggle="tooltip" data-placement="top" title="segmentation visibility">0 ←(segmentation transparency)→ 1</span>
                           </p>
                           <!--
                           <hr><div id="choose" class="btn" data-toggle="tooltip" data-placement="right" title="Select 3 features, then click on a 4th one, and the image will be redrawn"></div>-->
