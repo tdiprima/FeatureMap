@@ -5,6 +5,8 @@
  */
 tilmap = function () {
 
+  tilmap.myBrowser = getBrowser(); // global variable for which browser we've got
+
   // blue-red colormap, 'default' in statistical computing env (Matlab)
   tilmap.colormap = jmat.colormap();
   // *** if we want different one, then generate or borrow the new array, under a new switch "case" in jmat.colormap() ***
@@ -307,25 +309,13 @@ isItemInArray = function (array, item) {
 tilmap.parms = {
   greenRange: 100,
   redRange: 100,
-  transparency: 20,
+  transparency: 80, // TODO: is this working? Was 20.
   threshold: 0
 };
 
-tilmap.zoom2loc = function () { // event listener pointing to zoom2loc's code
-  document.getElementById('imgTILDiv').onclick = function (ev) {
-    if (typeof (zoom2loc) == "undefined") {
-      var s = document.createElement('script');
-      s.src = "zoom2loc.js";
-      s.onload = function () {
-        zoom2loc(ev)
-      };
-      document.head.appendChild(s)
-    } else {
-      zoom2loc(ev)
-    }
+  document.getElementById('imgTILDiv').onclick = function (event) {
+    zoom2loc(event);
   };
-  return tilmap.calcTILdiv
-};
 
 ui = function (feature_names) {
 
@@ -461,7 +451,7 @@ tilmap.calcTILfun = function () {
     tilmap.canvasAlign();
   };
 
-  tilmap.zoom2loc();
+  // tilmap.zoom2loc(event);
   greenRange.value = tilmap.parms.greenRange;
   redRange.value = tilmap.parms.redRange;
   rangeSegmentBt.onclick = tilmap.segment;
@@ -526,8 +516,7 @@ tilmap.calcTILfun = function () {
     }
 
     // tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
-    tileSize.textContent = `${d.metadata.png_w}x${d.metadata.png_h}`;
-    console.log('tileSize.textContent', tileSize.textContent)
+    tileSize.textContent = `${tilmap.data.metadata.png_w}x${tilmap.data.metadata.png_h}`;
     tilmap.ctx = tilmap.cvBase.getContext('2d');
 
 

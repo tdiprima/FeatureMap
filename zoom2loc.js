@@ -8,59 +8,16 @@ zoom2loc = function (event) {
 
   // Get click position
   let clickPos = {};
-  let mydiv = document.getElementById("imgTILDiv");
-  // clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - mydiv.offsetLeft;
-  // clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - mydiv.offsetTop;
-  // console.log('e.offsetXY ', [event.offsetX, event.offsetY]); // 0,0 in FireFox, no good.
-  // console.log('e.pageXY   ', [event.pageX, event.pageY]); // Different
-  // console.log('e.offsetDiv', [mydiv.offsetLeft, mydiv.offsetTop]); // Equal both browsers
+  let mydiv = document.getElementById("tilmapDiv");
+  clickPos.x = event.offsetX ? (event.offsetX) : event.pageX - mydiv.offsetLeft;
+  clickPos.y = event.offsetY ? (event.offsetY) : event.pageY - mydiv.offsetTop;
 
-  if (event.offsetX) {
-    console.log('Using offsetX');
-    clickPos.x = event.offsetX;
+  if (tilmap.myBrowser === 'firefox') {
+    console.log('offsetXY      ', [e.offsetX, e.offsetY]);
+    console.log('pageXY        ', [e.pageX, e.pageY]);
+    console.log('mydiv.offsetLT', [mydiv.offsetLeft, mydiv.offsetTop]);
+    console.log('clickPosXY', [clickPos.x, clickPos.y]);
   }
-  else {
-    console.log('Using diff between pageX and div offset left');
-    clickPos.x = event.pageX - mydiv.offsetLeft;
-  }
-
-  if (event.offsetY) {
-    console.log('Using offsetY');
-    clickPos.y = event.offsetY;
-  }
-  else {
-    console.log('Using diff between pageY and div offset top')
-    clickPos.y = event.pageY - mydiv.offsetTop;
-    console.log('pageXY', [event.pageX, event.pageY]);
-  }
-  console.log("clickPos", clickPos);
-
-  function calcPageXY(e) {
-    e = e || window.event;
-
-    var pageX = e.pageX;
-    var pageY = e.pageY;
-    if (pageX === undefined) {
-      pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    }
-    // console.log('pageXY', [pageX, pageY]); // Same as this e.pageXY
-  }
-  // calcPageXY(e);
-
-  function normHeh(e) {
-    e = e || window.event;
-
-    var target = e.target || e.srcElement,
-      style = target.currentStyle || window.getComputedStyle(target, null),
-      borderLeftWidth = parseInt(style['borderLeftWidth'], 10),
-      borderTopWidth = parseInt(style['borderTopWidth'], 10),
-      rect = target.getBoundingClientRect(),
-      offsetX = e.clientX - borderLeftWidth - rect.left,
-      offsetY = e.clientY - borderTopWidth - rect.top;
-    // console.log('offset', [offsetX, offsetY]); // Both browsers are close
-  }
-  // normHeh(e);
 
   // Get image size
   let canvases = document.getElementsByTagName("canvas");
