@@ -163,7 +163,7 @@ fetch_data = function (url) {
 
   return fetch(url).then(function (response) {
     console.log('url', url);
-    console.log('response', response);
+    // console.log('response', response);
 
     if (response.ok) {
 
@@ -525,7 +525,9 @@ tilmap.calcTILfun = function () {
       tilmap.imgTILDiv.appendChild(tilmap.cvBase);
     }
 
-    tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
+    // tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
+    tileSize.textContent = `${d.metadata.png_w}x${d.metadata.png_h}`;
+    console.log('tileSize.textContent', tileSize.textContent)
     tilmap.ctx = tilmap.cvBase.getContext('2d');
 
 
@@ -628,7 +630,7 @@ tilmap.calcTILfun = function () {
 
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
-      var cm = tilmap.colormap;  //[[1, 0, 0], [1, 1, 0], [0, 0, 1]];
+      var cm = tilmap.colormap;
       // var k = parseInt(this.value) / 100 //slider value
       var cr = parseInt(greenRange.value) / 100;
       var tr = parseInt(redRange.value) / 100;
@@ -639,11 +641,13 @@ tilmap.calcTILfun = function () {
           // var g = (1 - k) * d[1] / 255
           // return cm[Math.round((r + g) * 63)].map(x => Math.round(x * 255)).concat(d[2])
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
+         // debugger
         })
       });
       jmat.imwrite(tilmap.cvBase, ddd);
-      tilmap.segment(event, false);
-      //tilmap.segment;
+      // tilmap.segment(event, false);
+      // tilmap.segment;
+      // debugger
 
     };
 
