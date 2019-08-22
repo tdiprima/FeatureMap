@@ -672,7 +672,7 @@ tilmap.calcTILfun = function () {
       tilmap.cvTop.id = "cvTop";
       tilmap.imgTILDiv.appendChild(tilmap.cvTop);
       tilmap.cvTop.style.position = 'absolute';
-      zoo(tilmap.cvTop);
+      //zoo(tilmap.cvTop);
 
     }
     tilmap.canvasAlign();
