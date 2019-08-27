@@ -630,11 +630,20 @@ tilmap.calcTILfun = function () {
       tilmap.parms[this.id] = this.value;
       var ddd = tilmap.imgData.map(function (dd) {
         return dd.map(function (d) {
-          // var r = k * d[0] / 255
-          // var g = (1 - k) * d[1] / 255
-          // return cm[Math.round((r + g) * 63)].map(x => Math.round(x * 255)).concat(d[2])
-          return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
-          // debugger
+          // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
+          var wat = cm[Math.round(Math.max(d[1] * cr, d[0] * tr) / 255 * 63)].map(function (x) {
+            return Math.round(x * 255);
+          })
+          // var grr = wat.concat(d[2]);
+          // return grr;
+          var len = d.length;
+          var alpha = d[len - 1];
+          if (alpha === 255 || alpha === 1) {
+            return wat.concat(255);
+          }
+          else {
+            return wat.concat(0);
+          }
         })
       });
       jmat.imwrite(tilmap.cvBase, ddd);
