@@ -312,7 +312,7 @@ tilmap.parms = {
   redRange: 100,
   threshold: 0,
   transparency: 100
-//   transparency: 20
+  //   transparency: 20
 };
 
 document.getElementById('imgTILDiv').onclick = function (event) {
@@ -631,21 +631,25 @@ tilmap.calcTILfun = function () {
       tilmap.parms[this.id] = this.value;
       var ddd = tilmap.imgData.map(function (dd) {
         return dd.map(function (d) {
-          // return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2])
-          var wat = cm[Math.round(Math.max(d[1] * cr, d[0] * tr) / 255 * 63)].map(function (x) {
-            return Math.round(x * 255);
-          })
-          // var grr = wat.concat(d[2]);
-          // return grr;
-          var len = d.length;
-          var alpha = d[len - 1];
-          if (alpha === 255 || alpha === 1) {
-            return wat.concat(255);
+          // If it's a variant of black, it's b/g. If it's gray (shouldn't happen), it's b/g. Return white b/g.
+          if ((d[0] == 0 && d[2] == 0 && (d[1] > 0 && d[1] < 10)) || (d[0] == d[1] && d[0] == d[2])) {
+            return [255, 255, 255, 1];
           }
           else {
-            return wat.concat(0);
+            var wat = cm[Math.round(Math.max(d[1] * cr, d[0] * tr) / 255 * 63)].map(function (x) {
+              return Math.round(x * 255);
+            })
+            var len = d.length;
+            var alpha = d[len - 1];
+            if (alpha === 255 || alpha === 1) {
+              return wat.concat(255);
+            }
+            else {
+              return wat.concat(0);
+            }
+
           }
-        })
+        });
       });
       jmat.imwrite(tilmap.cvBase, ddd);
       // tilmap.segment(event, false);
