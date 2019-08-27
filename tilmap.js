@@ -311,7 +311,7 @@ tilmap.parms = {
   greenRange: 100,
   redRange: 100,
   threshold: 0,
-  transparency: 1
+  transparency: 100
 //   transparency: 20
 };
 
