@@ -310,8 +310,8 @@ isItemInArray = function (array, item) {
 tilmap.parms = {
   greenRange: 100,
   redRange: 100,
-  transparency: 80, // TODO: is this working? Was 20.
-  threshold: 0
+  threshold: 0,
+  transparency: 20
 };
 
 document.getElementById('imgTILDiv').onclick = function (event) {
