@@ -311,7 +311,8 @@ tilmap.parms = {
   greenRange: 100,
   redRange: 100,
   threshold: 0,
-  transparency: 20
+  transparency: 1
+//   transparency: 20
 };
 
 document.getElementById('imgTILDiv').onclick = function (event) {
