@@ -368,7 +368,7 @@ createImage = function (sel) {
     R = features[names[sel[0]]];
     G = features[names[sel[1]]];
     // B = features[names[sel[2]]];
-    B = names[2];
+    B = features[names[2]];
   } else {
     ui(names);
     R = features[names[0]];
