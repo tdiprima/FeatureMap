@@ -837,8 +837,8 @@ tilmap.segment = function (event, doTranspire = true) {
   Tile size is equal for both TILs and tumor after registration of the sizes of tiles during the overlay.
   Even if the original grid would differ between tumor and TIL, it would be matched in a similarly gridded tiled.
   */
-  greenTiles.textContent = `${countGreen} tiles, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
-  redTiles.textContent = `${countRed} tiles, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
+  greenTiles.textContent = `${countGreen} tiles`; //, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
+  redTiles.textContent = `${countRed} tiles`; //, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
 
   // find neighbors
   var n = tilmap.imgData.length;
@@ -869,7 +869,7 @@ tilmap.segment = function (event, doTranspire = true) {
 */
   tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
-  backTiles.textContent = `${countBackTiles} tiles, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
+  backTiles.textContent = `${countBackTiles} tiles`; //, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
 };
 
