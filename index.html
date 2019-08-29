@@ -1,72 +1,89 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Feature Map | QuIP - Quantitative Imaging in Pathology</title>
+  <meta charset="utf-8" />
+  <noscript>
+    <meta http-equiv="Refresh" content="0; URL=/big_pipe/no-js?destination=/imagesearch" />
+  </noscript>
+  <meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/themes/contrib/d8w3css/favicon.ico" type="image/vnd.microsoft.icon" />
+  <title>featuremap | QuIP - Quantitative Imaging in Pathology</title>
+  <link rel="stylesheet" media="all"
+    href="/sites/default/files/css/css_dhT25Q3j0V7GiZAAtQUiVP4YzwYxKlU7uFWq7AuEULE.css?ptqtry" />
+  <link rel="stylesheet" media="all" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" media="all"
+    href="/sites/default/files/css/css_jb9T-ErtZKN7EZ3_3q2a1itV1SxgxFfCfvwVh1O0Xto.css?ptqtry" />
+  <link rel="stylesheet" media="all"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Montserrat" />
+  <link rel="stylesheet" media="all"
+    href="/sites/default/files/css/css_FB_8SamOz8_JZSZTL3QZuOwo92EVnOqapDXC3GJryXE.css?ptqtry" />
+  <!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+  <script src="/core/assets/vendor/modernizr/modernizr.min.js?v=3.3.1"></script>
   <script src="getBrowser.js"></script>
   <script src="zoom2loc.js"></script>
   <script src="jmat.js"></script>
-
-  <!-- START PATHDB STYLE -->
-  <link rel="stylesheet" media="all"
-    href="/sites/default/files/css/css_FB_8SamOz8_JZSZTL3QZuOwo92EVnOqapDXC3GJryXE.css?pufq19" />
-  <!-- END PATHDB STYLE -->
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" media="all">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
   <style>
-    table { height: 100%; width: 100%; table-layout: static; border-collapse: collapse }
-    iframe { height: 100%; width: 100% }
+    table {
+      height: 100%;
+      width: 100%;
+      table-layout: static;
+      border-collapse: collapse
+    }
+
+    iframe {
+      height: 100%;
+      width: 100%
+    }
+
     .tooltip-inner {
       background-color: lightgoldenrodyellow !important;
       /*!important is not necessary if you place custom.css at the end of your css calls. For the purpose of this demo, it seems to be required in SO snippet*/
       color: #000;
     }
-    .tooltip.top .tooltip-arrow { border-top-color: lightgoldenrodyellow; }
-    .tooltip.right .tooltip-arrow { border-right-color: lightgoldenrodyellow; }
-    .tooltip.bottom .tooltip-arrow { border-bottom-color: lightgoldenrodyellow; }
-    .tooltip.left .tooltip-arrow { border-left-color: lightgoldenrodyellow; }
+
+    .tooltip.top .tooltip-arrow {
+      border-top-color: lightgoldenrodyellow;
+    }
+
+    .tooltip.right .tooltip-arrow {
+      border-right-color: lightgoldenrodyellow;
+    }
+
+    .tooltip.bottom .tooltip-arrow {
+      border-bottom-color: lightgoldenrodyellow;
+    }
+
+    .tooltip.left .tooltip-arrow {
+      border-left-color: lightgoldenrodyellow;
+    }
   </style>
-  
 </head>
 
-<body class="path-frontpage large-screen">
-  <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas="">
+<body class="user-logged-in path-imagesearch">
+  <a href="#main-content" class="visually-hidden focusable skip-link">
+    Skip to main content
+  </a>
+  <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
     <!-- Start: Page Wrapper -->
     <div class="page-wrapper w3-col w3-clear w3-animate-opacity w3-text-theme  ">
       <!-- Start: Header -->
       <header id="header" class="w3-col w3-clear w3-theme-l4 " role="banner" aria-label="Site header">
-        <div id="header-inner" class="d8-fade w3-container header-inner "
-          style="opacity: 1; transition: opacity 1s linear 0s;">
-          <nav role="navigation" aria-labelledby="block-drupal8-w3css-theme-account-menu-menu"
-            id="block-drupal8-w3css-theme-account-menu">
-
-            <ul class="ul-parent ul-parent-account ul-0" role="menu">
-              <li class="li-item li-item-account li-0" role="none">
-                <a href="https://sbu-bmi.github.io/quip_distro/" class="w3-button li-link li-link-account">About</a>
-              </li>
-              <li class="li-item li-item-account li-0" role="none">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdSt7xU4-j2m-JpFRb5nNkOEuBz212i1--svMHyuHKErNkFvA/viewform"
-                  class="w3-button li-link li-link-account">Feedback</a>
-              </li>
-              <li class="li-item li-item-account li-0" role="none">
-                <a href="/user/login" class="w3-button li-link li-link-account"
-                  data-drupal-link-system-path="user/login">Log
-                  in</a>
-              </li>
-            </ul>
-
-          </nav>
-
+        <div id="header-inner" class="d8-fade w3-container header-inner ">
           <section id="block-drupal8-w3css-theme-branding"
-            class="w3-block w3-block-wrapper block-system block-system-branding-block">
-
+            class="contextual-region w3-block w3-block-wrapper block-system block-system-branding-block">
+            <div data-contextual-id="block:block=drupal8_w3css_theme_branding:langcode=en"
+              data-contextual-token="7b2GB4NyWfbnjDKE0uDiP2jFNRokYo7z-VP_VQ26_rs"></div>
             <div class="w3-left w3-margin-left">
               <h1 class="site-name w3-show-block">
                 <a class="w3-xlarge w3-padding" href="/" title="Home" rel="home">QuIP - Quantitative Imaging in
@@ -74,53 +91,53 @@
               </h1>
             </div>
           </section>
-
         </div>
       </header>
       <!-- End: Header -->
-      <!-- Start: Main Navigation -->
+      <!-- Start: Main Navigation - Horizontal -->
       <div id="main-navigation-h" class="w3-col w3-clear main-navigation-wrapper w3-card w3-theme " role="navigation"
         aria-label="Main Navigation">
-        <div id="main-navigation-inner-h" class="d8-fade w3-row main-navigation-inner-h "
-          style="opacity: 1; transition: opacity 1s linear 0s;">
+        <div id="main-navigation-inner-h" class="d8-fade w3-row main-navigation-inner-h ">
           <i class="mobile-nav fa fa-bars w3-hide-large w3-button w3-block w3-right-align w3-xxlarge w3-theme "></i>
           <nav role="navigation" aria-labelledby="block-drupal8-w3css-theme-main-menu-menu"
-            id="block-drupal8-w3css-theme-main-menu">
-
-            <ul class="ul-parent ul-parent-main ul-0" role="menu">
-              <li class="li-item li-item-main li-0" role="none">
-                <a href="/" class="w3-button li-link li-link-main is-active"
-                  data-drupal-link-system-path="front">Home</a>
+            id="block-drupal8-w3css-theme-main-menu" class="contextual-region">
+            <h2 class="visually-hidden" id="block-drupal8-w3css-theme-main-menu-menu">Main navigation</h2>
+            <div data-contextual-id="block:block=drupal8_w3css_theme_main_menu:langcode=en|menu:menu=main:langcode=en"
+              data-contextual-token="uo0sHfXyglo2reiKnyThUos5L9QvSmlzuqncglH3x5c"></div>
+            <ul class="ul-parent ul-parent-main" role="menu">
+              <li class="li-item li-item-main" role="none">
+                <a href="/" class="w3-button li-link li-link-main" data-drupal-link-system-path="front">Home</a>
               </li>
-              <li class="li-item li-item-main li-0" role="none">
+              <li class="li-item li-item-main" role="none">
                 <a href="/collections" class="w3-button li-link li-link-main"
                   data-drupal-link-system-path="collections">Collections</a>
               </li>
-              <li class="li-item li-item-main li-0" role="none">
+              <li class="li-item li-item-main" role="none">
                 <a href="/listofimages" class="w3-button li-link li-link-main"
                   data-drupal-link-system-path="listofimages">Images</a>
               </li>
-              <li class="li-item li-item-main li-0" role="none">
+              <li class="li-item li-item-main" role="none">
                 <a href="/maps" class="w3-button li-link li-link-main" data-drupal-link-system-path="maps">Maps</a>
               </li>
-              <li class="li-item li-item-main li-0" role="none">
-                <a href="/imagesearch" class="w3-button li-link li-link-main" data-drupal-link-system-path="imagesearch">Search</a>
+              <li class="li-item li-item-main" role="none">
+                <a href="/imagesearch" class="w3-button li-link li-link-main"
+                  data-drupal-link-system-path="imagesearch">Search</a>
               </li>
             </ul>
           </nav>
         </div>
       </div>
-      <!-- End: Main Navigation -->
+      <!-- End: Main Navigation - Horizontal -->
       <!-- Start: Highlighted -->
       <div id="highlighted" class="w3-col w3-clear w3-theme-l2 ">
-        <div id="highlighted-inner" class="d8-fade w3-row highlighted-inner "
-          style="opacity: 1; transition: opacity 1s linear 0s;">
-
+        <div id="highlighted-inner" class="d8-fade w3-row highlighted-inner ">
+          <div data-drupal-messages-fallback class="hidden"></div><span
+            data-big-pipe-placeholder-id="callback=Drupal%5CCore%5CRender%5CElement%5CStatusMessages%3A%3ArenderMessages&amp;args%5B0%5D&amp;token=_HAdUpwWmet0TOTe2PSiJuMntExoshbm1kh2wQzzzAA"></span>
         </div>
       </div>
       <!-- End: Highlighted -->
       <!-- Start: Main -->
-      <div id="main-container" class="w3-col w3-clear w3-theme-l5 ">
+      <div id="main-container" class="w3-col w3-clear w3-theme-l5 w3-link-blue-grey w3-link-teal-hover">
         <div id="main-container-inner" class="w3-container main-container-inner ">
           <!-- Start Main Container  -->
           <div class="w3-col w3-clear w3-row-padding">
@@ -145,14 +162,12 @@
                             location.href = selectedOption.prev().val();
                           }
                         });
-
                         $('#btnNext').click(function () {
                           let selectedOption = $('#navigation-dropdown option:selected');
                           if (selectedOption.next().val()) {
                             location.href = selectedOption.next().val();
                           }
                         });
-
                         $('#navigation-dropdown').change(function () {
                           let selectedOption = $('#navigation-dropdown option:selected');
                           if (selectedOption.val()) {
@@ -160,7 +175,6 @@
                           }
                         });
                       </script>
-
                       <div id="tilShowImgDiv" style="color: navy;">
                         <div id="imgTILDiv" class="imgTILDiv"
                           style="width: 600px; height: 500px; max-width: 600px; max-height: 500px">
@@ -169,30 +183,45 @@
                       <div id="calcTIL">
                         <div id="calcTILdiv">
                           <p>
-                            <span id="hideRGBbuttons" data-toggle="tooltip" data-placement="top" title="Click +/- to toggle open/closed" style="color:blue; cursor:pointer; font-size:small;">RGB[+] </span>
-                            <span id="rgbButtons" hidden="true">
-                              <button id="calcTILred" data-toggle="tooltip" data-placement="top" title="Show this feature vs. itself"></button>
-                              <button id="calcTILgreen" data-toggle="tooltip" data-placement="top" title="Show this feature vs. itself"></button>
-                              <button id="calcTILblue" data-toggle="tooltip" data-placement="top" title="Show this feature vs. itself"></button>
-                              <button id="calcTIL0" data-toggle="tooltip" data-placement="top" title="Show original data">Original PNG</button>
+                            <span id="hideRGBbuttons" data-toggle="tooltip" data-placement="top"
+                              title="Click +/- to toggle open/closed"
+                              style="color:blue; cursor:pointer; font-size:small;">RGB[+] </span>
+                            <span id="rgbButtons" hidden="false">
+                              <button id="calcTILred" data-toggle="tooltip" data-placement="top"
+                                title="Show this feature vs. itself"></button>
+                              <button id="calcTILgreen" data-toggle="tooltip" data-placement="top"
+                                title="Show this feature vs. itself"></button>
+                              <button id="calcTILblue" data-toggle="tooltip" data-placement="top"
+                                title="Show this feature vs. itself"></button>
+                              <button id="calcTIL0" data-toggle="tooltip" data-placement="top"
+                                title="Show original data">Original PNG</button>
                               <span id="tileSize" style="font-size: small"></span>
                             </span>
                           </p>
-                          <p><!-- Red -->
+                          <p>
+                            <!-- Red -->
                             <span style="font-size: small; font-weight: bold">Red range values</span><br>
                             <span id="redRangeVal" style="font-size: small"></span><br>
                             <input id="redRange" type="range" style="width:200px">
-                            <button id="redRangePlay" style="background-color:silver" data-toggle="tooltip" data-placement="top" title="Play it!"></button>
-                            <span style="color: navy;"><span id="redTiles" data-toggle="tooltip" data-placement="top" title="Total tissue area and % tissue area classified as [feature]">counting ...</span></span>
-                            </p>
-                          <p><!-- Green -->
+                            <button id="redRangePlay" style="background-color:silver" data-toggle="tooltip"
+                              data-placement="top" title="Play it!"></button>
+                            <span style="color: navy;"><span id="redTiles" data-toggle="tooltip" data-placement="top"
+                                title="Total tissue area and % tissue area classified as [feature]">counting
+                                ...</span></span>
+                          </p>
+                          <p>
+                            <!-- Green -->
                             <span style="font-size: small; font-weight: bold">Green range values</span><br>
                             <span id="greenRangeVal" style="font-size: small"></span><br>
                             <input id="greenRange" type="range" style="width:200px">
-                            <button id="greenRangePlay" style="background-color:silver" data-toggle="tooltip" data-placement="top" title="Play it!"></button>
-                            <span style="color: navy;"><span id="greenTiles" data-toggle="tooltip" data-placement="top" title="Total tissue area and % tissue area classified as [feature]">counting ...</span></span>
+                            <button id="greenRangePlay" style="background-color:silver" data-toggle="tooltip"
+                              data-placement="top" title="Play it!"></button>
+                            <span style="color: navy;"><span id="greenTiles" data-toggle="tooltip" data-placement="top"
+                                title="Total tissue area and % tissue area classified as [feature]">counting
+                                ...</span></span>
                           </p>
-                          <p><!-- Blue / Tissue -->
+                          <p>
+                            <!-- Blue / Tissue -->
                             <span style="font-size: small; font-weight: bold">Blue range (tissue) values</span><br>
                             <span id="segmentationRangeVal" style="font-size: small"></span><br>
                             <input id="segmentationRange" type="range" style="width:200px" value="0">
@@ -200,7 +229,9 @@
                             The point of that design was to allow for the user to change the proportions of the things segmented
                             - for example removing the Cancer 'heatmap' to highlight what is TIL.
                             But now for example when you turn the cancerRange all the way to zero, the count will also change. -->
-                            <button id="rangeSegmentBt" style="background-color:silver" data-toggle="tooltip" data-placement="top" title="Background Suppression [removes blue (tissue)]">Bkgnd Suppr</button>
+                            <button id="rangeSegmentBt" style="background-color:silver" data-toggle="tooltip"
+                              data-placement="top" title="Background Suppression [removes blue (tissue)]">Bkgnd
+                              Suppr</button>
                             <span style="color: navy;">
                               <!-- ??? -->
                               <!--<span id="backTiles" data-toggle="tooltip" data-placement="top" title="Out of this many tiles, how much of it is tissue (TIL type maps only)">...</span>-->
@@ -212,14 +243,14 @@
                           <p>
                             <span id="transparencyRangeVal" style="font-size: small"></span><br>
                             <input id="transparencyRange" type="range" style="width:200px" value="100">
-                            <span style="color: navy;" data-toggle="tooltip" data-placement="top" title="segmentation visibility">0 ←(segmentation transparency)→ 1</span>
+                            <span style="color: navy;" data-toggle="tooltip" data-placement="top"
+                              title="segmentation visibility">0 ←(segmentation transparency)→ 1</span>
                           </p>
                           <!--
                           <hr><div id="choose" class="btn" data-toggle="tooltip" data-placement="right" title="Select 3 features, then click on a 4th one, and the image will be redrawn"></div>-->
                           <div id="choose"></div>
                         </div>
                       </div>
-
                     </td>
                     <td style="vertical-align:top; width: 800px;">
                       <iframe id="caMicrocopeIfr" src="about:blank"></iframe>
@@ -232,11 +263,22 @@
         </div>
       </div>
       <!-- End: Main -->
+      <!-- Start: Copyright -->
+      <div id="copyright" class="w3-col w3-clear w3-theme-d5 ">
+        <div id="copyright-inner" class="w3-row copyright-inner ">
+          <!-- Start: Copyright -->
+          <div class="w3-half w3-container w3-mobile">
+            <p class="w3-section w3-left-align w3-opacity w3-hover-opacity-off">U24 CA18092401A1, Tools to Analyze
+              Morphology and Spatially Mapped Molecular Data</p>
+          </div>
+          <!-- End: Copyright -->
+        </div>
+      </div>
+      <!-- End: Copyright -->
     </div>
     <!-- End: Page Wrapper -->
   </div>
   <script src="tilmap.js"></script>
-
 </body>
 
 </html>
