@@ -696,7 +696,6 @@ tilmap.calcTILfun = function () {
   };
   document.getElementById('caMicrocopeIfr').src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}`;
   segmentationRange.onchange = tilmap.segment; //rangeSegmentBt.onclick
-  transparencyRange.onchange = tilmap.transpire;
 
   set_multiple_select();
 
@@ -807,8 +806,7 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
 /**
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
-tilmap.segment = function (event, doTranspire = true) {
-  //tilmap.segment = function () {
+tilmap.segment = function () {
 
   document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
@@ -859,43 +857,10 @@ tilmap.segment = function (event, doTranspire = true) {
     })
   });
 
-  // background suppression
-  if (doTranspire) {
-    tilmap.transpire();
-  }
-
   tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} tiles, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
-};
-
-/**
- * Calculate transparency
- */
-tilmap.transpire = function () {
-
-  document.getElementById("transparencyRangeVal").innerHTML = transparencyRange.value;
-  var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
-  // var clrEdge = [255, 255, 0, 255 - tp] // yellow
-  var clrEdge = [255, 0, 144, 255 - tp]; // magenta
-  var clrMask = [255, 255, 255, tp];
-
-  jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
-    return dd.map((d, j) => {
-      var c = [0, 0, 0, 0];
-      if (d) {
-        c = clrEdge
-      } else if (!tilmap.segMask[i][j]) {
-        c = clrMask
-      }
-      return c
-      // return [255, 255, 255, 255].map(v => v * d) // white
-    })
-  }));
-
-  tilmap.parms.transparency = transparencyRange.value
-
 };
 
 window.addEventListener('resize', () => {
