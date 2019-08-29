@@ -869,7 +869,7 @@ tilmap.segment = function (event, doTranspire = true) {
 */
   tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
-  backTiles.textContent = `${countBackTiles} tiles`; //, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
+  backTiles.textContent = `${countBackTiles} total tiles`; //, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
 };
 
