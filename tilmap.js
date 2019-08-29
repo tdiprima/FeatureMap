@@ -5,7 +5,7 @@
  */
 tilmap = function () {
   $('[data-toggle="tooltip"]').tooltip();
-  
+
   tilmap.myBrowser = getBrowser(); // global variable for which browser we've got
 
   // blue-red colormap, 'default' in statistical computing env (Matlab)
@@ -363,10 +363,12 @@ createImage = function (sel) {
 
   let R, G, B;
   if (sel) {
-    ui([names[sel[0]], names[sel[1]], names[sel[2]]]);
+    // ui([names[sel[0]], names[sel[1]], names[sel[2]]]);
+    ui([names[sel[0]], names[sel[1]], features[names[2]]]);
     R = features[names[sel[0]]];
     G = features[names[sel[1]]];
-    B = features[names[sel[2]]];
+    // B = features[names[sel[2]]];
+    B = features[names[2]];
   } else {
     ui(names);
     R = features[names[0]];
@@ -714,7 +716,7 @@ changeUI = function (selectedOptions) {
   document.getElementById('redRangePlay').innerText = names[selectedOptions[0]];
   document.getElementById('calcTILgreen').innerText = names[selectedOptions[1]];
   document.getElementById('greenRangePlay').innerText = names[selectedOptions[1]];
-  document.getElementById('calcTILblue').innerText = names[selectedOptions[2]];
+  // document.getElementById('calcTILblue').innerText = names[selectedOptions[2]];
   //document.getElementById('TBA').innerText = names[selectedOptions[2]];
   // download(tilmap.slide + '.png', createImage(selectedOptions));
   let canvas = createImage(selectedOptions);
@@ -745,7 +747,8 @@ set_multiple_select = function () {
       sel.options[sel.options.length] = new Option(names[i], i);
     }
 
-    var textnode = document.createTextNode("Ctrl-click to select 3 features, ctrl-click 4th feature to display selection.");
+    // var textnode = document.createTextNode("Ctrl-click to select 3 features, ctrl-click 4th feature to display selection.");
+    var textnode = document.createTextNode("Ctrl-click to select 2 features, ctrl-click 3rd feature to display selection.");
     // add the element to the div
     let myDiv = document.getElementById("choose");
     myDiv.appendChild(sel);
@@ -759,8 +762,8 @@ set_multiple_select = function () {
 
     $('#sel1').change(function (event) {
 
-      if ($(this).val().length > 3) {
-
+      // if ($(this).val().length > 3) {
+      if ($(this).val().length > 2) {
         $(this).val(last_valid_selection);
         changeUI(last_valid_selection);
 
