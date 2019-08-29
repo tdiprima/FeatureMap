@@ -364,11 +364,11 @@ createImage = function (sel) {
   let R, G, B;
   if (sel) {
     // ui([names[sel[0]], names[sel[1]], names[sel[2]]]);
-    ui([names[sel[0]], names[sel[1]], features[names[2]]]);
+    ui([names[sel[0]], names[sel[1]], names[2]]);
     R = features[names[sel[0]]];
     G = features[names[sel[1]]];
     // B = features[names[sel[2]]];
-    B = features[names[2]];
+    B = names[2];
   } else {
     ui(names);
     R = features[names[0]];
