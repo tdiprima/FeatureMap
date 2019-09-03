@@ -460,7 +460,7 @@ tilmap.calcTILfun = function () {
   // tilmap.zoom2loc(event);
   greenRange.value = tilmap.parms.greenRange;
   redRange.value = tilmap.parms.redRange;
-  rangeSegmentBt.onclick = tilmap.segment;
+  // rangeSegmentBt.onclick = tilmap.segment;
 
   greenRangePlay.onclick = redRangePlay.onclick = function () {
 
@@ -640,7 +640,7 @@ tilmap.calcTILfun = function () {
           else {
             var wat = cm[Math.round(Math.max(d[1] * cr, d[0] * tr) / 255 * 63)].map(function (x) {
               return Math.round(x * 255);
-            })
+            });
             var len = d.length;
             var alpha = d[len - 1];
             if (alpha === 255 || alpha === 1) {
@@ -697,7 +697,7 @@ tilmap.calcTILfun = function () {
     tilmap.segment()
   };
   document.getElementById('caMicrocopeIfr').src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}`;
-  segmentationRange.onchange = tilmap.segment; //rangeSegmentBt.onclick
+  // segmentationRange.onchange = tilmap.segment; //rangeSegmentBt.onclick
   //transparencyRange.onchange = tilmap.transpire;
 
   set_multiple_select();
@@ -733,6 +733,7 @@ set_multiple_select = function () {
   let num_cols = names.length; // number of columns
 
   if (num_cols > 5) {
+    document.getElementById("blue_is_tissue").innerHTML = '';
     let sel = document.createElement('select');
     sel.multiple = true;
     sel.id = 'sel1';
@@ -813,16 +814,19 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
 tilmap.segment = function (event, doTranspire = true) {
   //tilmap.segment = function () {
 
-  document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
+  // document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
 
   // generate mask
   var cr = parseInt(greenRange.value) / 100;
   var tr = parseInt(redRange.value) / 100;
   // var sv = 2.55 * parseInt(segmentationRange.value); // segmentation value
 
-  var sv = segmentationRange.value; // segmentation value
+  var sv = "0"; //segmentationRange.value; // segmentation value
+  // console.log(cr, tr, sv);
   sv = 2.55 * parseInt((sv === '0') ? '1' : sv); //slider bug
-  var sv1 = 2.55 * parseInt(segmentationRange.value);
+  // console.log("sv", sv);
+  var sv1 = 2.55 * 0; //parseInt(segmentationRange.value);
+  // console.log("sv1", sv1);
 
   let countGreen = 0;
   let countRed = 0;
@@ -867,7 +871,7 @@ tilmap.segment = function (event, doTranspire = true) {
     tilmap.transpire();
   }
 */
-  tilmap.parms.threshold = segmentationRange.value;
+  // tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} total tiles`; //, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
