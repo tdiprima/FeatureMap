@@ -832,6 +832,9 @@ tilmap.segment = function (event, doTranspire = true) {
   let countRed = 0;
   tilmap.segMask = tilmap.imgData.map(dd => {
     return dd.map(d => {
+      //countCancer+=(d[1]*cr>=sv)
+      //countTil+=(d[0]*tr>=sv)
+      //return (Math.max(d[1]*cr,d[0]*tr))>=sv
       countGreen += (d[1] * cr >= sv) & (d[2] > 0); // use sv for count
       countRed += (d[0] * tr >= sv) & (d[2] > 0);
       return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] > 0); // use normal sv for mask
