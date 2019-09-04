@@ -632,6 +632,8 @@ tilmap.calcTILfun = function () {
       tilmap.parms[this.id] = this.value;
       var ddd = tilmap.imgData.map(function (dd) {
         return dd.map(function (d) {
+          return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2]);
+          /*
           // If it's a variant of black, it's b/g. If it's gray (shouldn't happen), it's b/g. Return white b/g.
           if ((d[0] == 0 && d[2] == 0 && (d[1] > 0 && d[1] < 10)) || (d[0] == d[1] && d[0] == d[2])) {
             return [255, 255, 255, 1];
@@ -649,7 +651,7 @@ tilmap.calcTILfun = function () {
               return wat.concat(0);
             }
 
-          }
+          }*/
         });
       });
       jmat.imwrite(tilmap.cvBase, ddd);
@@ -865,9 +867,9 @@ tilmap.segment = function (event, doTranspire = false) {
       //return ((Math.max(d[1]*cr,d[0]*tr))>=sv)&(d[2]==255) //leave non-tissue out
       //countCancer+=(d[1]*cr>=sv)&(d[2]==255) //tissuing out cancer and til as well
       //countTil+=(d[0]*tr>=sv)&(d[2]==255) //tissuing out cancer and til as well
-      countGreen += (d[1] * cr >= sv) & (d[2] > 0); // use sv for count
-      countRed += (d[0] * tr >= sv) & (d[2] > 0);
-      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] > 0); // use normal sv for mask
+      countGreen += (d[1] * cr >= sv) & (d[2] == 255); // use sv for count
+      countRed += (d[0] * tr >= sv) & (d[2] == 255);
+      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] == 255); // use normal sv for mask
     })
   });
   /*
