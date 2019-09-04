@@ -733,7 +733,13 @@ set_multiple_select = function () {
   let num_cols = names.length; // number of columns
 
   if (num_cols > 5) {
+    // Hide indication that blue is tissue
     document.getElementById("blue_is_tissue").innerHTML = '';
+
+    // Hide toggle
+    document.getElementById('toggle').style.display = 'none';
+
+    // Create feature select box
     let sel = document.createElement('select');
     sel.multiple = true;
     sel.id = 'sel1';
@@ -773,7 +779,23 @@ set_multiple_select = function () {
       }
     });
   }
+  else {
+    var t = document.getElementById('toggle');
+    t.addEventListener('click', function (e) {
 
+      t.value = (t.value == "on") ? "off" : "on"
+      if (t.value == "on") {
+
+        tilmap.parms.threshold = 30; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
+        tilmap.parms.transparency = 90;
+
+      }
+      else {
+        console.log(t.value);
+      }
+
+    });
+  }
 };
 
 /**
@@ -811,7 +833,7 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
 /**
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
-tilmap.segment = function (event, doTranspire = true) {
+tilmap.segment = function (event, doTranspire = false) {
   //tilmap.segment = function () {
 
   // document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
@@ -871,12 +893,10 @@ tilmap.segment = function (event, doTranspire = true) {
       // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
     })
   });
-/*
   // background suppression
   if (doTranspire) {
     tilmap.transpire();
   }
-*/
   // tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} total tiles`; //, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
