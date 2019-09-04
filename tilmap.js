@@ -49,6 +49,15 @@ tilmap = function () {
 
 };
 
+// Starting parameters for Sliders
+tilmap.parms = {
+  greenRange: 100,
+  redRange: 100,
+  threshold: 0,
+  transparency: 0
+  //   transparency: 20
+};
+
 function navigation() {
   let dropdown = $('#navigation-dropdown');
   dropdown.empty();
@@ -303,16 +312,6 @@ isItemInArray = function (array, item) {
     }
   }
   return false;
-};
-
-
-// Starting parameters for Sliders
-tilmap.parms = {
-  greenRange: 100,
-  redRange: 100,
-  threshold: 0,
-  transparency: 0
-  //   transparency: 20
 };
 
 document.getElementById('imgTILDiv').onclick = function (event) {
@@ -786,7 +785,7 @@ set_multiple_select = function () {
       t.value = (t.value == "on") ? "off" : "on"
       if (t.value == "on") {
 
-        tilmap.parms.threshold = 30; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
+        tilmap.parms.threshold = 90; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
         tilmap.parms.transparency = 90;
         tilmap.segment(e, true);
 
@@ -837,6 +836,9 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
 tilmap.segment = function (event, doTranspire = false) {
+
+  //console.log('sv', tilmap.parms.threshold);
+  //console.log('tp', tilmap.parms.transparency);
   //tilmap.segment = function () {
 
   // document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
@@ -896,7 +898,7 @@ tilmap.segment = function (event, doTranspire = false) {
       // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
     })
   });
- 
+
   // background suppression
   if (doTranspire) {
     tilmap.transpire();
@@ -916,6 +918,7 @@ tilmap.transpire = function () {
   // var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
   var tr = tilmap.parms.transparency;
   var tp = Math.round(2.55 * tr); // range value
+  //console.log('tr, tp', [tr, tp])
   // var clrEdge = [255, 255, 0, 255 - tp] // yellow
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
@@ -924,7 +927,8 @@ tilmap.transpire = function () {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
       if (d) {
-        c = clrEdge
+        // c = clrEdge
+        c = clrMask
       } else if (!tilmap.segMask[i][j]) {
         c = clrMask
       }
