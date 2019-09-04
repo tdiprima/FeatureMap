@@ -781,14 +781,15 @@ set_multiple_select = function () {
     });
   }
   else {
+    // TOGGLE
     var t = document.getElementById('toggle');
     t.addEventListener('click', function (e) {
 
       t.value = (t.value == "on") ? "off" : "on"
       if (t.value == "on") {
 
-        tilmap.parms.threshold = 90; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
-        tilmap.parms.transparency = 90;
+        tilmap.parms.threshold = 50; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
+        tilmap.parms.transparency = 78;
         tilmap.segment(e, true);
 
       }
@@ -854,7 +855,7 @@ tilmap.segment = function (event, doTranspire = false) {
   // console.log(cr, tr, sv);
   sv = 2.55 * parseInt((sv === '0') ? '1' : sv); //slider bug
   // console.log("sv", sv);
-  var sv1 = 2.55 * 0; //parseInt(segmentationRange.value);
+  var sv1 = 2.55 * tilmap.parms.threshold; //parseInt(segmentationRange.value);
   // console.log("sv1", sv1);
 
   let countGreen = 0;
