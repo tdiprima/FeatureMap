@@ -311,7 +311,7 @@ tilmap.parms = {
   greenRange: 100,
   redRange: 100,
   threshold: 0,
-  transparency: 100
+  transparency: 0
   //   transparency: 20
 };
 
@@ -788,10 +788,13 @@ set_multiple_select = function () {
 
         tilmap.parms.threshold = 30; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
         tilmap.parms.transparency = 90;
+        tilmap.segment(e, true);
 
       }
       else {
-        console.log(t.value);
+        tilmap.parms.threshold = 0;
+        tilmap.parms.transparency = 0;
+        tilmap.segment(e, true);
       }
 
     });
@@ -843,7 +846,7 @@ tilmap.segment = function (event, doTranspire = false) {
   var tr = parseInt(redRange.value) / 100;
   // var sv = 2.55 * parseInt(segmentationRange.value); // segmentation value
 
-  var sv = "0"; //segmentationRange.value; // segmentation value
+  var sv = tilmap.parms.threshold.toString(); //segmentationRange.value; // segmentation value
   // console.log(cr, tr, sv);
   sv = 2.55 * parseInt((sv === '0') ? '1' : sv); //slider bug
   // console.log("sv", sv);
@@ -893,6 +896,7 @@ tilmap.segment = function (event, doTranspire = false) {
       // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
     })
   });
+ 
   // background suppression
   if (doTranspire) {
     tilmap.transpire();
@@ -908,8 +912,10 @@ tilmap.segment = function (event, doTranspire = false) {
  */
 tilmap.transpire = function () {
 
-  document.getElementById("transparencyRangeVal").innerHTML = transparencyRange.value;
-  var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
+  // document.getElementById("transparencyRangeVal").innerHTML = transparencyRange.value;
+  // var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
+  var tr = tilmap.parms.transparency;
+  var tp = Math.round(2.55 * tr); // range value
   // var clrEdge = [255, 255, 0, 255 - tp] // yellow
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
@@ -927,7 +933,7 @@ tilmap.transpire = function () {
     })
   }));
 
-  tilmap.parms.transparency = transparencyRange.value
+  // tilmap.parms.transparency = transparencyRange.value
 
 };
 
