@@ -868,9 +868,9 @@ tilmap.segment = function (event, doTranspire = false) {
       //return ((Math.max(d[1]*cr,d[0]*tr))>=sv)&(d[2]==255) //leave non-tissue out
       //countCancer+=(d[1]*cr>=sv)&(d[2]==255) //tissuing out cancer and til as well
       //countTil+=(d[0]*tr>=sv)&(d[2]==255) //tissuing out cancer and til as well
-      countGreen += (d[1] * cr >= sv) & (d[2] == 255); // use sv for count
-      countRed += (d[0] * tr >= sv) & (d[2] == 255);
-      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] == 255); // use normal sv for mask
+      countGreen += (d[1] * cr >= sv) & (d[2] > 0); // use sv for count
+      countRed += (d[0] * tr >= sv) & (d[2] > 0);
+      return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] > 0); // use normal sv for mask
     })
   });
   /*
