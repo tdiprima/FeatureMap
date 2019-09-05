@@ -8,8 +8,9 @@ tilmap = function () {
 
   tilmap.myBrowser = getBrowser(); // global variable for which browser we've got
 
-  // blue-red colormap
+  // blue-red colormap, 'default' in statistical computing env (Matlab)
   tilmap.colormap = jmat.colormap();
+  // *** if we want different one, then generate or borrow the new array, under a new switch "case" in jmat.colormap() ***
 
   var queryString = location.search;
   if (queryString.length > 1) {
@@ -32,9 +33,12 @@ tilmap = function () {
       } else {
         try {
           tilmap.data = JSON.parse(result);
+          // tilmap.dataUri = result;
+          // download(tilmap.slide + '.png', result);
           tilmap.calcTILfun()
         } catch (error) {
-          // already alerted
+          // If you failed here, it's 404, and you were already notified.
+          console.log();
         }
       }
     });
@@ -51,35 +55,55 @@ tilmap.parms = {
   redRange: 100,
   threshold: 0,
   transparency: 0
+  //   transparency: 20
 };
 
 function navigation() {
   let dropdown = $('#navigation-dropdown');
   dropdown.empty();
+  //dropdown.append('<option selected="true" disabled>Choose Slide</option>');
+  //dropdown.prop('selectedIndex', 0);
   const loc = window.location;
   const len = loc.origin.length;
   // POPULATE DROPDOWN WITH LIST OF SLIDES
   const url1 = '/node/' + tilmap.slide + '?_format=json'; // GET SLIDE INFO TO GET COLLECTION
+  // console.log('url1', url1);
   $.getJSON(url1, function (data) {
+    // console.log('1.', data);
     let collection = data.field_collection[0].target_id;
     const url2 = '/listofimages/' + collection + '?_format=json'; // GET COLLECTION TO GET LIST OF IMAGES
+    // console.log('url2', url2);
     $.getJSON(url2, function (data) {
+      // console.log('2.', data);
       $.each(data, function (key, entry) {
         let nid = entry.nid[0].value;
+        // let name = entry.imageid[0].value;
         let arr = entry.field_iip_path[0].value.split("/");
         let x = arr.length;
         let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
         if (name.length > 23) {
           name = name.substring(0, 23);
         }
+        // console.log('name', name);
         const url3 = '/maps/' + nid + '?_format=json'; // GET MAP TO GET FILE URI
-        $.getJSON(url3, function (data) {
+        // console.log('url3', url3);
+        $.getJSON(url3, function (data) { // TODO:
+          // console.log('3.', data);
           let map;
           let type;
           try {
             map = data[0].field_map[0].url;
             map = map.substring(len);
+            /*
+            type = data[0].field_map_type[0].value; // TODO: We're not getting into this loop. Fix!
+            if (type.length > 5) {
+              type = type.substring(0, 5)
+            }
+            name = (type + ' ' + name);
+             */
+            // console.log('map', map);
           } catch (e1) {
+            // console.log('no map for this image', name);
           }
           let constructaurl;
           if (map) {
@@ -88,6 +112,7 @@ function navigation() {
             constructaurl = '';
             name = ("None: " + name);
           }
+          // name = name.toUpperCase();
 
           if (parseInt(tilmap.slide) === nid) {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
@@ -99,15 +124,64 @@ function navigation() {
       });
     });
   });
+
+  /*
+  let selectedOption = $('#navigation-dropdown option:selected');
+  if (selectedOption.prev().val()) {
+    console.log(selectedOption.prev().val());
+    $('#btnPrev').attr("disabled", false);
+  } else {
+    console.log(selectedOption.prev().val());
+    $('#btnPrev').attr("disabled", true);
+  }
+  if (selectedOption.next().val()) {
+    console.log(selectedOption.next().val());
+    $('#btnNext').attr("disabled", false);
+  } else {
+    console.log(selectedOption.next().val());
+    $('#btnNext').attr("disabled", true);
+  }
+   */
+
+  /*
+  $("#btnNext").click(function () {
+    var isLastElementSelected = $('#navigation-dropdown > option:selected').index() == $('#navigation-dropdown > option').length - 1;
+
+    if (!isLastElementSelected) {
+      $('#navigation-dropdown > option:selected').removeAttr('selected').btnNext('option').attr('selected', 'selected');
+    } else {
+      $('#navigation-dropdown > option:selected').removeAttr('selected');
+      $('#navigation-dropdown > option').first().attr('selected', 'selected');
+    }
+  });
+
+  $("#btnPrev").click(function () {
+    var isFirstElementSelected = $('#navigation-dropdown > option:selected').index() == 0;
+
+    if (!isFirstElementSelected) {
+      $('#navigation-dropdown > option:selected').removeAttr('selected').btnPrev('option').attr('selected', 'selected');
+    } else {
+      $('#navigation-dropdown > option:selected').removeAttr('selected');
+      $('#navigation-dropdown > option').last().attr('selected', 'selected');
+    }
+
+  });
+   */
+
 }
+
 
 fetch_data = function (url) {
 
   return fetch(url).then(function (response) {
     console.log('url', url);
+    // console.log('response', response);
+
     if (response.ok) {
+
       let headers = response.headers.get('content-type');
       let data;
+
       if (headers.toLowerCase().indexOf("application/json") === -1) {
         data = response.text();
       } else {
@@ -122,17 +196,19 @@ fetch_data = function (url) {
           let y = x.length;
           alert(x[y - 1] + ' ' + response.status + ' ' + response.statusText);
           return false;
+
         } else {
           alert(response.status + ' ' + response.statusText);
           return false;
+
         }
       }), 1000);
+
     }
     throw new Error(response.status + ' ' + response.statusText);
   }).catch(function (error) {
     console.log('There has been a problem with your fetch operation: ', error.message);
   });
-
 };
 
 function scaler(canvas) {
@@ -141,13 +217,17 @@ function scaler(canvas) {
     var context = canvas.getContext("2d");
 
     $("#scaler").click(function () {
+
       var imageObject = new Image();
       imageObject.onload = function () {
+
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.scale(parseFloat(tilmap.scale), parseFloat(tilmap.scale));
         context.drawImage(imageObject, 0, 0);
+
       };
       imageObject.src = canvas.toDataURL();
+
     });
   }
 
@@ -156,14 +236,18 @@ function scaler(canvas) {
 function getBoundingBox() {
   tilmap.width = parseInt((tilmap.imgTILDiv.style.width).replace('px;', ''));
   tilmap.height = parseInt((tilmap.imgTILDiv.style.height).replace('px;', ''));
+
   boundingBox = {
     "width": tilmap.width,
     "height": tilmap.height
   };
+  // console.log("boundingBox", boundingBox);
+
   return boundingBox;
 }
 
 function fitInBox(initWidth, initHeight, maxWidth, maxHeight) {
+  // console.log("init w,h", initWidth, initHeight);
 
   // First pass
   widthScale = maxWidth / initWidth;
@@ -172,6 +256,7 @@ function fitInBox(initWidth, initHeight, maxWidth, maxHeight) {
 
   new_width = parseInt(initWidth * scale);
   new_height = parseInt(initHeight * scale);
+  // console.log("new w,h", new_width, new_height);
 
   // Second pass
   let aspect = parseFloat(initWidth / initHeight);
@@ -230,41 +315,58 @@ isItemInArray = function (array, item) {
 };
 
 document.getElementById('imgTILDiv').onclick = function (event) {
+  // console.log('event.target', event.target)
   zoom2loc(event);
 };
 
 ui = function (feature_names) {
+
   // feature_names => HTML Elements
   if (feature_names.length >= 3) {
     // should be red, green, blue
     let redBtn = document.getElementById('calcTILred');
     let what = (feature_names[0].toUpperCase() === 'TIL') ? 'TIL' : feature_names[0];
     redBtn.innerText = what;
+    // TOOLTIPS DON'T WORK IF YOU'RE GONNA SET THE TITLE DYNAMICALLY
+    // redBtn.title = "Showing " + what + " vs. " + what;
+    // document.getElementById('redTiles').title = "total tissue area and percent tissue area classified as " + what;
     document.getElementById('redRangePlay').innerText = what;
 
     let greenBtn = document.getElementById('calcTILgreen');
     greenBtn.innerText = feature_names[1];
+    // greenBtn.title = "Showing " + feature_names[1] + " vs. " + feature_names[1];
+    // document.getElementById('greenTiles').title = "total tissue area and percent tissue area classified as " + feature_names[1];
     document.getElementById('greenRangePlay').innerText = feature_names[1];
 
+    // TODO: not background anymore
     let blueBtn = document.getElementById('calcTILblue');
     blueBtn.innerText = feature_names[2];
+    // blueBtn.title = "Showing " + feature_names[2] + " vs. " + feature_names[2];
+    // document.getElementById('backTiles').title = "total tissue area and percent tissue area classified as " + feature_names[2];
+
   } else {
     alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');
   }
+
 };
 
 
 createImage = function (sel) {
+
   const d = tilmap.data;
   const index = d.data.locations;
   const features = d.data.features;
   let names = Object.getOwnPropertyNames(features);
 
+  // let num_cols = names.length; // number of columns
+
   let R, G, B;
   if (sel) {
+    // ui([names[sel[0]], names[sel[1]], names[sel[2]]]);
     ui([names[sel[0]], names[sel[1]], names[2]]);
     R = features[names[sel[0]]];
     G = features[names[sel[1]]];
+    // B = features[names[sel[2]]];
     B = features[names[2]];
   } else {
     ui(names);
@@ -326,7 +428,9 @@ createImage = function (sel) {
     imgData.data[pixelindex + 2] = B[n];  // B value
     imgData.data[pixelindex + 3] = 255;   // set alpha channel
 
+
   }
+  // console.log('imgData', imgData);
   ctx.putImageData(imgData, 0, 0); // we now have an image painted to the canvas
 
   return canvas;
@@ -337,6 +441,7 @@ createImage = function (sel) {
  * Calculate TIL, build dynamic interface.
  */
 tilmap.calcTILfun = function () {
+
   // Show/hide buttons - Red Green Tissue Original
   hideRGBbuttons.onclick = function () {
     if (rgbButtons.hidden) {
@@ -351,10 +456,13 @@ tilmap.calcTILfun = function () {
     tilmap.canvasAlign();
   };
 
+  // tilmap.zoom2loc(event);
   greenRange.value = tilmap.parms.greenRange;
   redRange.value = tilmap.parms.redRange;
+  // rangeSegmentBt.onclick = tilmap.segment;
 
   greenRangePlay.onclick = redRangePlay.onclick = function () {
+
     // make sure the other play is stopped
     if ((this.id === "greenRangePlay") & (redRangePlay.style.backgroundColor === "#dedede")) {
       redRangePlay.click()
@@ -362,6 +470,7 @@ tilmap.calcTILfun = function () {
     if ((this.id === "redRangePlay") & (greenRangePlay.style.backgroundColor === "#dedede")) {
       greenRangePlay.click()
     }
+
     // range input for this button
     var range = document.getElementById(this.id.slice(0, -4));  // Ex: greenRangePlay -> greenRange
     if (this.style.backgroundColor === "silver") {
@@ -398,6 +507,7 @@ tilmap.calcTILfun = function () {
   tilmap.img.height = tilmap.height;
 
   tilmap.imgTILDiv.appendChild(tilmap.img);
+  // window.addEventListener('mousewheel', (e)=>console.info(e))
 
   tilmap.img.onload = function () {
 
@@ -411,32 +521,96 @@ tilmap.calcTILfun = function () {
       tilmap.imgTILDiv.appendChild(tilmap.cvBase);
     }
 
+    // tileSize.textContent = `${tilmap.img.width}x${tilmap.img.height}`;
     tileSize.textContent = `${tilmap.data.metadata.png_w}x${tilmap.data.metadata.png_h}`;
     tilmap.ctx = tilmap.cvBase.getContext('2d');
 
+
     if (tilmap.scale > 0 && tilmap.flag) {
+      // console.log('scaling', tilmap.scale);
       tilmap.ctx.scale(parseFloat(tilmap.scale), parseFloat(tilmap.scale));
     }
 
+    // tilmap.ctx.drawImage(this, 0, 0);
     tilmap.ctx.drawImage(tilmap.img, 0, 0);
     tilmap.imgData = jmat.imread(tilmap.cvBase);
 
-    tilmap.imgDataR = tilmap.imSlice(0);
-    tilmap.imgDataG = tilmap.imSlice(1);
-    tilmap.imgDataB = tilmap.imSlice(2);
+    /*
+    const features = tilmap.data.data.features;
+    let names = Object.getOwnPropertyNames(features);
+    // let num_cols = names.length; // number of columns
+    let R = features[names[0]];
+    let G = features[names[1]];
+    let B = features[names[2]];
+     */
 
+    tilmap.imgDataR = tilmap.imSlice(0);
+    // console.log('Red channel zeroes?', tilmap.imgDataR.every(item => item === 0));
+    tilmap.imgDataG = tilmap.imSlice(1);
+    // console.log('Green channel zeroes?', tilmap.imgDataG.every(item => item === 0));
+    // extract blue channel
+    tilmap.imgDataB = tilmap.imSlice(2);
+    // console.log('Blue channel zeroes?', tilmap.imgDataB.every(item => item === 0));
+
+    // Convert the 255's from the blue channel to 1's and sum all the values.  This will be total tiles.
+    // tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => x / 255)).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
     tilmap.imgDataB_count = tilmap.imgDataB.map(x => x.map(x => (x > 0))).map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
 
+    // Event listeners for buttons - Red Green Tissue Original
     calcTILred.onclick = function () {
+      // tilmap.from2D(R);
       tilmap.from2D(tilmap.imSlice(0))
     };
     calcTILgreen.onclick = function () {
+      // tilmap.from2D(G);
       tilmap.from2D(tilmap.imSlice(1))
     };
     calcTILblue.onclick = function () {
+      // tilmap.from2D(B);
       tilmap.from2D(tilmap.imSlice(2))
     };
-
+    /*
+    calcTILblue.onclick = function () {
+      let dd = tilmap.imSlice(2);
+      // tilmap.from2D(dd) <-- this is the base function we are expanding here to represent extracted classifications
+      tilmap.cvBase.hidden = false;
+      tilmap.img.hidden = true;
+      tilmap.cv2D = dd; // keeping current value 2D slice
+      var cm = jmat.colormap();
+      var k = 63 / 255; // png values are between 0-255 and cm 0-63
+      // extract classifications
+      // channel B storing 5 codes:
+      // 255:[tissue, no cancer, no til]
+      // 254:[tissue + cancer + no til]
+      // 253:[tissue + no cancer + til]
+      // 252:[tissue + cancer + til]
+      // 0:[no tissue]
+      var ddd = dd.map(function (d) {
+        return d.map(function (v) {
+          let rgba;
+          switch (v) {
+            case 255: // [tissue + cancer + no til]
+              rgba = [192, 192, 192, 255];
+              break;
+            case 254: // [tissue + cancer + no til]
+              rgba = [255, 255, 0, 255];
+              break;
+            case 253: // [tissue + no cancer + til]
+              rgba = [255, 0, 0, 255];
+              break;
+            case 252: // [tissue + cancer + til]
+              rgba = [255, 165, 0, 255];
+              break;
+            default:
+              rgba = [0, 0, 0, 0] // notice transparency
+              //rgba = cm[Math.round(v*k)].map(x=>Math.round(x*255)).concat(255)
+          }
+          return rgba
+        })
+      });
+      jmat.imwrite(tilmap.cvBase, ddd)
+    };
+    */
     calcTIL0.onclick = function () {
       tilmap.img.hidden = false;
       tilmap.cvBase.hidden = true;
@@ -452,16 +626,39 @@ tilmap.calcTILfun = function () {
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
       var cm = tilmap.colormap;
+      // var k = parseInt(this.value) / 100 //slider value
       var cr = parseInt(greenRange.value) / 100;
       var tr = parseInt(redRange.value) / 100;
       tilmap.parms[this.id] = this.value;
       var ddd = tilmap.imgData.map(function (dd) {
         return dd.map(function (d) {
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2]);
+          /*
+          // If it's a variant of black, it's b/g. If it's gray (shouldn't happen), it's b/g. Return white b/g.
+          if ((d[0] == 0 && d[2] == 0 && (d[1] > 0 && d[1] < 10)) || (d[0] == d[1] && d[0] == d[2])) {
+            return [255, 255, 255, 1];
+          }
+          else {
+            var wat = cm[Math.round(Math.max(d[1] * cr, d[0] * tr) / 255 * 63)].map(function (x) {
+              return Math.round(x * 255);
+            });
+            var len = d.length;
+            var alpha = d[len - 1];
+            if (alpha === 255 || alpha === 1) {
+              return wat.concat(255);
+            }
+            else {
+              return wat.concat(0);
+            }
+
+          }*/
         });
       });
       jmat.imwrite(tilmap.cvBase, ddd);
       tilmap.segment(event, false);
+      // tilmap.segment;
+      // debugger
+
     };
 
     // making sure clicking stops play and act as as onchange
@@ -479,6 +676,9 @@ tilmap.calcTILfun = function () {
       redRange.onchange()
     };
 
+    // if (!document.getElementById('cvTop')) {
+    // calcTILblue.click(); // <-- classify first
+    // }
     redRange.onchange();
     greenRange.onchange();
 
@@ -493,9 +693,13 @@ tilmap.calcTILfun = function () {
 
     }
     tilmap.canvasAlign();
+    //continueTool.style.backgroundColor = "yellow";
+    //continueTool.style.color = "red";
     tilmap.segment()
   };
   document.getElementById('caMicrocopeIfr').src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}`;
+  // segmentationRange.onchange = tilmap.segment; //rangeSegmentBt.onclick
+  //transparencyRange.onchange = tilmap.transpire;
 
   set_multiple_select();
 
@@ -506,19 +710,25 @@ tilmap.calcTILfun = function () {
  * @param selectedOptions
  */
 changeUI = function (selectedOptions) {
+
   const features = tilmap.data.data.features;
   let names = Object.getOwnPropertyNames(features);
   document.getElementById('calcTILred').innerText = names[selectedOptions[0]];
   document.getElementById('redRangePlay').innerText = names[selectedOptions[0]];
   document.getElementById('calcTILgreen').innerText = names[selectedOptions[1]];
   document.getElementById('greenRangePlay').innerText = names[selectedOptions[1]];
+  // document.getElementById('calcTILblue').innerText = names[selectedOptions[2]];
+  //document.getElementById('TBA').innerText = names[selectedOptions[2]];
+  // download(tilmap.slide + '.png', createImage(selectedOptions));
   let canvas = createImage(selectedOptions);
   tilmap.dataUri = canvas.toDataURL();
   tilmap.img.src = tilmap.dataUri;
   tilmap.flag = false;
+
 };
 
 set_multiple_select = function () {
+
   const features = tilmap.data.data.features;
   let names = Object.getOwnPropertyNames(features);
   let num_cols = names.length; // number of columns
@@ -545,6 +755,7 @@ set_multiple_select = function () {
       sel.options[sel.options.length] = new Option(names[i], i);
     }
 
+    // var textnode = document.createTextNode("Ctrl-click to select 3 features, ctrl-click 4th feature to display selection.");
     var textnode = document.createTextNode("Ctrl-click to select 2 features, ctrl-click 3rd feature to display selection.");
     // add the element to the div
     let myDiv = document.getElementById("choose");
@@ -558,9 +769,12 @@ set_multiple_select = function () {
     let last_valid_selection = null;
 
     $('#sel1').change(function (event) {
+
+      // if ($(this).val().length > 3) {
       if ($(this).val().length > 2) {
         $(this).val(last_valid_selection);
         changeUI(last_valid_selection);
+
       } else {
         last_valid_selection = $(this).val();
       }
@@ -570,17 +784,21 @@ set_multiple_select = function () {
     // TOGGLE
     var t = document.getElementById('toggle');
     t.addEventListener('click', function (e) {
+
       t.value = (t.value == "on") ? "off" : "on"
       if (t.value == "on") {
+
         tilmap.parms.threshold = 50; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
         tilmap.parms.transparency = 78;
         tilmap.segment(e, true);
+
       }
       else {
         tilmap.parms.threshold = 0;
         tilmap.parms.transparency = 0;
         tilmap.segment(e, true);
       }
+
     });
   }
 };
@@ -600,6 +818,8 @@ tilmap.from2D = function (dd) {
       return cm[Math.round(v * k)].map(x => Math.round(x * 255)).concat(255)
     })
   });
+  // tilmap.ctx.putImageData(jmat.data2imData(ddd), 0, 0)
+  // jmat.imwrite(tilmap.img, ddd)
   jmat.imwrite(tilmap.cvBase, ddd)
 };
 
@@ -619,13 +839,24 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
  * Draw yellow (or magenta) line around the edges of nuclear material.
  */
 tilmap.segment = function (event, doTranspire = false) {
+
+  //console.log('sv', tilmap.parms.threshold);
+  //console.log('tp', tilmap.parms.transparency);
+  //tilmap.segment = function () {
+
+  // document.getElementById("segmentationRangeVal").innerHTML = segmentationRange.value;
+
   // generate mask
   var cr = parseInt(greenRange.value) / 100;
   var tr = parseInt(redRange.value) / 100;
+  // var sv = 2.55 * parseInt(segmentationRange.value); // segmentation value
 
   var sv = tilmap.parms.threshold.toString(); //segmentationRange.value; // segmentation value
+  // console.log(cr, tr, sv);
   sv = 2.55 * parseInt((sv === '0') ? '1' : sv); //slider bug
+  // console.log("sv", sv);
   var sv1 = 2.55 * tilmap.parms.threshold; //parseInt(segmentationRange.value);
+  // console.log("sv1", sv1);
 
   let countGreen = 0;
   let countRed = 0;
@@ -671,9 +902,11 @@ tilmap.segment = function (event, doTranspire = false) {
     })
   });
 
+  // background suppression
   if (doTranspire) {
     tilmap.transpire();
   }
+  // tilmap.parms.threshold = segmentationRange.value;
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
   backTiles.textContent = `${countBackTiles} total tiles`; //, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
   tilmap.canvasAlign() // making sure it doesn't lose alignment
@@ -683,11 +916,16 @@ tilmap.segment = function (event, doTranspire = false) {
  * Calculate transparency
  */
 tilmap.transpire = function () {
+
+  // document.getElementById("transparencyRangeVal").innerHTML = transparencyRange.value;
+  // var tp = Math.round(2.55 * parseInt(transparencyRange.value)); // range value
   var tr = tilmap.parms.transparency;
   var tp = Math.round(2.55 * tr); // range value
+  //console.log('tr, tp', [tr, tp])
   // var clrEdge = [255, 255, 0, 255 - tp] // yellow
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
+
   jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
@@ -701,6 +939,8 @@ tilmap.transpire = function () {
       // return [255, 255, 255, 255].map(v => v * d) // white
     })
   }));
+
+  // tilmap.parms.transparency = transparencyRange.value
 
 };
 
@@ -716,9 +956,12 @@ window.addEventListener('scroll', () => {
  * Make sure both canvases stay aligned with each other.
  */
 tilmap.canvasAlign = function () {
+
   let a = document.getElementById('cvTop');
   let b = document.getElementById('cvBase');
+
   if (typeof a !== 'undefined' && a !== null) {
+
     if (typeof b !== 'undefined' && b !== null) {
       a.style.top = b.getBoundingClientRect().top;
       a.style.left = b.getBoundingClientRect().left;
@@ -726,9 +969,9 @@ tilmap.canvasAlign = function () {
       a.style.top = parseFloat(a.style.top) + b.getBoundingClientRect().top - a.getBoundingClientRect().top;
     }
   }
+
 };
 
-// Canvas zoom
 zoo = function (canvas) {
   let ctx = canvas.getContext('2d');
   trackTransforms(ctx);
@@ -737,7 +980,15 @@ zoo = function (canvas) {
     var p1 = ctx.transformedPoint(0, 0);
     var p2 = ctx.transformedPoint(canvas.width, canvas.height);
     ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+
+    // Alternatively:
+    // ctx.save();
+    // ctx.setTransform(1,0,0,1,0,0);
+    // ctx.clearRect(0,0,canvas.width,canvas.height);
+    // ctx.restore();
+
     ctx.drawImage(tilmap.img, 200, 50);
+
   }
   redraw();
 
@@ -812,16 +1063,30 @@ function trackTransforms(ctx) {
   }
 }
 
+/*
+continueTool.onclick = function () {
+  tilmap.div.hidden = false;
+  tilmap.homeDiv.hidden = true;
+  setTimeout(tilmap.canvasAlign, 100)
+};
+*/
+
 /**
  * Check file creation
+ *
+ * @param filename
+ * @param dataURL
  */
 function download(filename, dataURL) {
   var element = document.createElement('a');
   element.setAttribute('href', dataURL);
   element.setAttribute('download', filename);
+
   element.style.display = 'none';
   document.body.appendChild(element);
+
   element.click();
+
   document.body.removeChild(element);
 }
 
