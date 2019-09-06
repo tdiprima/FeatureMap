@@ -65,8 +65,13 @@ function navigation() {
     const url2 = '/listofimages/' + collection + '?_format=json'; // GET COLLECTION TO GET LIST OF IMAGES
     $.getJSON(url2, function (data) {
       $.each(data, function (key, entry) {
+        var svs_path = entry.field_iip_path;
+        var svs_path_obj = svs_path[0];
+        var keys = Object.keys(svs_path_obj);
+        var str = svs_path_obj[keys[0]];
+        var myarr = str.split("/");
         let nid = entry.nid[0].value;
-        let arr = entry.field_iip_path[0].value.split("/");
+        let arr = myarr; //entry.field_iip_path[0].value.split("/");
         let x = arr.length;
         let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
         if (name.length > 23) {
