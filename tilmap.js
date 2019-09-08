@@ -646,8 +646,8 @@ tilmap.segment = function (event, doTranspire = false) {
   
   var row = tilmap.imgData.length;
   var col = tilmap.imgData[0].length;
+  // Make copy of array, but substitute [ 0 ] for EACH ELEMENT
   tilmap.segNeig = [...Array(row)].map(_ => {
-    // Substitute [ 0 ] for EACH ELEMENT of the array
     return [...Array(col)].map(_ => [0])
   });
   
