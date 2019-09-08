@@ -628,41 +628,33 @@ tilmap.segment = function (event, doTranspire = false) {
   var cr = parseInt(greenRange.value) / 100;
   var tr = parseInt(redRange.value) / 100;
 
-  var sv = tilmap.parms.threshold.toString(); //segmentationRange.value; // segmentation value
-  sv = 2.55 * parseInt((sv === '0') ? '1' : sv); //slider bug
-  var sv1 = 2.55 * tilmap.parms.threshold; //parseInt(segmentationRange.value);
+  var sv = tilmap.parms.threshold.toString(); // segmentation threshold
+  sv = 2.55 * parseInt((sv === '0') ? '1' : sv); // slider bug
+  var sv1 = 2.55 * tilmap.parms.threshold; 
 
   let countGreen = 0;
   let countRed = 0;
   tilmap.segMask = tilmap.imgData.map(dd => {
     return dd.map(d => {
-      //countCancer+=(d[1]*cr>=sv) //count tiles
-      //countTil+=(d[0]*tr>=sv) //count tiles
-      //return (Math.max(d[1]*cr,d[0]*tr))>=sv //count tiles
-      //return ((Math.max(d[1]*cr,d[0]*tr))>=sv)&(d[2]==255) //leave non-tissue out
-      //countCancer+=(d[1]*cr>=sv)&(d[2]==255) //tissuing out cancer and til as well
-      //countTil+=(d[0]*tr>=sv)&(d[2]==255) //tissuing out cancer and til as well
       countGreen += (d[1] * cr >= sv) & (d[2] > 0); // use sv for count
       countRed += (d[0] * tr >= sv) & (d[2] > 0);
       return ((Math.max(d[1] * cr, d[0] * tr)) >= sv1) & (d[2] > 0); // use normal sv for mask
     })
   });
-  /*
-  Tile size is equal for both TILs and tumor after registration of the sizes of tiles during the overlay.
-  Even if the original grid would differ between tumor and TIL, it would be matched in a similarly gridded tiled.
-  */
-  greenTiles.textContent = `${countGreen} tiles`; //, ${Math.round((countGreen / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
-  redTiles.textContent = `${countRed} tiles`; //, ${Math.round((countRed / tilmap.imgDataB_count) * 10000) / 100}% of tissue`;
-
-  // find neighbors
-  var n = tilmap.imgData.length;
-  var m = tilmap.imgData[0].length;
-  tilmap.segNeig = [...Array(n)].map(_ => {
-    return [...Array(m)].map(_ => [0])
+  greenTiles.textContent = `${countGreen} tiles`;
+  redTiles.textContent = `${countRed} tiles`;
+  
+  var row = tilmap.imgData.length;
+  var col = tilmap.imgData[0].length;
+  tilmap.segNeig = [...Array(row)].map(_ => {
+    // Substitute [ 0 ] for EACH ELEMENT of the array
+    return [...Array(col)].map(_ => [0])
   });
+  
+  // find neighbors
   var dd = tilmap.segMask;
-  for (var i = 1; i < (n - 1); i++) {
-    for (var j = 1; j < (m - 1); j++) {
+  for (var i = 1; i < (row - 1); i++) {
+    for (var j = 1; j < (col - 1); j++) {
       tilmap.segNeig[i][j] = [dd[i - 1][j - 1], dd[i - 1][j], dd[i - 1][j + 1], dd[i][j - 1], dd[i][j], dd[i][j + 1], dd[i + 1][j - 1], dd[i + 1][j], dd[i + 1][j + 1]]
     }
   }
@@ -672,7 +664,6 @@ tilmap.segment = function (event, doTranspire = false) {
     return dd.map(d => {
       var s = d.reduce((a, b) => a + b);
       return (s > 3 & s < 7)
-      // return d.reduce((a, b) => Math.max(a, b)) != d.reduce((a, b) => Math.min(a, b))
     })
   });
 
@@ -680,8 +671,8 @@ tilmap.segment = function (event, doTranspire = false) {
     tilmap.transpire();
   }
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
-  backTiles.textContent = `${countBackTiles} total tiles`; //, ${Math.round((countBackTiles / tilmap.imgDataB_count) * 10000) / 100}% of tissue `;
-  tilmap.canvasAlign() // making sure it doesn't lose alignment
+  backTiles.textContent = `${countBackTiles} total tiles`; 
+  tilmap.canvasAlign()
 };
 
 /**
@@ -690,7 +681,6 @@ tilmap.segment = function (event, doTranspire = false) {
 tilmap.transpire = function () {
   var tr = tilmap.parms.transparency;
   var tp = Math.round(2.55 * tr); // range value
-  // var clrEdge = [255, 255, 0, 255 - tp] // yellow
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
   jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
@@ -703,7 +693,6 @@ tilmap.transpire = function () {
         c = clrMask
       }
       return c
-      // return [255, 255, 255, 255].map(v => v * d) // white
     })
   }));
 
