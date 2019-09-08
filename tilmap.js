@@ -621,7 +621,7 @@ tilmap.imSlice = function (i) { // slice ith layer of imgData matrix
 };
 
 /**
- * Draw yellow (or magenta) line around the edges of nuclear material.
+ * Draw line around the edges of nuclear material.
  */
 tilmap.segment = function (event, doTranspire = false) {
   // generate mask
