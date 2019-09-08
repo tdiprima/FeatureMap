@@ -675,7 +675,7 @@ tilmap.segment = function (event, doTranspire = false) {
   tilmap.segEdge = tilmap.segNeig.map(dd => {
     return dd.map(d => {
       var s = d.reduce((a, b) => a + b);
-      return (s > 3 & s < 7)
+      return (s > 3 & s < 7); // Top row is empty, or top and side.
     })
   });
 
