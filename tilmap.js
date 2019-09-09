@@ -381,18 +381,18 @@ tilmap.calcTILfun = function () {
   greenRange.value = tilmap.parms.greenRange;
   redRange.value = tilmap.parms.redRange;
 
+  // PLAY
   greenRangePlay.onclick = redRangePlay.onclick = function () {
     // make sure the other play is stopped
-    if ((this.id === "greenRangePlay") & (redRangePlay.style.backgroundColor === "#dedede")) {
+    if ((this.id === "greenRangePlay") & (redRangePlay.style.backgroundColor === "rgb(222, 222, 222)")) {
       redRangePlay.click()
     }
-    if ((this.id === "redRangePlay") & (greenRangePlay.style.backgroundColor === "#dedede")) {
+    if ((this.id === "redRangePlay") & (greenRangePlay.style.backgroundColor === "rgb(222, 222, 222)")) {
       greenRangePlay.click()
     }
-    // range input for this button
-    var range = document.getElementById(this.id.slice(0, -4));  // Ex: greenRangePlay -> greenRange
-    if (this.style.backgroundColor === "#c0c0c0") {
-      this.style.backgroundColor = "#dedede";
+    var range = document.getElementById(this.id.slice(0, -4));  // range input for this button
+    if (this.style.backgroundColor === "rgb(192, 192, 192)") {
+      this.style.backgroundColor = "rgb(222, 222, 222)";
       if (range.value === "") {
         range.value = tilmap.parms[range.id]
       }
@@ -406,7 +406,7 @@ tilmap.calcTILfun = function () {
       }, 100)
     } else {
       clearInterval(tilmap.parms.t);
-      this.style.backgroundColor = "#c0c0c0"
+      this.style.backgroundColor = "rgb(192, 192, 192)"
     }
   };
 
@@ -491,16 +491,17 @@ tilmap.calcTILfun = function () {
       tilmap.segment(event, false);
     };
 
+    // PLAY 2
     // making sure clicking stops play and act as as onchange
     greenRange.onclick = function () {
-      if (greenRangePlay.style.backgroundColor === "#dedede") {
+      if (greenRangePlay.style.backgroundColor === "rgb(222, 222, 222)") {
         greenRangePlay.onclick()
       }
       greenRange.onchange()
     };
 
     redRange.onclick = function () {
-      if (redRangePlay.style.backgroundColor === "#dedede") {
+      if (redRangePlay.style.backgroundColor === "rgb(222, 222, 222)") {
         redRangePlay.onclick()
       }
       redRange.onchange()
