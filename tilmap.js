@@ -651,12 +651,12 @@ tilmap.segment = function (event, doTranspire = false) {
     return [...Array(col)].map(_ => [0])
   });
   
-  // find neighbors
+  // Get neighbors
   var dd = tilmap.segMask;
   // Skip borders of rectangle.
   for (var i = 1; i < (row - 1); i++) {
     for (var j = 1; j < (col - 1); j++) {
-      // Then put array of 9 values (the neighbors) in every pixel location.
+      // Unpack the mask-neighbors into this pixel.
       tilmap.segNeig[i][j] = [
         dd[i - 1][j - 1],
         dd[i - 1][j],
