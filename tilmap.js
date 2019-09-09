@@ -69,7 +69,7 @@ function navigation() {
         let name;
         console.log('entry', entry);
         try {
-          if (entry.field_iip_path) {
+          if (entry.field_iip_path[0]) {
             let arr = entry.field_iip_path[0].value.split("/");
             let x = arr.length;
             let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
