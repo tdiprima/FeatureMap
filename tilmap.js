@@ -88,6 +88,17 @@ function navigation() {
         }
         catch(error) {
           console.log(error);
+          var svs_path = entry.field_iip_path;
+          var svs_path_obj = svs_path[0];
+          var keys = Object.keys(svs_path_obj);
+          var str = svs_path_obj[keys[0]];
+          let arr = str.split("/");
+          let x = arr.length;
+          let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
+          if (name.length > 23) {
+            name = name.substring(0, 23);
+          }
+          console.log('Fixed.');
         }
         const url3 = '/maps/' + nid + '?_format=json'; // GET MAP TO GET FILE URI
         $.getJSON(url3, function (data) {
