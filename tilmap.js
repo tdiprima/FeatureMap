@@ -9,7 +9,7 @@ tilmap = function () {
   tilmap.myBrowser = getBrowser(); // global variable for which browser we've got
 
   // blue-red colormap
-  tilmap.colormap = jmat.colormap();
+  tilmap.colormap = util.colormap();
 
   var queryString = location.search;
   if (queryString.length > 1) {
@@ -446,7 +446,7 @@ tilmap.calcTILfun = function () {
     }
 
     tilmap.ctx.drawImage(tilmap.img, 0, 0);
-    tilmap.imgData = jmat.imread(tilmap.cvBase);
+    tilmap.imgData = util.imread(tilmap.cvBase);
 
     tilmap.imgDataR = tilmap.imSlice(0);
     tilmap.imgDataG = tilmap.imSlice(1);
@@ -487,7 +487,7 @@ tilmap.calcTILfun = function () {
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2]);
         });
       });
-      jmat.imwrite(tilmap.cvBase, ddd);
+      util.imwrite(tilmap.cvBase, ddd);
       tilmap.segment(event, false);
     };
 
@@ -627,7 +627,7 @@ tilmap.from2D = function (dd) {
       return cm[Math.round(v * k)].map(x => Math.round(x * 255)).concat(255)
     })
   });
-  jmat.imwrite(tilmap.cvBase, ddd)
+  util.imwrite(tilmap.cvBase, ddd)
 };
 
 /**
@@ -717,7 +717,7 @@ tilmap.transpire = function () {
   var tp = Math.round(2.55 * tr); // range value
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
-  jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
+  util.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
       if (d) {

@@ -9,8 +9,8 @@ tilmap = function () {
   tilmap.myBrowser = getBrowser(); // global variable for which browser we've got
 
   // blue-red colormap, 'default' in statistical computing env (Matlab)
-  tilmap.colormap = jmat.colormap();
-  // *** if we want different one, then generate or borrow the new array, under a new switch "case" in jmat.colormap() ***
+  tilmap.colormap = util.colormap();
+  // *** if we want different one, then generate or borrow the new array, under a new switch "case" in util.colormap() ***
 
   var queryString = location.search;
   if (queryString.length > 1) {
@@ -533,7 +533,7 @@ tilmap.calcTILfun = function () {
 
     // tilmap.ctx.drawImage(this, 0, 0);
     tilmap.ctx.drawImage(tilmap.img, 0, 0);
-    tilmap.imgData = jmat.imread(tilmap.cvBase);
+    tilmap.imgData = util.imread(tilmap.cvBase);
 
     /*
     const features = tilmap.data.data.features;
@@ -576,7 +576,7 @@ tilmap.calcTILfun = function () {
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
       tilmap.cv2D = dd; // keeping current value 2D slice
-      var cm = jmat.colormap();
+      var cm = util.colormap();
       var k = 63 / 255; // png values are between 0-255 and cm 0-63
       // extract classifications
       // channel B storing 5 codes:
@@ -608,7 +608,7 @@ tilmap.calcTILfun = function () {
           return rgba
         })
       });
-      jmat.imwrite(tilmap.cvBase, ddd)
+      util.imwrite(tilmap.cvBase, ddd)
     };
     */
     calcTIL0.onclick = function () {
@@ -654,7 +654,7 @@ tilmap.calcTILfun = function () {
           }*/
         });
       });
-      jmat.imwrite(tilmap.cvBase, ddd);
+      util.imwrite(tilmap.cvBase, ddd);
       tilmap.segment(event, false);
       // tilmap.segment;
       // debugger
@@ -818,9 +818,9 @@ tilmap.from2D = function (dd) {
       return cm[Math.round(v * k)].map(x => Math.round(x * 255)).concat(255)
     })
   });
-  // tilmap.ctx.putImageData(jmat.data2imData(ddd), 0, 0)
-  // jmat.imwrite(tilmap.img, ddd)
-  jmat.imwrite(tilmap.cvBase, ddd)
+  // tilmap.ctx.putImageData(util.data2imData(ddd), 0, 0)
+  // util.imwrite(tilmap.img, ddd)
+  util.imwrite(tilmap.cvBase, ddd)
 };
 
 /**
@@ -926,7 +926,7 @@ tilmap.transpire = function () {
   var clrEdge = [255, 0, 144, 255 - tp]; // magenta
   var clrMask = [255, 255, 255, tp];
 
-  jmat.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
+  util.imwrite(tilmap.cvTop, tilmap.segEdge.map((dd, i) => {
     return dd.map((d, j) => {
       var c = [0, 0, 0, 0];
       if (d) {
