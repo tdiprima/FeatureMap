@@ -76,38 +76,31 @@ function navigation() {
             if (name.length > 23) {
               name = name.substring(0, 23);
             }
-          }
-          else {
+          } else {
             if (entry.title) {
               name = entry.title[0].value;
-            }
-            else {
+            } else {
               name = entry.imageid[0].value;
             }
           }
-        }
-        catch(error) {
-          console.log(error);
-          var svs_path = entry.field_iip_path;
-          var svs_path_obj = svs_path[0];
-          var keys = Object.keys(svs_path_obj);
-          var str = svs_path_obj[keys[0]];
-          let arr = str.split("/");
-          let x = arr.length;
-          let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
-          if (name.length > 23) {
-            name = name.substring(0, 23);
-          }
-          console.log('Fixed.');
+        } catch (error) {
+          console.error(error);
+
+
         }
         const url3 = '/maps/' + nid + '?_format=json'; // GET MAP TO GET FILE URI
         $.getJSON(url3, function (data) {
           let map;
           let type;
           try {
-            map = data[0].field_map[0].url;
-            map = map.substring(len);
+            if (data[0]) {
+
+              map = data[0].field_map[0].url;
+              map = map.substring(len);
+            }
           } catch (e1) {
+
+            console.error('e1', e1)
           }
           let constructaurl;
           if (map) {
@@ -593,8 +586,7 @@ set_multiple_select = function () {
         last_valid_selection = $(this).val();
       }
     });
-  }
-  else {
+  } else {
     // TOGGLE
     var t = document.getElementById('toggle');
     t.addEventListener('click', function (e) {
@@ -603,8 +595,7 @@ set_multiple_select = function () {
         tilmap.parms.threshold = 50; // toggle isn't a simple matter of turning on or off, but we're gonna attempt to do it anyway
         tilmap.parms.transparency = 78;
         tilmap.segment(e, true);
-      }
-      else {
+      } else {
         tilmap.parms.threshold = 0;
         tilmap.parms.transparency = 0;
         tilmap.segment(e, true);
