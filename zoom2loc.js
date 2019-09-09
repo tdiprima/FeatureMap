@@ -63,8 +63,8 @@ zoom2loc = function (event) {
       console.log({ "exception_was": e });
     }
     if (!success) {
-      slideDim.width = pathdb_util.slideWidth;
-      slideDim.height = pathdb_util.slideHeight;
+      slideDim.width = tilmap.data.metadata.img_width;
+      slideDim.height = tilmap.data.metadata.img_height;
     }
     // console.log("slideDim", slideDim);
     let scale = {};
