@@ -391,7 +391,7 @@ tilmap.calcTILfun = function () {
     }
     // range input for this button
     var range = document.getElementById(this.id.slice(0, -4));  // Ex: greenRangePlay -> greenRange
-    if (this.style.backgroundColor === "silver") {
+    if (this.style.backgroundColor === "#c0c0c0") {
       this.style.backgroundColor = "#dedede";
       if (range.value === "") {
         range.value = tilmap.parms[range.id]
@@ -406,7 +406,7 @@ tilmap.calcTILfun = function () {
       }, 100)
     } else {
       clearInterval(tilmap.parms.t);
-      this.style.backgroundColor = "silver"
+      this.style.backgroundColor = "#c0c0c0"
     }
   };
 
