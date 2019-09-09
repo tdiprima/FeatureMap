@@ -65,17 +65,29 @@ function navigation() {
     const url2 = '/listofimages/' + collection + '?_format=json'; // GET COLLECTION TO GET LIST OF IMAGES
     $.getJSON(url2, function (data) {
       $.each(data, function (key, entry) {
-        var svs_path = entry.field_iip_path;
-        var svs_path_obj = svs_path[0];
-        var keys = Object.keys(svs_path_obj);
-        var str = svs_path_obj[keys[0]];
-        var myarr = str.split("/");
         let nid = entry.nid[0].value;
-        let arr = myarr; //entry.field_iip_path[0].value.split("/");
-        let x = arr.length;
-        let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
-        if (name.length > 23) {
-          name = name.substring(0, 23);
+        let name;
+        console.log('entry', entry);
+        try {
+          if (entry.field_iip_path) {
+            let arr = entry.field_iip_path[0].value.split("/");
+            let x = arr.length;
+            let name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
+            if (name.length > 23) {
+              name = name.substring(0, 23);
+            }
+          }
+          else {
+            if (entry.title) {
+              name = entry.title[0].value;
+            }
+            else {
+              name = entry.imageid[0].value;
+            }
+          }
+        }
+        catch(error) {
+          console.log(error);
         }
         const url3 = '/maps/' + nid + '?_format=json'; // GET MAP TO GET FILE URI
         $.getJSON(url3, function (data) {
@@ -93,7 +105,6 @@ function navigation() {
             constructaurl = '';
             name = ("None: " + name);
           }
-
           if (parseInt(tilmap.slide) === nid) {
             dropdown.append($('<option></option>').attr('value', constructaurl).text(name).prop('selected', true));
 
@@ -630,7 +641,7 @@ tilmap.segment = function (event, doTranspire = false) {
 
   var sv = tilmap.parms.threshold.toString(); // segmentation threshold
   sv = 2.55 * parseInt((sv === '0') ? '1' : sv); // slider bug
-  var sv1 = 2.55 * tilmap.parms.threshold; 
+  var sv1 = 2.55 * tilmap.parms.threshold;
 
   let countGreen = 0;
   let countRed = 0;
@@ -643,14 +654,14 @@ tilmap.segment = function (event, doTranspire = false) {
   });
   greenTiles.textContent = `${countGreen} tiles`;
   redTiles.textContent = `${countRed} tiles`;
-  
+
   var row = tilmap.imgData.length;
   var col = tilmap.imgData[0].length;
   // Make copy of array, but substitute [ 0 ] for EACH ELEMENT
   tilmap.segNeig = [...Array(row)].map(_ => {
     return [...Array(col)].map(_ => [0])
   });
-  
+
   // Get neighbors
   var dd = tilmap.segMask;
   // Skip borders of rectangle.
@@ -683,7 +694,7 @@ tilmap.segment = function (event, doTranspire = false) {
     tilmap.transpire();
   }
   let countBackTiles = tilmap.segMask.map(x => x.reduce((a, b) => a + b)).reduce((a, b) => a + b);
-  backTiles.textContent = `${countBackTiles} total tiles`; 
+  backTiles.textContent = `${countBackTiles} total tiles`;
   tilmap.canvasAlign()
 };
 
