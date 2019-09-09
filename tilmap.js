@@ -67,7 +67,7 @@ function navigation() {
       $.each(data, function (key, entry) {
         let nid = entry.nid[0].value;
         let name;
-        console.log('entry', entry);
+        //console.log('entry', entry);
         try {
           if (entry.field_iip_path[0]) {
             let arr = entry.field_iip_path[0].value.split("/");
