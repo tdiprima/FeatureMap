@@ -85,8 +85,6 @@ function navigation() {
           }
         } catch (error) {
           console.error(error);
-
-
         }
         const url3 = '/maps/' + nid + '?_format=json'; // GET MAP TO GET FILE URI
         $.getJSON(url3, function (data) {
@@ -94,12 +92,10 @@ function navigation() {
           let type;
           try {
             if (data[0]) {
-
               map = data[0].field_map[0].url;
               map = map.substring(len);
             }
           } catch (e1) {
-
             console.error('e1', e1)
           }
           let constructaurl;
@@ -423,7 +419,6 @@ tilmap.calcTILfun = function () {
 
     if (!document.getElementById('cvBase')) {
       tilmap.cvBase = document.createElement('canvas');
-
       tilmap.cvBase.hidden = true;
       tilmap.cvBase.width = tilmap.width;
       tilmap.cvBase.height = tilmap.height;
@@ -467,7 +462,7 @@ tilmap.calcTILfun = function () {
     greenRange.onchange = redRange.onchange = function () {
 
       // redRangeVal, greenRangeVal
-      document.getElementById(this.id + 'Val').innerHTML = this.value; // TODO: tag type (%)?
+      document.getElementById(this.id + 'Val').innerHTML = this.value;
 
       tilmap.cvBase.hidden = false;
       tilmap.img.hidden = true;
@@ -475,8 +470,8 @@ tilmap.calcTILfun = function () {
       var cr = parseInt(greenRange.value) / 100;
       var tr = parseInt(redRange.value) / 100;
       tilmap.parms[this.id] = this.value;
-      var ddd = tilmap.imgData.map(function (dd) {
-        return dd.map(function (d) {
+      var ddd = tilmap.imgData.map(function (dd) { // 2d array
+        return dd.map(function (d) { // pixel
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2]);
         });
       });
@@ -511,7 +506,6 @@ tilmap.calcTILfun = function () {
       tilmap.imgTILDiv.appendChild(tilmap.cvTop);
       tilmap.cvTop.style.position = 'absolute';
       //zoo(tilmap.cvTop);
-
     }
     tilmap.canvasAlign();
     tilmap.segment()
@@ -689,7 +683,7 @@ tilmap.segment = function (event, doTranspire = false) {
   tilmap.segEdge = tilmap.segNeig.map(dd => {
     return dd.map(d => {
       var s = d.reduce((a, b) => a + b);
-      return (s > 3 & s < 7); // Top row is empty, or top and side.
+      return (s > 3 & s < 7);
     })
   });
 
