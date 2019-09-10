@@ -470,6 +470,7 @@ tilmap.calcTILfun = function () {
       var cr = parseInt(greenRange.value) / 100;
       var tr = parseInt(redRange.value) / 100;
       tilmap.parms[this.id] = parseInt(this.value);
+      // Normalize original image to colormap
       var ddd = tilmap.imgData.map(function (dd) { // 2d array
         return dd.map(function (d) { // pixel
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2]);
