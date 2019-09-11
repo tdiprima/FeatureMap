@@ -473,6 +473,7 @@ tilmap.calcTILfun = function () {
       // Normalize original image to colormap
       var ddd = tilmap.imgData.map(function (dd) { // 2d array
         return dd.map(function (d) { // pixel
+          // we take either R or G because in the end, the value gets mapped to hot or cold
           return cm[Math.round((Math.max(d[1] * cr, d[0] * tr) / 255) * 63)].map(x => Math.round(x * 255)).concat(d[2]);
         });
       });
