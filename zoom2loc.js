@@ -80,7 +80,15 @@ zoom2loc = function (event) {
     // console.log('y1', y1);
     states.x = parseFloat(x1 / slideDim.width);
     states.y = parseFloat(y1 / slideDim.height);
-    states.z = 1.6;
+    let mppx = result.referencepixelphysicalvaluex[0].value;
+    console.log('mppx', mppx);
+
+    if (mppx <= 0.6 && mppx > 0.4) {
+      states.z = 20;
+    }
+    else {
+      states.z = 40;
+    }
     states.hasMark = true;
     //console.log('states', states);
 
