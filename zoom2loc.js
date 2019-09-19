@@ -80,9 +80,9 @@ zoom2loc = function (event) {
     // console.log('y1', y1);
     states.x = parseFloat(x1 / slideDim.width);
     states.y = parseFloat(y1 / slideDim.height);
+    /*
     let mppx = result.referencepixelphysicalvaluex[0].value;
     console.log('mppx', mppx);
-
     // If around 0.5
     if (mppx <= 0.6 && mppx > 0.4) {
       states.z = 20;
@@ -91,6 +91,11 @@ zoom2loc = function (event) {
       // Else around 0.25
       states.z = 40;
     }
+    */
+    states.isIZ = true;
+    states.z = 0.25;  // Zoom to 10x, as discussed 9/18/19.
+    states.coordinate = 'image';
+
     states.hasMark = true;
     //console.log('states', states);
 
