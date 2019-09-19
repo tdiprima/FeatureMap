@@ -94,8 +94,6 @@ zoom2loc = function (event) {
     */
     states.isIZ = true;
     states.z = 0.25;  // Zoom to 10x, as discussed 9/18/19.
-    states.coordinate = 'image';
-
     states.hasMark = true;
     //console.log('states', states);
 
