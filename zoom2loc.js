@@ -83,10 +83,12 @@ zoom2loc = function (event) {
     let mppx = result.referencepixelphysicalvaluex[0].value;
     console.log('mppx', mppx);
 
+    // If around 0.5
     if (mppx <= 0.6 && mppx > 0.4) {
       states.z = 20;
     }
     else {
+      // Else around 0.25
       states.z = 40;
     }
     states.hasMark = true;
