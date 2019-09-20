@@ -112,26 +112,6 @@
                         <button id="btnNext" class="w3-button w3-large w3-circle w3-light-grey">›</button>
                       </div>
                       <p><br></p>
-                      <script>
-                        $('#btnPrev').click(function () {
-                          let selectedOption = $('#navigation-dropdown option:selected');
-                          if (selectedOption.prev().val()) {
-                            location.href = selectedOption.prev().val();
-                          }
-                        });
-                        $('#btnNext').click(function () {
-                          let selectedOption = $('#navigation-dropdown option:selected');
-                          if (selectedOption.next().val()) {
-                            location.href = selectedOption.next().val();
-                          }
-                        });
-                        $('#navigation-dropdown').change(function () {
-                          let selectedOption = $('#navigation-dropdown option:selected');
-                          if (selectedOption.val()) {
-                            location.href = selectedOption.val();
-                          }
-                        });
-                      </script>
                       <div id="tilShowImgDiv" style="color: navy;">
                         <div id="imgTILDiv" class="imgTILDiv" style="width: 600px; height: 500px; max-width: 600px; max-height: 500px"></div>
                       </div>

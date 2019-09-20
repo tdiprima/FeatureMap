@@ -110,7 +110,7 @@ function navigation() {
           }
           let constructaurl;
           if (map) {
-            constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map + '&r=' + tilmap.parms.redRange + '&g=' + tilmap.parms.greenRange;
+            constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map;
           } else {
             constructaurl = '';
             name = ("None: " + name);
@@ -124,6 +124,23 @@ function navigation() {
         });
       });
     });
+  });
+
+  function sel(val) {
+    if (val) {
+      let str = val;
+      str += '&r=' + tilmap.parms.redRange + '&g=' + tilmap.parms.greenRange;
+      location.href = str;
+    }
+  }
+  $('#btnPrev').click(function () {
+    sel($('#navigation-dropdown option:selected').prev().val());
+  });
+  $('#btnNext').click(function () {
+    sel($('#navigation-dropdown option:selected').next().val());
+  });
+  $('#navigation-dropdown').change(function () {
+    sel($('#navigation-dropdown option:selected').val());
   });
 }
 
