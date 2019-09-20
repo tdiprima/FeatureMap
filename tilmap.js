@@ -15,6 +15,16 @@ tilmap = function () {
   if (queryString.length > 1) {
 
     let str = location.search.slice(1);
+
+    var r = getQueryVariable('r', str);
+    var g = getQueryVariable('g', str);
+    if (r !== undefined) {
+      tilmap.parms.redRange = parseInt(r);
+    }
+    if (g !== undefined) {
+      tilmap.parms.greenRange = parseInt(g);
+    }
+
     tilmap.map = getQueryVariable('map', str); // json
     if (tilmap.map.endsWith("csv")) {
       alert('Expecting JSON file, got CSV.\nQuitting.');
@@ -100,7 +110,7 @@ function navigation() {
           }
           let constructaurl;
           if (map) {
-            constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map;
+            constructaurl = '/FeatureMap/?mode=pathdb&slideId=' + nid + '&map=' + map + '&r=' + tilmap.parms.redRange + '&g=' + tilmap.parms.greenRange;
           } else {
             constructaurl = '';
             name = ("None: " + name);
