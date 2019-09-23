@@ -31,15 +31,11 @@ zoom2loc = function (event) {
     }
   }
 
-  const ifrm = document.getElementById('caMicrocopeIfr');
-
   // Get slide data
   let getSlideData = async function () {
     const url = `/node/${tilmap.slide}/?_format=json`;
     // console.log('fetch: ', url);
-
     return (await fetch(url)).json()
-
   };
 
   let setIframe = getSlideData();
@@ -47,7 +43,6 @@ zoom2loc = function (event) {
   // Get slide dimensions
   setIframe.then(function (result) {
     // console.log('result', result);
-
     // Build new iFrame src
     let slideDim = {};
     let success = true;
@@ -80,20 +75,18 @@ zoom2loc = function (event) {
     // console.log('y1', y1);
     states.x = parseFloat(x1 / slideDim.width);
     states.y = parseFloat(y1 / slideDim.height);
+
+    states.isIZ = true;
     /*
-    let mppx = result.referencepixelphysicalvaluex[0].value;
-    console.log('mppx', mppx);
-    // If around 0.5
-    if (mppx <= 0.6 && mppx > 0.4) {
-      states.z = 20;
+    let zlevel = getZoomLevel('caMicrocopeIfr');
+    if (tilmap.parms.zoomLevelInit !== zlevel && tilmap.parms.zoomLevel > 0) {
+      states.z = tilmap.parms.zoomLevel;
     }
     else {
-      // Else around 0.25
-      states.z = 40;
-    }
     */
-    states.isIZ = true;
-    states.z = 0.25;  // Zoom to 10x, as discussed 9/18/19.
+      states.z = 0.25;  // Zoom to 10x, as discussed 9/18/19.
+    //}
+
     states.hasMark = true;
     //console.log('states', states);
 
@@ -101,6 +94,7 @@ zoom2loc = function (event) {
     let encodedData = encodeURIComponent(btoa(JSON.stringify(states)));
 
     // Set frame src to desired location
+    const ifrm = document.getElementById('caMicrocopeIfr');
     ifrm.src = `/caMicroscope/apps/viewer/viewer.html?slideId=${tilmap.slide}&mode=${tilmap.mode}&states=${encodedData}`;
     // ifrm.src = `${newIfrmLoc}&x=${Math.ceil(clickPos.x * scale.w)}&y=${Math.ceil(clickPos.y * scale.h)}&zoom=5`;
     console.log('ifrm.src:', ifrm.src);

@@ -18,12 +18,18 @@ tilmap = function () {
 
     var r = getQueryVariable('r', str);
     var g = getQueryVariable('g', str);
+    //var z = getQueryVariable('z', str);
     if (r !== undefined) {
       tilmap.parms.redRange = parseInt(r);
     }
     if (g !== undefined) {
       tilmap.parms.greenRange = parseInt(g);
     }
+    /*
+    if (z !== undefined) {
+      tilmap.parms.zoomLevel = parseFloat(z);
+    }
+    */
 
     tilmap.map = getQueryVariable('map', str); // json
     if (tilmap.map.endsWith("csv")) {
@@ -61,6 +67,8 @@ tilmap.parms = {
   redRange: 100,
   threshold: 0,
   transparency: 0
+  //zoomLevelInit: 0,
+  //zoomLevel: 0
 };
 
 function navigation() {
@@ -769,6 +777,14 @@ tilmap.canvasAlign = function () {
       a.style.top = parseFloat(a.style.top) + b.getBoundingClientRect().top - a.getBoundingClientRect().top;
     }
   }
+  // try {
+  //   if (tilmap.parms.zoomLevelInit === 0) {
+  //     tilmap.parms.zoomLevelInit = getZoomLevel('caMicrocopeIfr');
+  //   }
+  // }
+  // catch(err) {
+  //   console.error('Hello.', err.message);
+  // }
 };
 
 /**
