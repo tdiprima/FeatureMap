@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Synchronized Viewers</title>
+  <link href="./dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="//code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <style>
+    .seadragon-viewer {
+      display: inline-block;
+      width: 45%;
+      height: 600px;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>Synchronize 2 Viewers Demo</h3>
+  <div id="viewer1" class="seadragon-viewer"></div>
+  <div id="viewer2" class="seadragon-viewer"></div>
+  <script src="//openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
+  <script>
+    const wsi_w = 46336;
+    const wsi_h = 44288;
+    const max_l = getMaxLevel(wsi_w, wsi_h);
+
+    const img1 = {
+      height: wsi_h,
+      width: wsi_w,
+      tileSize: 256,
+      minLevel: 0,
+      maxLevel: max_l,
+      getTileUrl: function (level, x, y) {
+        let host = "/caMicroscope/img/IIP/raw/?DeepZoom=/data/images/demo/dir1/TCGA-A2-A3XZ-01Z-00-DX1.svs_files/";
+        return (host + level + "/" + x + "_" + y + ".png");
+      }
+    };
+
+    const img2 = {
+      height: wsi_h,
+      width: wsi_w,
+      tileSize: 256,
+      minLevel: 0,
+      maxLevel: max_l,
+      getTileUrl: function (level, x, y) {
+        let host = "/caMicroscope/img/IIP/raw/?DeepZoom=/data/images/demo/dir2/TCGA-A2-A3XZ-01Z-00-DX1.svs_files/";
+        return (host + level + "/" + x + "_" + y + ".png");
+      }
+    };
+
+    function getMaxLevel(width, height) {
+      // do natural logarithm (base e)
+      if (width > height) {
+        return Math.ceil(Math.log(width) / Math.log(2));
+      } else {
+        return Math.ceil(Math.log(height) / Math.log(2));
+      }
+    }
+
+    var viewer1 = OpenSeadragon({
+      id: "viewer1",
+      prefixUrl: "//openseadragon.github.io/openseadragon/images/",
+      tileSources: img1
+    });
+
+    var viewer2 = OpenSeadragon({
+      id: "viewer2",
+      prefixUrl: "//openseadragon.github.io/openseadragon/images/",
+      tileSources: img2
+    });
+
+    // TODO: FACTORY.
+    var viewer1Leading = false;
+    var viewer2Leading = false;
+
+    var viewer1Handler = function () {
+      if (viewer2Leading) {
+        return;
+      }
+
+      viewer1Leading = true;
+      viewer2.viewport.zoomTo(viewer1.viewport.getZoom());
+      viewer2.viewport.panTo(viewer1.viewport.getCenter());
+      viewer1Leading = false;
+    };
+
+    var viewer2Handler = function () {
+      if (viewer1Leading) {
+        return;
+      }
+
+      viewer2Leading = true;
+      viewer1.viewport.zoomTo(viewer2.viewport.getZoom());
+      viewer1.viewport.panTo(viewer2.viewport.getCenter());
+      viewer2Leading = false;
+    };
+
+    viewer1.addHandler('zoom', viewer1Handler);  // When Viewer 1 is zooming we want Viewer 1 to lead
+    viewer2.addHandler('zoom', viewer2Handler);
+    viewer1.addHandler('pan', viewer1Handler);  // When Viewer 1 is panning we want Viewer 1 to lead
+    viewer2.addHandler('pan', viewer2Handler);
+
+  </script>
+</body>
+
+</html>
