@@ -13,72 +13,36 @@
 
 <body>
   <h3>Feature Layers Demo</h3>
-  <table>
-    <tr>
-      <td colspan="4">&nbsp;</td>
-    </tr>
-    <tr>
-      <td align="center" colspan="4">
-        <table>
-          <tr>
-            <td><strong>Slide:</strong></td>
-            <td>&nbsp;</td>
-            <td>TCGA-EW-A1P7-01Z-00-DX1</td>
-          </tr>
-          <tr>
-            <td><strong>Data type:</strong></td>
-            <td>&nbsp;</td>
-            <td>Probability</td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="4">&nbsp;</td>
-    </tr>
-    <tr>
-      <td colspan="4" align="center">
-        <button style="background-color: lemonchiffon" onclick="toggleLayer('layer1')">toggle TIL</button>
-        <button style="background-color: lemonchiffon" onclick="toggleLayer('layer2')">toggle cancer</button>
-        <button style="background-color: lemonchiffon" onclick="toggleLayer('layer3')">toggle tissue</button>
-        <button style="background-color: lemonchiffon" onclick="reset()">reset</button>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="4">&nbsp;</td>
-    </tr>
-    <tr>
-      <td align="right">Filter by cancer probability: <b>0</b>&nbsp;&nbsp;&nbsp;</td>
-      <td>
-        <input id="cancer" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="5"
-          data-slider-value="[40,100]" data-value="40,100">
-      </td>
-      <td>&nbsp;&nbsp;&nbsp;<b>100%</b></td>
-      <td>
-        <input type="submit" value="Go" style="background-color: paleturquoise" onclick="rangeSlider(imgDataG, cancer, 2)">
-      </td>
-    </tr>
-    <tr>
-      <td colspan="4">&nbsp;</td>
-    </tr>
-    <tr>
-      <td align="right">Filter by TIL probability: <b>0</b>&nbsp;&nbsp;&nbsp;</td>
-      <td><input id="til" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="5"
-          data-slider-value="[40,100]" data-value="40,100"></td>
-      <td>&nbsp;&nbsp;&nbsp;<b>100%</b></td>
-      <td><input type="submit" value="Go" style="background-color: plum" onclick="rangeSlider(imgDataR, til, 1)">
-      </td>
-    </tr>
-    <tr>
-      <td colspan="4">&nbsp;</td>
-    </tr>
-  </table>
+  <div style="width: 600px">
+    <div>&nbsp;</div>
+    <div><strong>Slide:</strong> TCGA-EW-A1P7-01Z-00-DX1</div>
+    <div><strong>Data type:</strong> Probability</div>
+    <div>&nbsp;</div>
+    <div>
+      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer1')">toggle TIL</button>
+      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer2')">toggle cancer</button>
+      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer3')">toggle tissue</button>
+      <button style="background-color: lemonchiffon" onclick="reset()">reset</button>
+    </div>
+    <div>&nbsp;</div>
+    <div>Filter by cancer probability: <b>0</b>&nbsp;&nbsp;&nbsp;
+      <input id="cancer" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="5"
+        data-slider-value="[40,100]" data-value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
+      <input type="submit" value="Go" style="background-color: paleturquoise"
+        onclick="rangeSlider(imgDataG, cancer, 2)"></div>
+    <div>&nbsp;</div>
+    <div>Filter by TIL probability: <b>0</b>&nbsp;&nbsp;&nbsp;<input id="til" type="text" value="40,100"
+        data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="[40,100]"
+        data-value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
+      <input type="submit" value="Go" style="background-color: plum" onclick="rangeSlider(imgDataR, til, 1)"></div>
+  </div>
   <div style="position: relative;">
     <canvas id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
     <canvas id="layer2" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
     <canvas id="layer3" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
   </div>
-  <script src="//code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
   <script src="./dist/js/bootstrap-slider.min.js"></script>
   <script src="feature_layers.js"></script>
 </body>
