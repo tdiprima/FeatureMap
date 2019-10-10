@@ -93,6 +93,9 @@ function navigation() {
             name = arr[x - 1]; // LAST PIECE OF STRING IS NAME
             if (name.length > 23) {
               name = name.substring(0, 23);
+              if (name.indexOf(".") > -1) {
+                name = name.substring(0, name.indexOf("."));
+              }
             }
           } else {
             if (entry.title) {
