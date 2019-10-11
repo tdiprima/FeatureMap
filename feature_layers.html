@@ -2,49 +2,117 @@
 <html lang="en">
 
 <head>
+  <!-- Required meta tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <!-- core CSS -->
+  <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../dist/css/bootstrap-slider.css" rel="stylesheet">
+  <script src="../dist/js/modernizr.js"></script>
+
+  <!-- Custom styles for this template -->
+  <style>
+    @media (min-width: 800px) {
+      /* TBD */
+    }
+
+    .container {
+      padding-left: 15px;
+      padding-right: 15px
+    }
+
+    .checkbox :hover,
+    .checkbox.focus {
+      background-color: lightyellow;
+      border: 1px gray solid;
+      width: 8em;
+    }
+  </style>
   <title>Feature Layers</title>
-  <script src="util.js"></script>
-  <link href="./dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="./dist/css/bootstrap-slider.min.css" rel="stylesheet" />
-</head>
 
 <body>
-  <h3>Feature Layers Demo</h3>
-  <div style="width: 600px">
-    <div>&nbsp;</div>
-    <div><strong>Slide:</strong> TCGA-EW-A1P7-01Z-00-DX1</div>
-    <div><strong>Data type:</strong> Probability</div>
-    <div>&nbsp;</div>
-    <div>
-      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer1')">toggle TIL</button>
-      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer2')">toggle cancer</button>
-      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer3')">toggle tissue</button>
+  <!-- Content here -->
+  <div class="row">
+    <div class="col-md-12" style="text-align:left;">
+      <h3>Feature Layers Demo</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">&nbsp;</div>
+  </div>
+
+  <!-- SLIDE META -->
+  <div class="row">
+    <div class="col-md-12" style="text-align:left;"><strong>Slide:</strong> TCGA-EW-A1P7-01Z-00-DX1</div>
+  </div>
+  <!-- DATA META -->
+  <div class="row">
+    <div class="col-md-12" style="text-align:left;"><strong>Data type:</strong> Probability</div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">&nbsp;</div>
+  </div>
+
+  <div class="row">
+
+    <!-- BUTTONS -->
+    <div class="col-md-1">
+      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer1')">toggle TIL</button><br><br>
+      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer2')">toggle cancer</button><br><br>
+      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer3')">toggle tissue</button><br><br>
       <button style="background-color: lemonchiffon" onclick="reset()">reset</button>
     </div>
-    <div>&nbsp;</div>
-    <div>Filter by cancer probability: <b>0</b>&nbsp;&nbsp;&nbsp;
-      <input id="cancer" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="5"
-        data-slider-value="[40,100]" data-value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
-      <input type="submit" value="Go" style="background-color: paleturquoise"
-        onclick="rangeSlider(imgDataG, cancer, 2)"></div>
-    <div>&nbsp;</div>
-    <div>Filter by TIL probability: <b>0</b>&nbsp;&nbsp;&nbsp;<input id="til" type="text" value="40,100"
-        data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="[40,100]"
-        data-value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
-      <input type="submit" value="Go" style="background-color: plum" onclick="rangeSlider(imgDataR, til, 1)"></div>
+
+    <!-- MAP & SLIDERS -->
+    <div class="col-md-11">
+      <!-- CANCER SLIDER -->
+      <div class="row">
+        <div class="col-md-2" style="text-align:right;">Filter by cancer probability:</div>
+        <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
+          <input id="cancer" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="6"
+            data-slider-value="[40,100]" data-value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
+          <input type="submit" value="Go" style="background-color: paleturquoise"
+            onclick="rangeSlider(imgDataG, cancer, 2)">
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-11">&nbsp;</div>
+      </div>
+      <!-- TIL SLIDER -->
+      <div class="row">
+        <div class="col-md-2" style="text-align:right;">Filter by TIL probability:</div>
+        <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
+          <input id="til" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="6"
+            data-slider-value="[40,100]" data-value="40,100">
+          &nbsp;&nbsp;&nbsp;<b>100%</b> <input type="submit" value="Go" style="background-color: plum"
+            onclick="rangeSlider(imgDataR, til, 1)">
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-11">&nbsp;</div>
+      </div>
+      <div class="row">
+          <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <canvas id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+          <canvas id="layer2" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+          <canvas id="layer3" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
-  <div style="position: relative;">
-    <canvas id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-    <canvas id="layer2" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-    <canvas id="layer3" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-  </div>
-  <script src="//code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
-  <script src="./dist/js/bootstrap-slider.min.js"></script>
+
+  <!-- core JavaScript
+    ================================================== -->
+  <script src="../dist/js/jquery.min.js"></script>
+  <script src="../dist/js/bootstrap.min.js"></script>
+  <script src="../dist/js/bootstrap-slider.js"></script>
+  <script src="util.js"></script>
   <script src="feature_layers.js"></script>
+  <!-- Placed at the end of the document so the pages load faster -->
 </body>
 
 </html>
