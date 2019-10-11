@@ -32,6 +32,7 @@
   </style>
   <title>Feature Layers</title>
 </head>
+
 <body>
   <!-- Content here -->
   <div class="row">
@@ -60,9 +61,14 @@
 
     <!-- BUTTONS -->
     <div class="col-md-1">
-      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer1')">toggle TIL</button><br><br>
+      <input type="checkbox" id="tilCheck" onclick="toggleLayer('layer1', this)" checked> TIL<br><br>
+      <input type="checkbox" id="cancerCheck" onclick="toggleLayer('layer2', this)" checked> Cancer<br><br>
+      <input type="checkbox" id="tissueCheck" onclick="toggleLayer('layer3', this)" checked> Tissue<br><br>
+
+      <!-- <button style="background-color: lemonchiffon" onclick="toggleLayer('layer1')">toggle TIL</button><br><br>
       <button style="background-color: lemonchiffon" onclick="toggleLayer('layer2')">toggle cancer</button><br><br>
-      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer3')">toggle tissue</button><br><br>
+      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer3')">toggle tissue</button><br><br> -->
+
       <button style="background-color: lemonchiffon" onclick="reset()">reset</button>
     </div>
 
@@ -76,7 +82,7 @@
             data-slider-value="[40,100]" data-value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
           <input type="submit" value="Go" style="background-color: paleturquoise"
             onclick="rangeSlider(imgDataG, cancer, 2)">
-          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-11">&nbsp;</div>
@@ -89,13 +95,13 @@
             data-slider-value="[40,100]" data-value="40,100">
           &nbsp;&nbsp;&nbsp;<b>100%</b> <input type="submit" value="Go" style="background-color: plum"
             onclick="rangeSlider(imgDataR, til, 1)">
-          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-11">&nbsp;</div>
       </div>
       <div class="row">
-          <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
         <div class="col-md-10">
           <canvas id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
           <canvas id="layer2" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>

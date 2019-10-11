@@ -3,7 +3,7 @@ var threshHigh = 100;
 
 function imSlice1(i, arr) { // slice ith layer of 2d array
 
-  console.log('imSlice1', [threshLow, threshHigh]);
+  // console.log('imSlice1', [threshLow, threshHigh]);
 
   return arr.map(x => {
     return x.map(y => {
@@ -19,8 +19,7 @@ function imSlice1(i, arr) { // slice ith layer of 2d array
           if (scale(y[0]) >= threshLow && scale(y[0]) <= threshHigh) {
             return [y[0], 0, 0, (y[3] / 2)];   // shut off everything but y[0], and make half transparent
           }
-          else
-          {
+          else {
             return [y[0], y[1], y[2], 0]; // make transparent
           }
         }
@@ -28,8 +27,7 @@ function imSlice1(i, arr) { // slice ith layer of 2d array
           if (scale(y[1]) >= threshLow && scale(y[1]) <= threshHigh) {
             return [0, y[1], 0, (y[3] / 2)];   // shut off everything but y[1], and make half transparent
           }
-          else
-          {
+          else {
             return [y[0], y[1], y[2], 0]; // make transparent
           }
         }
@@ -37,8 +35,7 @@ function imSlice1(i, arr) { // slice ith layer of 2d array
           if (scale(y[2]) >= threshLow && scale(y[2]) <= threshHigh) {
             return [0, 0, y[2], (y[3] / 2)];   // shut off everything but y[2], and make half transparent
           }
-          else
-          {
+          else {
             return [y[0], y[1], y[2], 0]; // make transparent
           }
         }
@@ -139,6 +136,14 @@ function loadImage() {
 // Event Handlers
 function reset() {
 
+  var inputs = document.getElementsByTagName('input');
+
+  for(var i = 0; i < inputs.length; i++) {
+      if(inputs[i].type.toLowerCase() == 'checkbox') {
+        inputs[i].checked = true;
+      }
+  }
+
   const canvases = document.querySelectorAll('canvas');
   canvases.forEach(c => {
     c.style.display = "block";
@@ -153,14 +158,21 @@ function reset() {
   loadImage();
 }
 
-function toggleLayer(layerId) {
-  // https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+function toggleLayer(layerId, checkBox) {
   var x = document.getElementById(layerId);
-  if (x.style.display === "none") {
+
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked) {
     x.style.display = "block";
   } else {
     x.style.display = "none";
   }
+
+  // if (x.style.display === "none") {
+  //   x.style.display = "block";
+  // } else {
+  //   x.style.display = "none";
+  // }
 }
 
 function visible(idx) {
@@ -190,7 +202,7 @@ function rangeSlider(data, slider, idx) {
   var arr = slider.getValue();
   threshLow = arr[0];
   threshHigh = arr[1];
-  console.log('rangeSlider', [threshLow, threshHigh]);
+  // console.log('rangeSlider', [threshLow, threshHigh]);
   var newArray = data.map(function (dd) {
     return dd.map(function (d) {
       // In range
@@ -223,7 +235,7 @@ $(document).ready(function () {
 });
 
 function imSlice(i, arr) { // slice ith layer of 2d array
-  console.log('imSlice', [threshLow, threshHigh]);
+  // console.log('imSlice', [threshLow, threshHigh]);
   i = i || 0;
   return arr.map(x => {
     return x.map(y => {
