@@ -16,11 +16,10 @@
 
 <body>
   <h3>Synchronize 4 Viewers Demo</h3>
-  <b>with color button and opacity sliders (one for layer 1, one for layer2)</b>
+  <strong>with color button and opacity sliders (one for layer 1, one for layer2)</strong>
   <br><br>
-  <table>
-    <tr>
-      <td><button id="color1">Add Color (viewer 1)</button><br>
+    <div class="row">
+      <div class="col-md-6"><button id="color1">Add Color (viewer 1)</button><br>
         Opacity (viewer 1, layer 1)
         <div id="slider1" style="margin: 10px"
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
@@ -31,8 +30,8 @@
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
           <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
         </div>
-      </td>
-      <td> <button id="color2">Add Color (viewer 2)</button><br>
+      </div>
+      <div class="col-md-6"> <button id="color2">Add Color (viewer 2)</button><br>
         Opacity (viewer 2, layer 1)
         <div id="slider3" style="margin: 10px"
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
@@ -43,21 +42,21 @@
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
           <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
         </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
         <div id="viewer1" style="width:800px; height:600px;"></div>
-      </td>
-      <td>
+      </div>
+      <div class="col-md-6">
         <div id="viewer2" style="width:800px; height:600px;"></div>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">&nbsp;</td>
-    </tr>
-    <tr>
-      <td><button id="color3">Add Color (viewer 3)</button><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6"><button id="color3">Add Color (viewer 3)</button><br>
         Opacity (viewer 3, layer 1)
         <div id="slider5" style="margin: 10px"
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
@@ -68,8 +67,8 @@
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
           <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
         </div>
-      </td>
-      <td> <button id="color4">Add Color (viewer 4)</button><br>
+      </div>
+      <div class="col-md-6"> <button id="color4">Add Color (viewer 4)</button><br>
         Opacity (viewer 4, layer 1)
         <div id="slider7" style="margin: 10px"
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
@@ -80,18 +79,18 @@
           class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
           <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
         </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
         <div id="viewer3" style="width:800px; height:600px;"></div>
-      </td>
-      <td>
+      </div>
+      <div class="col-md-6">
         <div id="viewer4" style="width:800px; height:600px;"></div>
-      </td>
-    </tr>
-  </table>
-  <script src="//openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
+      </div>
+    </div>
+
+    <script src="//openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
   <script src="../dist/js/openseadragon-filtering.js"></script>
   <script src="sync1.js"></script>
   <script>
