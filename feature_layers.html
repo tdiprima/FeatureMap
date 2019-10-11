@@ -16,20 +16,17 @@
 
   <!-- Custom styles for this template -->
   <style>
+    .button {
+      background-color: #e3e3e3;
+      border-radius: 8px;
+    }
+
+    body {
+      margin-left: 10px;
+    }
+
     @media (min-width: 800px) {
       /* TBD */
-    }
-
-    .container {
-      padding-left: 15px;
-      padding-right: 15px
-    }
-
-    .checkbox :hover,
-    .checkbox.focus {
-      background-color: lightyellow;
-      border: 1px gray solid;
-      width: 8em;
     }
   </style>
   <title>Feature Layers</title>
@@ -66,10 +63,8 @@
       <input type="checkbox" id="tilCheck" onclick="toggleLayer('layer1', this)" checked> TIL<br><br>
       <input type="checkbox" id="cancerCheck" onclick="toggleLayer('layer2', this)" checked> Cancer<br><br>
       <input type="checkbox" id="tissueCheck" onclick="toggleLayer('layer3', this)" checked> Tissue<br><br>
-      <button type="button" onclick="checkAll()">checkAll</button>
-      <!-- <input type="checkbox" id="checkAll" checked>Check All -->
-      <br><br>
-      <button type="button" onclick="reset()">reset</button>
+      <button type="button" class="button" onclick="reset()">reset</button><br><br>
+      <button type="button" class="button" onclick="checkAll()">check all</button>
     </div>
 
     <!-- MAP & SLIDERS -->

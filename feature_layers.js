@@ -166,17 +166,17 @@ function checkAll() {
   // $("#checkAll").click(function () {
   //   $('input:checkbox').not(this).prop('checked', this.checked);
   // });
-  var inputs = document.getElementsByTagName("input");
-  for (var i = 0; i < inputs.length; i++) {
+  const canvases = document.querySelectorAll('canvas');
+  const inputs = document.getElementsByTagName("input");
+  for (let i = 0; i < inputs.length; i++) {
     if (inputs[i].type === "checkbox") {
-      console.log(inputs[i]);
       if (inputs[i].checked) {
         inputs[i].checked = false;
-        // x.style.display = "none";
+        canvases[i].style.display = "none";
       }
       else {
         inputs[i].checked = true;
-        // x.style.display = "block";
+        canvases[i].style.display = "block";
       }
     }
   }
