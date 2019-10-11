@@ -163,6 +163,13 @@ function loadImage() {
 }
 
 function checkAll() {
+  $("#checkAll").click(function () {
+    $('input:checkbox').not(this).prop('checked', this.checked);
+  });
+}
+
+// Event Handlers
+function reset() {
 
   var inputs = document.getElementsByTagName("input");
   for (var i = 0; i < inputs.length; i++) {
@@ -171,12 +178,6 @@ function checkAll() {
       // if (inputs[i].checked) {}
     }
   }
-}
-
-// Event Handlers
-function reset() {
-
-  checkAll();
   
   const canvases = document.querySelectorAll('canvas');
   canvases.forEach(c => {
