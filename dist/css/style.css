@@ -49,3 +49,12 @@
 .ui-slider-handle::after {
     left: 17px;
 }
+
+.button {
+    background-color: #e3e3e3;
+    border-radius: 8px;
+  }
+
+  body {
+    margin-left: 10px;
+  }
