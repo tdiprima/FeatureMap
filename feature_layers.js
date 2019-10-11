@@ -1,6 +1,35 @@
 var threshLow = 40;
 var threshHigh = 100;
 
+function imSlice(i, arr) { // slice ith layer of 2d array
+  // console.log('imSlice', [threshLow, threshHigh]);
+  i = i || 0;
+  return arr.map(x => {
+    return x.map(y => {
+      if (y[0] === 255 && y[1] === 255 && y[2] === 255) { // White background
+        return [y[0], y[1], y[2], 0]; // transparent background
+      }
+      else if (y[0] === 0 && y[1] === 0 && y[2] === 0) { // Black background
+        return [y[0], y[1], y[2], 0]; // make transparent
+      }
+      else {
+        if (i === 0) { // Red channel
+          return [y[0], 0, 0, 170];   // shut off everything but y[0], and make semi-transparent
+        }
+        else if (i === 1) { // Green channel
+          return [0, y[1], 0, 170];
+        }
+        else if (i === 2) { // Blue channel
+          return [0, 0, y[2], 50];
+        }
+        else {
+          return y;
+        }
+      }
+    })
+  })
+}
+
 function imSlice1(i, arr) { // slice ith layer of 2d array
 
   // console.log('imSlice1', [threshLow, threshHigh]);
@@ -133,17 +162,22 @@ function loadImage() {
 
 }
 
+function checkAll() {
+
+  var inputs = document.getElementsByTagName("input");
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].type === "checkbox") {
+      inputs[i].checked = true;
+      // if (inputs[i].checked) {}
+    }
+  }
+}
+
 // Event Handlers
 function reset() {
 
-  var inputs = document.getElementsByTagName('input');
-
-  for(var i = 0; i < inputs.length; i++) {
-      if(inputs[i].type.toLowerCase() == 'checkbox') {
-        inputs[i].checked = true;
-      }
-  }
-
+  checkAll();
+  
   const canvases = document.querySelectorAll('canvas');
   canvases.forEach(c => {
     c.style.display = "block";
@@ -152,27 +186,18 @@ function reset() {
   cancer.refresh();
   til.refresh();
 
-  // document.getElementsByClassName("slider slider-horizontal")[0].children[4] and [5]
-  // document.getElementsByClassName("slider slider-horizontal")[1].children[4] and [5]
-
   loadImage();
 }
 
 function toggleLayer(layerId, checkBox) {
   var x = document.getElementById(layerId);
 
-  // If the checkbox is checked, display the output text
+  // If the checkbox is checked, display the output
   if (checkBox.checked) {
     x.style.display = "block";
   } else {
     x.style.display = "none";
   }
-
-  // if (x.style.display === "none") {
-  //   x.style.display = "block";
-  // } else {
-  //   x.style.display = "none";
-  // }
 }
 
 function visible(idx) {
@@ -232,33 +257,7 @@ var til;
 $(document).ready(function () {
   cancer = new Slider('#cancer', {});
   til = new Slider('#til', {});
-});
 
-function imSlice(i, arr) { // slice ith layer of 2d array
-  // console.log('imSlice', [threshLow, threshHigh]);
-  i = i || 0;
-  return arr.map(x => {
-    return x.map(y => {
-      if (y[0] === 255 && y[1] === 255 && y[2] === 255) { // White background
-        return [y[0], y[1], y[2], 0]; // transparent background
-      }
-      else if (y[0] === 0 && y[1] === 0 && y[2] === 0) { // Black background
-        return [y[0], y[1], y[2], 0]; // make transparent
-      }
-      else {
-        if (i === 0) { // Red channel
-          return [y[0], 0, 0, 170];   // shut off everything but y[0], and make semi-transparent
-        }
-        else if (i === 1) { // Green channel
-          return [0, y[1], 0, 170];
-        }
-        else if (i === 2) { // Blue channel
-          return [0, 0, y[2], 50];
-        }
-        else {
-          return y;
-        }
-      }
-    })
-  })
-}
+  checkAll();
+
+})

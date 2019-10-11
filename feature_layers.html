@@ -11,6 +11,8 @@
   <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../dist/css/bootstrap-slider.css" rel="stylesheet">
   <script src="../dist/js/modernizr.js"></script>
+  <script src="../dist/js/jquery.min.js"></script>
+
 
   <!-- Custom styles for this template -->
   <style>
@@ -64,12 +66,10 @@
       <input type="checkbox" id="tilCheck" onclick="toggleLayer('layer1', this)" checked> TIL<br><br>
       <input type="checkbox" id="cancerCheck" onclick="toggleLayer('layer2', this)" checked> Cancer<br><br>
       <input type="checkbox" id="tissueCheck" onclick="toggleLayer('layer3', this)" checked> Tissue<br><br>
-
-      <!-- <button style="background-color: lemonchiffon" onclick="toggleLayer('layer1')">toggle TIL</button><br><br>
-      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer2')">toggle cancer</button><br><br>
-      <button style="background-color: lemonchiffon" onclick="toggleLayer('layer3')">toggle tissue</button><br><br> -->
-
-      <button style="background-color: lemonchiffon" onclick="reset()">reset</button>
+      <button type="button" onclick="checkAll()">checkAll</button>
+      <!-- <input type="checkbox" id="checkAll" checked>Check All -->
+      <br><br>
+      <button type="button" onclick="reset()">reset</button>
     </div>
 
     <!-- MAP & SLIDERS -->
@@ -79,9 +79,8 @@
         <div class="col-md-2" style="text-align:right;">Filter by cancer probability:</div>
         <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
           <input id="cancer" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="6"
-            data-slider-value="[40,100]" data-value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
-          <input type="submit" value="Go" style="background-color: paleturquoise"
-            onclick="rangeSlider(imgDataG, cancer, 2)">
+            data-slider-value="[40,100]" data-value="40,100"
+            onchange="rangeSlider(imgDataG, cancer, 2)">&nbsp;&nbsp;&nbsp;<b>100%</b>
         </div>
       </div>
       <div class="row">
@@ -92,9 +91,8 @@
         <div class="col-md-2" style="text-align:right;">Filter by TIL probability:</div>
         <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
           <input id="til" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="6"
-            data-slider-value="[40,100]" data-value="40,100">
-          &nbsp;&nbsp;&nbsp;<b>100%</b> <input type="submit" value="Go" style="background-color: plum"
-            onclick="rangeSlider(imgDataR, til, 1)">
+            data-slider-value="[40,100]" data-value="40,100" onchange="rangeSlider(imgDataR, til, 1)">
+          &nbsp;&nbsp;&nbsp;<b>100%</b>
         </div>
       </div>
       <div class="row">
@@ -110,15 +108,12 @@
       </div>
     </div>
   </div>
-
   <!-- core JavaScript
     ================================================== -->
-  <script src="../dist/js/jquery.min.js"></script>
   <script src="../dist/js/bootstrap.min.js"></script>
   <script src="../dist/js/bootstrap-slider.js"></script>
   <script src="util.js"></script>
   <script src="feature_layers.js"></script>
-  <!-- Placed at the end of the document so the pages load faster -->
 </body>
 
 </html>
