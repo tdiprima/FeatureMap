@@ -163,9 +163,23 @@ function loadImage() {
 }
 
 function checkAll() {
-  $("#checkAll").click(function () {
-    $('input:checkbox').not(this).prop('checked', this.checked);
-  });
+  // $("#checkAll").click(function () {
+  //   $('input:checkbox').not(this).prop('checked', this.checked);
+  // });
+  var inputs = document.getElementsByTagName("input");
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].type === "checkbox") {
+      console.log(inputs[i]);
+      if (inputs[i].checked) {
+        inputs[i].checked = false;
+        // x.style.display = "none";
+      }
+      else {
+        inputs[i].checked = true;
+        // x.style.display = "block";
+      }
+    }
+  }
 }
 
 // Event Handlers
@@ -175,7 +189,6 @@ function reset() {
   for (var i = 0; i < inputs.length; i++) {
     if (inputs[i].type === "checkbox") {
       inputs[i].checked = true;
-      // if (inputs[i].checked) {}
     }
   }
   
@@ -258,7 +271,4 @@ var til;
 $(document).ready(function () {
   cancer = new Slider('#cancer', {});
   til = new Slider('#til', {});
-
-  checkAll();
-
 })
