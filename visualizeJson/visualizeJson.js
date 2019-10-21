@@ -19,9 +19,6 @@ validJson = function (myFile) {
   console.log(mydata);
 
 };
-// validJson('001738-000168.json');
-// validJson('TCGA-AC-A3W5-01Z-00-DX1_07-08-2019.json');
-// validJson('PC9905_BL1_XX_pyrad.json');
 
 promiseA = visualizeJson('TCGA-AC-A3W5-01Z-00-DX1_07-08-2019.json');
 
