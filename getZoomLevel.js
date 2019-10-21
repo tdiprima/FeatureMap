@@ -4,3 +4,4 @@ getZoomLevel = function (ifrmId) {
   const zoom = doc.getElementsByClassName("txt");
   return parseFloat(zoom[0].innerText.slice(0, -1));
 }
+
