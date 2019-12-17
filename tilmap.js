@@ -578,7 +578,11 @@ set_multiple_select = function () {
   let names = Object.getOwnPropertyNames(features);
   let num_cols = names.length; // number of columns
 
-  let gleason = tilmap.data.metadata.gleason;
+  let gleason = "";
+  mtype = tilmap.data.metadata.type;
+  if (mtype) {
+    gleason = (mtype == "gleason")
+  }
   console.log('gleason', gleason)
   if (num_cols > 5 || gleason) {
     // Hide indication that blue is tissue
