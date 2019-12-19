@@ -391,6 +391,15 @@ createImage = function (sel) {
  * Calculate TIL, build dynamic interface.
  */
 tilmap.calcTILfun = function () {
+
+  if (tilmap.data.metadata.exec_id) {
+    document.getElementById('execid').innerText = tilmap.data.metadata.exec_id;
+  }
+
+  if (tilmap.data.metadata.executed_by) {
+    document.getElementById('execby').innerText = tilmap.data.metadata.executed_by;
+  }
+
   // Show/hide buttons - Red Green Tissue Original
   hideRGBbuttons.onclick = function () {
     if (rgbButtons.hidden) {
