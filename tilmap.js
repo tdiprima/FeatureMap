@@ -392,13 +392,13 @@ createImage = function (sel) {
  */
 tilmap.calcTILfun = function () {
 
-  if (tilmap.data.metadata.exec_id || tilmap.data.metadata.executed_by) {
+  if (tilmap.data.metadata.executionid || tilmap.data.metadata.executedby) {
     document.getElementById('metadata').style.display = "inline";
-    if (tilmap.data.metadata.exec_id) {
-      document.getElementById('execid').innerText = tilmap.data.metadata.exec_id;
+    if (tilmap.data.metadata.executionid) {
+      document.getElementById('execid').innerText = tilmap.data.metadata.executionid;
     }
-    if (tilmap.data.metadata.executed_by) {
-      document.getElementById('execby').innerText = tilmap.data.metadata.executed_by;
+    if (tilmap.data.metadata.executedby) {
+      document.getElementById('execby').innerText = tilmap.data.metadata.executedby;
     }
   }
   else {
