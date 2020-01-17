@@ -303,7 +303,10 @@ ui = function (feature_names) {
     let blueBtn = document.getElementById('calcTILblue');
     blueBtn.innerText = feature_names[2];
   } else {
+    console.error('Error: Not enough data');
+    console.error('There are only ' + feature_names.length() + ' columns.');
     alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');
+    return false;
   }
 };
 
