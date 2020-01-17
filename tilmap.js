@@ -303,10 +303,8 @@ ui = function (feature_names) {
     let blueBtn = document.getElementById('calcTILblue');
     blueBtn.innerText = feature_names[2];
   } else {
-    console.error('Error: Not enough data');
-    console.error('There are only ' + feature_names.length() + ' columns.');
-    alert('Error: Not enough data\nThere are only ' + feature_names.length() + ' columns.');
-    return false;
+    let myObj = { error : "not enough data for map", expecting : "at least 3 features" };
+    console.error(myObj);
   }
 };
 
