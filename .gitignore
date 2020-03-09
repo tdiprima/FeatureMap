@@ -1,6 +1,11 @@
+# Mac
 .DS_Store
-META-INF/
-.vscode/
+
+# JetBrains
 .idea/
-node_modules/
-jspm_packages/
+
+# Visual Studio Code
+.vscode/
+
+# Python
+__pycache__/
