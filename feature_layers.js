@@ -238,6 +238,7 @@ function rangeSlider(data, slider, idx) {
   util.imwrite(x, newArray)
 }
 
+// scale rgb colors to percentage
 let scale = db => {
   return db / 255 * 100
 }
