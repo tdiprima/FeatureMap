@@ -93,16 +93,25 @@ function dim(mat) {
 }
 
 function transparentize(pixelArray, canvas) {
+  // pixelArray = pixelArray.map(dd => {
+  //   return dd.map(d => {
+  //     if (d[0] < threshLow && d[1] < threshLow && d[2] < threshLow) {
+  //       // Transparentize
+  //       return [0, 0, 0, 0]
+  //     } else {
+  //       // We have TIL or tumor
+  //       return d
+  //     }
+  //   })
+  // })
   pixelArray = pixelArray.map(dd => {
-    return dd.map(d => {
-      if (d[0] < threshLow && d[1] < threshLow && d[2] < threshLow) {
-        // Transparentize
-        return [0, 0, 0, 0]
-      } else {
-        // We have TIL or tumor
-        return d
-      }
-    })
+    if (dd[0] < threshLow && dd[1] < threshLow && dd[2] < threshLow) {
+      // Transparentize
+      return [0, 0, 0, 0]
+    } else {
+      // We have TIL or tumor
+      return dd
+    }
   })
   util.imwrite(canvas, pixelArray)
   return pixelArray
