@@ -4,17 +4,21 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <title>Feature Layers</title>
+  <!-- http://seiyria.com/bootstrap-slider/ -->
+
   <!-- core CSS -->
-  <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="./dist/css/bootstrap-slider.css" rel="stylesheet">
+  <!-- <link href="./dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="./bootstrap-3.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./bootstrap-3.4.1-dist/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="bootstrap-slider-10.6.2/dist/css/bootstrap-slider.min.css" rel="stylesheet">
   <script src="./dist/js/modernizr.js"></script>
   <script src="./dist/js/jquery.min.js"></script>
 
-
-  <!-- Custom styles for this template -->
+  <!-- Custom style -->
   <style>
     .button {
       background-color: #e3e3e3;
@@ -29,87 +33,96 @@
       /* TBD */
     }
   </style>
-  <title>Feature Layers</title>
 </head>
-
 <body>
-  <!-- Content here -->
-  <div class="row">
-    <div class="col-md-12" style="text-align:left;">
-      <h3>Feature Layers Demo</h3>
-    </div>
+
+<!-- Content here -->
+<div class="row">
+  <div class="col-md-12" style="text-align:left;">
+    <h3>Feature Layers Demo</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+
+<!-- SLIDE META -->
+<div class="row">
+  <div class="col-md-12" style="text-align:left;"><strong>Slide:</strong> TCGA-EW-A1P7-01Z-00-DX1</div>
+</div>
+
+<!-- DATA META -->
+<div class="row">
+  <div class="col-md-12" style="text-align:left;"><strong>Data type:</strong> Probability</div>
+</div>
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+
+<div class="row">
+  <!-- CHECKBOXES & BUTTONS -->
+  <div class="col-md-1">
+    <input checked id="tilCheck" onclick="toggleLayer('layer1', this)" type="checkbox"> TIL<br><br>
+    <input checked id="cancerCheck" onclick="toggleLayer('layer2', this)" type="checkbox"> Cancer<br><br>
+    <input checked id="tissueCheck" onclick="toggleLayer('layer3', this)" type="checkbox"> Tissue<br><br>
+    <button class="button" onclick="reset()" type="button">reset</button>
+    <br><br>
+    <button class="button" onclick="checkAll()" type="button">check all</button>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">&nbsp;</div>
-  </div>
+  <!-- MAP & SLIDERS -->
+  <div class="col-md-11">
 
-  <!-- SLIDE META -->
-  <div class="row">
-    <div class="col-md-12" style="text-align:left;"><strong>Slide:</strong> TCGA-EW-A1P7-01Z-00-DX1</div>
-  </div>
-  <!-- DATA META -->
-  <div class="row">
-    <div class="col-md-12" style="text-align:left;"><strong>Data type:</strong> Probability</div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">&nbsp;</div>
-  </div>
-
-  <div class="row">
-
-    <!-- BUTTONS -->
-    <div class="col-md-1">
-      <input type="checkbox" id="tilCheck" onclick="toggleLayer('layer1', this)" checked> TIL<br><br>
-      <input type="checkbox" id="cancerCheck" onclick="toggleLayer('layer2', this)" checked> Cancer<br><br>
-      <input type="checkbox" id="tissueCheck" onclick="toggleLayer('layer3', this)" checked> Tissue<br><br>
-      <button type="button" class="button" onclick="reset()">reset</button><br><br>
-      <button type="button" class="button" onclick="checkAll()">check all</button>
-    </div>
-
-    <!-- MAP & SLIDERS -->
-    <div class="col-md-11">
-      <!-- CANCER SLIDER -->
-      <div class="row">
-        <div class="col-md-2" style="text-align:right;">Filter by cancer probability:</div>
-        <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
-          <input id="cancer" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="6"
-            data-slider-value="[40,100]" data-value="40,100"
-            onchange="rangeSlider(imgDataG, cancer, 2)">&nbsp;&nbsp;&nbsp;<b>100%</b>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-11">&nbsp;</div>
-      </div>
-      <!-- TIL SLIDER -->
-      <div class="row">
-        <div class="col-md-2" style="text-align:right;">Filter by TIL probability:</div>
-        <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
-          <input id="til" type="text" value="40,100" data-slider-min="0" data-slider-max="100" data-slider-step="6"
-            data-slider-value="[40,100]" data-value="40,100" onchange="rangeSlider(imgDataR, til, 1)">
-          &nbsp;&nbsp;&nbsp;<b>100%</b>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-11">&nbsp;</div>
-      </div>
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-          <canvas id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-          <canvas id="layer2" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-          <canvas id="layer3" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-        </div>
+    <!-- CANCER SLIDER -->
+    <div class="row">
+      <div class="col-md-2" style="text-align:right;">Filter by cancer probability:</div>
+      <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
+        <input data-slider-max="100" data-slider-min="0" data-slider-step="6" data-slider-value="[40,100]" data-value="40,100" id="cancer"
+               onchange="rangeSlider(imgDataG, cancer, 2)" type="text"
+               value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-11">&nbsp;</div>
+    </div>
+
+    <!-- TIL SLIDER -->
+    <div class="row">
+      <div class="col-md-2" style="text-align:right;">Filter by TIL probability:</div>
+      <div class="col-md-9" style="text-align:left;"><b>0</b>&nbsp;&nbsp;
+        <input data-slider-max="100" data-slider-min="0" data-slider-step="6" data-slider-value="[40,100]" data-value="40,100" id="til"
+               onchange="rangeSlider(imgDataR, til, 1)" type="text" value="40,100">
+        &nbsp;&nbsp;&nbsp;<b>100%</b>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-11">&nbsp;</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <canvas id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+        <canvas id="layer2" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+        <canvas id="layer3" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+      </div>
+    </div>
+
   </div>
-  <!-- core JavaScript
-    ================================================== -->
-  <script src="./dist/js/bootstrap.min.js"></script>
-  <script src="./dist/js/bootstrap-slider.js"></script>
-  <script src="util.js"></script>
-  <script src="feature_layers.js"></script>
-  <!-- Placed at the end of the document so the pages load faster -->
+</div>
+
+<!-- core JavaScript
+  ================================================== -->
+<script crossorigin="anonymous"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        src="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="bootstrap-slider-10.6.2/dist/bootstrap-slider.js"></script>
+<script src="util.js"></script>
+<script src="feature_layers.js"></script>
+<!-- Placed at the end of the document so the pages load faster -->
+
 </body>
-
 </html>

@@ -3,193 +3,201 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
   <title>Synchronize 4 Viewers</title>
-  <link href="../dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../dist/css/style.css" />
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link href="../dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="../dist/css/style.css" rel="stylesheet"/>
+  <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
   <script src="../dist/js/modernizr.js"></script>
   <script src="../dist/js/jquery.min.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 </head>
 
 <body>
-  <h3>Synchronize 4 Viewers Demo</h3>
-  <strong>with color button and opacity sliders (one for layer 1, one for layer2)</strong>
-  <br><br>
-    <div class="row">
-      <div class="col-md-6"><button class="button" id="color1">Add Color (viewer 1)</button><br>
-        Opacity (viewer 1, layer 1)
-        <div id="slider1" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-        Opacity (viewer 2, layer 2)
-        <div id="slider2" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-      </div>
-      <div class="col-md-6"> <button class="button" id="color2">Add Color (viewer 2)</button><br>
-        Opacity (viewer 2, layer 1)
-        <div id="slider3" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-        Opacity (viewer 2, layer 2)
-        <div id="slider4" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-      </div>
+<h3>Synchronize 4 Viewers Demo</h3>
+<strong>with color button and opacity sliders (one for layer 1, one for layer2)</strong>
+<br><br>
+<div class="row">
+  <div class="col-md-6">
+    <button class="button" id="color1">Add Color (viewer 1)</button>
+    <br>
+    Opacity (viewer 1, layer 1)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider1"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div id="viewer1" style="width:800px; height:600px;"></div>
-      </div>
-      <div class="col-md-6">
-        <div id="viewer2" style="width:800px; height:600px;"></div>
-      </div>
+    Opacity (viewer 2, layer 2)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider2"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
     </div>
-    <div class="row">
-      <div class="col-md-12"></div>
+  </div>
+  <div class="col-md-6">
+    <button class="button" id="color2">Add Color (viewer 2)</button>
+    <br>
+    Opacity (viewer 2, layer 1)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider3"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
     </div>
-    <div class="row">
-      <div class="col-md-6"><button class="button" id="color3">Add Color (viewer 3)</button><br>
-        Opacity (viewer 3, layer 1)
-        <div id="slider5" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-        Opacity (viewer 3, layer 2)
-        <div id="slider6" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-      </div>
-      <div class="col-md-6"> <button class="button" id="color4">Add Color (viewer 4)</button><br>
-        Opacity (viewer 4, layer 1)
-        <div id="slider7" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-        Opacity (viewer 4, layer 2)
-        <div id="slider8" style="margin: 10px"
-          class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-          <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-        </div>
-      </div>
+    Opacity (viewer 2, layer 2)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider4"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div id="viewer3" style="width:800px; height:600px;"></div>
-      </div>
-      <div class="col-md-6">
-        <div id="viewer4" style="width:800px; height:600px;"></div>
-      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div id="viewer1" style="width:800px; height:600px;"></div>
+  </div>
+  <div class="col-md-6">
+    <div id="viewer2" style="width:800px; height:600px;"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12"></div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <button class="button" id="color3">Add Color (viewer 3)</button>
+    <br>
+    Opacity (viewer 3, layer 1)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider5"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
     </div>
+    Opacity (viewer 3, layer 2)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider6"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <button class="button" id="color4">Add Color (viewer 4)</button>
+    <br>
+    Opacity (viewer 4, layer 1)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider7"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
+    </div>
+    Opacity (viewer 4, layer 2)
+    <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider8"
+         style="margin: 10px">
+      <span class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;" tabindex="0"></span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div id="viewer3" style="width:800px; height:600px;"></div>
+  </div>
+  <div class="col-md-6">
+    <div id="viewer4" style="width:800px; height:600px;"></div>
+  </div>
+</div>
 
-    <script src="//openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
-  <script src="../dist/js/openseadragon-filtering.js"></script>
-  <script src="sync1.js"></script>
-  <script>
-    // NOTE: If you click "add color" *during* page load, you will get:
-    // Ignoring tile h.Tile loaded before reset: [url]
-    let viewerA = {};
-    let viewerB = {};
-    let viewerC = {};
-    let viewerD = {};
+<script src="//openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
+<script src="../dist/js/openseadragon-filtering.js"></script>
+<script src="sync1.js"></script>
+<script>
+  // NOTE: If you click "add color" *during* page load, you will get:
+  // Ignoring tile h.Tile loaded before reset: [url]
+  let viewerA = {};
+  let viewerB = {};
+  let viewerC = {};
+  let viewerD = {};
 
-    $(document).ready(function () {
-      [viewerA, viewerB, viewerC, viewerD] = demo();
-    });
+  $(document).ready(function () {
+    [viewerA, viewerB, viewerC, viewerD] = demo();
+  });
 
-    // 1 button, 2 sliders
-    $('#color1').on('click', function () {
-      colorit(viewerA);
-    });
+  // 1 button, 2 sliders
+  $('#color1').on('click', function () {
+    colorIt(viewerA);
+  });
 
-    $("#slider1").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerA.world.getItemAt(0).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider1").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerA.world.getItemAt(0).setOpacity(ui.value / 100);
+    }
+  });
 
-    $("#slider2").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerA.world.getItemAt(1).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider2").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerA.world.getItemAt(1).setOpacity(ui.value / 100);
+    }
+  });
 
-    // 1 button, 2 sliders
-    $('#color2').on('click', function () {
-      colorit(viewerB);
-    });
+  // 1 button, 2 sliders
+  $('#color2').on('click', function () {
+    colorIt(viewerB);
+  });
 
-    $("#slider3").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerB.world.getItemAt(0).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider3").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerB.world.getItemAt(0).setOpacity(ui.value / 100);
+    }
+  });
 
-    $("#slider4").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerB.world.getItemAt(1).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider4").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerB.world.getItemAt(1).setOpacity(ui.value / 100);
+    }
+  });
 
-    // 1 button, 2 sliders
-    $('#color3').on('click', function () {
-      colorit(viewerC);
-    });
+  // 1 button, 2 sliders
+  $('#color3').on('click', function () {
+    colorIt(viewerC);
+  });
 
-    $("#slider5").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerC.world.getItemAt(0).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider5").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerC.world.getItemAt(0).setOpacity(ui.value / 100);
+    }
+  });
 
-    $("#slider6").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerC.world.getItemAt(1).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider6").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerC.world.getItemAt(1).setOpacity(ui.value / 100);
+    }
+  });
 
-    // 1 button, 2 sliders
-    $('#color4').on('click', function () {
-      colorit(viewerD);
-    });
+  // 1 button, 2 sliders
+  $('#color4').on('click', function () {
+    colorIt(viewerD);
+  });
 
-    $("#slider7").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerD.world.getItemAt(0).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider7").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerD.world.getItemAt(0).setOpacity(ui.value / 100);
+    }
+  });
 
-    $("#slider8").slider({
-      min: 0,
-      max: 100,
-      slide: function (event, ui) {
-        viewerD.world.getItemAt(1).setOpacity(ui.value / 100);
-      }
-    });
+  $("#slider8").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      viewerD.world.getItemAt(1).setOpacity(ui.value / 100);
+    }
+  });
 
-  </script>
+</script>
 </body>
 
 </html>

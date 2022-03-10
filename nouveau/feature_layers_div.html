@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+  <script src="util.js"></script>
+  <link href="./dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="./dist/css/bootstrap-slider.min.css" rel="stylesheet"/>
+  <style>
+    @media (min-width: 1200px) {
+    }
+  </style>
+  <title>Feature Layers</title>
+
+<body>
+<!-- Content here -->
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12" style="text-align:center;">
+      <h3>Feature Layers Demo</h3>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+<!-- SLIDE META -->
+<div class="row">
+  <div class="col-md-12" style="text-align:center;"><strong>Slide:</strong> TCGA-EW-A1P7-01Z-00-DX1</div>
+</div>
+<!-- DATA META -->
+<div class="row">
+  <div class="col-md-12" style="text-align:center;"><strong>Data type:</strong> Probability</div>
+</div>
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+
+<!-- BUTTONS -->
+<div class="row">
+  <div class="col-md-12" style="text-align:center;">
+    <button onclick="toggleLayer('layerTIL')"
+            style="background-color: lemonchiffon">toggle
+      TIL
+    </button>
+    <button onclick="toggleLayer('layerCancer')" style="background-color: lemonchiffon">toggle
+      cancer
+    </button>
+    <button onclick="toggleLayer('layerTissue')" style="background-color: lemonchiffon">toggle
+      tissue
+    </button>
+    <button onclick="reset()" style="background-color: lemonchiffon">reset</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+
+<!-- CANCER SLIDER -->
+<div class="row">
+  <div class="col-md-4" style="text-align:right;">Filter by cancer probability:</div>
+  <div class="col-md-4" style="text-align:center;"><b>0</b>&nbsp;&nbsp;
+    <input data-slider-max="100" data-slider-min="0" data-slider-step="5" data-slider-value="[40,100]"
+           data-value="40,100" id="cancer"
+           type="text" value="40,100">&nbsp;&nbsp;&nbsp;<b>100%</b> <input onclick="rangeSlider(imgDataG, cancer, 2)"
+                                                                           style="background-color: paleturquoise"
+                                                                           type="submit"
+                                                                           value="Go">
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+<!-- TIL SLIDER -->
+<div class="row">
+  <div class="col-md-4" style="text-align:right;">Filter by TIL probability:</div>
+  <div class="col-md-4" style="text-align:center;"><b>0</b>&nbsp;&nbsp;
+    <input data-slider-max="100" data-slider-min="0" data-slider-step="5" data-slider-value="[40,100]"
+           data-value="40,100" id="til"
+           type="text" value="40,100">
+    &nbsp;&nbsp;&nbsp;<b>100%</b> <input onclick="rangeSlider(imgDataR, til, 1)" style="background-color: plum"
+                                         type="submit"
+                                         value="Go"></div>
+  <div class="col-md-4"></div>
+</div>
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row">
+  <div class="col-md-3">&nbsp;</div>
+  <div class="col-md-3">
+    <canvas id="layerTIL" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+    <canvas id="layerCancer" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+    <canvas id="layerTissue" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+  </div>
+  <div class="col-md-3">&nbsp;</div>
+  <div class="col-md-3">&nbsp;</div>
+</div>
+
+<!--doing it this way has no effect; alignment is still "left"-->
+<!-- <div class="row">
+    <div class="col-md-12" style="text-align:center;">
+      <canvas id="layerTIL" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+      <canvas id="layerCancer" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+      <canvas id="layerTissue" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+    </div>
+</div> -->
+
+<script crossorigin="anonymous" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="./dist/js/bootstrap-slider.min.js"></script>
+<!-- <script src="feature_layers.js"></script> -->
+<script src="feature_layers_BAK.js"></script>
+
+</body>
+
+</html>
