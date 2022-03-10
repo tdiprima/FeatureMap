@@ -93,8 +93,8 @@ function dim(mat) {
   }
 }
 
-function turnOnTheLights(my2DArray, canvas) {
-  my2DArray = my2DArray.map(dd => {
+function turnOnTheLights(pixelArray, canvas) {
+  pixelArray = pixelArray.map(dd => {
     return dd.map(d => {
       // If we have til or tumor
       if (d[0] < threshLow && d[1] < threshLow && d[2] < threshLow) {
@@ -104,8 +104,8 @@ function turnOnTheLights(my2DArray, canvas) {
       }
     })
   })
-  util.imwrite(canvas, my2DArray)
-  return my2DArray
+  util.imwrite(canvas, pixelArray)
+  return pixelArray
 }
 
 let imgDataR = []
@@ -117,7 +117,7 @@ function loadImage() {
   let context = canvas.getContext('2d')
   let imageObj = new Image()
   let imageData
-  let my2DArray
+  let pixelArray
 
   imageObj.onload = () => {
     // Paint it
@@ -127,19 +127,19 @@ function loadImage() {
 
     // Get data
     imageData = context.getImageData(0, 0, canvas.width, canvas.height)
-    my2DArray = util.imData2data(imageData)
-    my2DArray = turnOnTheLights(my2DArray, canvas)
+    pixelArray = util.imData2data(imageData)
+    pixelArray = turnOnTheLights(pixelArray, canvas)
 
     // extract RGB
-    imgDataR = imSlice(0, my2DArray)
-    imgDataG = imSlice(1, my2DArray)
-    imgDataB = imSlice(2, my2DArray);
+    imgDataR = imSlice(0, pixelArray)
+    imgDataG = imSlice(1, pixelArray)
+    imgDataB = imSlice(2, pixelArray);
 
     ['layer1', 'layer2', 'layer3'].forEach(lay => {
       setDimensions(lay, imageObj)
     })
 
-    replicate(imSlice1(0, my2DArray), imSlice1(1, my2DArray), imSlice1(2, my2DArray))
+    replicate(imSlice1(0, pixelArray), imSlice1(1, pixelArray), imSlice1(2, pixelArray))
   }
   imageObj.src = './dist/img/TCGA-EW-A1P7-01Z-00-DX1.png'
 }
