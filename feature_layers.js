@@ -1,8 +1,8 @@
 let threshLow = 40
 let threshHigh = 100
 
-function imSlice (i, arr) { // slice ith layer of 2d array
-  // console.log('imSlice', [threshLow, threshHigh])
+function imSlice(i, arr) { // slice ith layer of 2d array
+                           // console.log('imSlice', [threshLow, threshHigh])
   i = i || 0
   return arr.map(x => {
     return x.map(y => {
@@ -25,8 +25,8 @@ function imSlice (i, arr) { // slice ith layer of 2d array
   })
 }
 
-function imSlice1 (i, arr) { // slice ith layer of 2d array
-  // console.log('imSlice1', [threshLow, threshHigh])
+function imSlice1(i, arr) { // slice ith layer of 2d array
+                            // console.log('imSlice1', [threshLow, threshHigh])
 
   return arr.map(x => {
     return x.map(y => {
@@ -61,7 +61,7 @@ function imSlice1 (i, arr) { // slice ith layer of 2d array
   })
 }
 
-function replicate (dataRed, dataGrn, dataBlu) {
+function replicate(dataRed, dataGrn, dataBlu) {
   let c = document.getElementById('layer1')
   let ctx = c.getContext('2d')
   ctx.globalAlpha = 0.2
@@ -78,14 +78,14 @@ function replicate (dataRed, dataGrn, dataBlu) {
   util.imwrite(c, dataBlu)
 }
 
-function setDimensions (id, imageObj) {
+function setDimensions(id, imageObj) {
   let c = document.getElementById(id)
   c.width = imageObj.width
   c.height = imageObj.height
   return c
 }
 
-function dim (mat) {
+function dim(mat) {
   if (mat instanceof Array) {
     return [mat.length].concat(dim(mat[0]))
   } else {
@@ -93,7 +93,7 @@ function dim (mat) {
   }
 }
 
-function turnOnTheLights (my2DArray, canvas) {
+function turnOnTheLights(my2DArray, canvas) {
   my2DArray = my2DArray.map(dd => {
     return dd.map(d => {
       // If we have til or tumor
@@ -112,7 +112,7 @@ let imgDataR = []
 let imgDataG = []
 let imgDataB = []
 
-function loadImage () {
+function loadImage() {
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   let imageObj = new Image()
@@ -144,7 +144,7 @@ function loadImage () {
   imageObj.src = './dist/img/TCGA-EW-A1P7-01Z-00-DX1.png'
 }
 
-function checkAll () {
+function checkAll() {
   // check/un-check toggle
   let canvases = document.querySelectorAll('canvas')
   let htmlCollection = document.getElementsByTagName('input')
@@ -164,7 +164,7 @@ function checkAll () {
 }
 
 // Event Handlers
-function reset () {
+function reset() {
   let inputs = document.getElementsByTagName('input')
   for (const input of inputs) {
     if (input.type === 'checkbox') {
@@ -183,7 +183,7 @@ function reset () {
   loadImage()
 }
 
-function toggleLayer (layerId, checkBox) {
+function toggleLayer(layerId, checkBox) {
   let x = document.getElementById(layerId)
 
   // If the checkbox is checked, display the output
@@ -194,7 +194,7 @@ function toggleLayer (layerId, checkBox) {
   }
 }
 
-function visible (idx) {
+function visible(idx) {
   // Check to see which toggle is on or off?
   // For now shutting off the opposite layer, and blue.
   let x = document.getElementById('layer3')
@@ -212,7 +212,7 @@ function visible (idx) {
   }
 }
 
-function rangeSlider (data, slider, idx) {
+function rangeSlider(data, slider, idx) {
   visible(idx)
   idx--
 
