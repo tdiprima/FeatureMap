@@ -5,10 +5,11 @@ util = {
   },
 
   data2imData: function (data) { // the reverse of im2data, data is a matlabish set of 4 2d matrices, with the r, g, b and alpha values
-    let n = data.length;
+    let n = data.length
     let m = data[0].length
     // var imData = {width:m, height:n, data:[]};
     let imData = document.createElement('canvas').getContext('2d').createImageData(m, n)
+    let ij
     for (let i = 0; i < n; i++) { // row
       // data.r[i]=[];data.g[i]=[];data.b[i]=[];data.a[i]=[];
       for (let j = 0; j < m; j++) { // column
@@ -23,9 +24,10 @@ util = {
   },
 
   imData2data: function (imData) { // imData is the data structure returned by canvas.getContext('2d').getImageData(0,0,n,m)
-    let m = imData.width;
-    let n = imData.height;
+    let m = imData.width
+    let n = imData.height
     let data = []
+    let ij
     for (let i = 0; i < n; i++) { // row
       data[i] = []
       for (let j = 0; j < m; j++) { // column
@@ -41,7 +43,7 @@ util = {
     if (typeof (cv) === 'string') { // cv is the id of a canvas element
       cv = util.gId(cv)
     }
-    let ct = cv.getContext('2d');
+    let ct = cv.getContext('2d')
     let n = cv.width;
     let m = cv.height
     let imData = ct.getImageData(0, 0, n, m) // pixel values will be stored in imData.data

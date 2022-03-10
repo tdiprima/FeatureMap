@@ -127,7 +127,7 @@ function loadImage () {
     replicate(imgDataR, imgDataG, imgDataB)
   }
   // imageObj.src = 'TCGA-2F-A9KP-01Z-00-DX2.png';
-  imageObj.src = 'TCGA-EW-A1P7-01Z-00-DX1.png'
+  imageObj.src = '../dist/img/TCGA-EW-A1P7-01Z-00-DX1.png'
 }
 
 // Event Handlers
