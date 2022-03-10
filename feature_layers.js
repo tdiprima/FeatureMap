@@ -1,8 +1,8 @@
 let threshLow = 40
 let threshHigh = 100
 
-function imSlice(i, arr) { // slice ith layer of 2d array
-                           // console.log('imSlice', [threshLow, threshHigh])
+// slice ith layer of 2d array
+function imSlice(i, arr) {
   i = i || 0
   return arr.map(x => {
     return x.map(y => {
@@ -25,9 +25,8 @@ function imSlice(i, arr) { // slice ith layer of 2d array
   })
 }
 
-function imSlice1(i, arr) { // slice ith layer of 2d array
-                            // console.log('imSlice1', [threshLow, threshHigh])
-
+// slice ith layer of 2d array
+function imSlice1(i, arr) {
   return arr.map(x => {
     return x.map(y => {
       if (y[0] === 255 && y[1] === 255 && y[2] === 255) {
@@ -93,13 +92,14 @@ function dim(mat) {
   }
 }
 
-function turnOnTheLights(pixelArray, canvas) {
+function transparentize(pixelArray, canvas) {
   pixelArray = pixelArray.map(dd => {
     return dd.map(d => {
-      // If we have til or tumor
       if (d[0] < threshLow && d[1] < threshLow && d[2] < threshLow) {
-        return [255, 255, 255, 0]
+        // Transparentize
+        return [0, 0, 0, 0]
       } else {
+        // We have TIL or tumor
         return d
       }
     })
@@ -128,7 +128,7 @@ function loadImage() {
     // Get data
     imageData = context.getImageData(0, 0, canvas.width, canvas.height)
     pixelArray = util.imData2data(imageData)
-    pixelArray = turnOnTheLights(pixelArray, canvas)
+    pixelArray = transparentize(pixelArray, canvas)
 
     // extract RGB
     imgDataR = imSlice(0, pixelArray)
@@ -219,14 +219,14 @@ function rangeSlider(data, slider, idx) {
   let arr = slider.getValue()
   threshLow = arr[0]
   threshHigh = arr[1]
-  // console.log('rangeSlider', [threshLow, threshHigh]);
+
   let newArray = data.map(dd => {
     return dd.map(d => {
-      // In range
+      // In range (return pixels)
       if (scale(d[idx]) >= threshLow && scale(d[idx]) <= threshHigh) {
         return d
       } else {
-        // Outside range
+        // Outside range (blanche)
         return [255, 255, 255, 255]
       }
     })
@@ -236,7 +236,7 @@ function rangeSlider(data, slider, idx) {
   util.imwrite(x, newArray)
 }
 
-var scale = db => {
+let scale = db => {
   return db / 255 * 100
 }
 
