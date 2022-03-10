@@ -2,7 +2,15 @@ let viewer1 = {}
 let viewer2 = {}
 let viewer3 = {}
 let viewer4 = {}
-
+// let url = url1 = '/caMicroscope/img/IIP/raw/?DeepZoom=/data/images/demo/dir1/TCGA-A2-A3XZ-01Z-00-DX1.svs_files/'
+let wsi_w = 46336
+let wsi_h = 44288
+let uno = 0.5
+// let due = 0.2
+let due = 0.5
+let max_l = getMaxLevel(wsi_w, wsi_h)
+let img1 = 'https://openseadragon.github.io/example-images/duomo/duomo.dzi'
+let img2 = 'https://libimages1.princeton.edu/loris/pudl0001%2F4609321%2Fs42%2F00000001.jp2'
 let x = OpenSeadragon.Filters.GREYSCALE
 
 function colorIt(viewer) {
@@ -61,7 +69,8 @@ function setViewer(id, imageArray, opacityArray) {
 
   viewer = OpenSeadragon({
     id: id,
-    prefixUrl: '//openseadragon.github.io/openseadragon/images/'
+    prefixUrl: '//openseadragon.github.io/openseadragon/images/',
+    crossOriginPolicy: 'Anonymous'
   })
 
   imageArray.forEach(function (image, index) {
@@ -77,35 +86,27 @@ function setViewer(id, imageArray, opacityArray) {
 }
 
 function demo() {
-  let wsi_w = 46336
-  let wsi_h = 44288
-  let max_l = getMaxLevel(wsi_w, wsi_h)
-  let uno = 0.5
-  let due = 0.2
+  // let img1 = {
+  //   height: wsi_h,
+  //   width: wsi_w,
+  //   tileSize: 256,
+  //   minLevel: 0,
+  //   maxLevel: max_l,
+  //   getTileUrl: function (level, x, y) {
+  //     return (url + level + '/' + x + '_' + y + '.png')
+  //   }
+  // }
 
-  let img1 = {
-    height: wsi_h,
-    width: wsi_w,
-    tileSize: 256,
-    minLevel: 0,
-    maxLevel: max_l,
-    getTileUrl: function (level, x, y) {
-      let host = '/caMicroscope/img/IIP/raw/?DeepZoom=/data/images/demo/dir1/TCGA-A2-A3XZ-01Z-00-DX1.svs_files/'
-      return (host + level + '/' + x + '_' + y + '.png')
-    }
-  }
-
-  let img2 = {
-    height: wsi_h,
-    width: wsi_w,
-    tileSize: 256,
-    minLevel: 0,
-    maxLevel: max_l,
-    getTileUrl: function (level, x, y) {
-      let host = '/caMicroscope/img/IIP/raw/?DeepZoom=/data/images/demo/dir2/TCGA-A2-A3XZ-01Z-00-DX1.svs_files/'
-      return (host + level + '/' + x + '_' + y + '.png')
-    }
-  }
+  // let img2 = {
+  //   height: wsi_h,
+  //   width: wsi_w,
+  //   tileSize: 256,
+  //   minLevel: 0,
+  //   maxLevel: max_l,
+  //   getTileUrl: function (level, x, y) {
+  //     return (url1 + level + '/' + x + '_' + y + '.png')
+  //   }
+  // }
 
   viewer1 = setViewer('viewer1', [img1, img2], [uno, due])
   viewer2 = setViewer('viewer2', [img1, img2], [uno, due])
