@@ -1,5 +1,74 @@
 let threshLow = 40
 let threshHigh = 100
+let imgDataR = []
+let imgDataG = []
+let imgDataB = []
+let cancer
+let til
+
+$(document).ready(() => {
+  cancer = new Slider('#cancer', {})
+  til = new Slider('#til', {})
+})
+
+window.onload = () => {
+  loadImage()
+}
+
+function loadImage() {
+  let canvas = document.createElement('canvas')
+  let context = canvas.getContext('2d')
+  let imageObj = new Image()
+  let imageData
+  let pixelArray
+
+  imageObj.onload = () => {
+    // Paint it
+    canvas.width = imageObj.width
+    canvas.height = imageObj.height
+    context.drawImage(imageObj, 0, 0)
+
+    // Get data
+    imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+    pixelArray = util.imData2data(imageData)
+    pixelArray = transparentize(pixelArray, canvas)
+
+    // extract RGB
+    imgDataR = imSlice(0, pixelArray)
+    imgDataG = imSlice(1, pixelArray)
+    imgDataB = imSlice(2, pixelArray);
+
+    ['layer1', 'layer2', 'layer3'].forEach(lay => {
+      setDimensions(lay, imageObj)
+    })
+
+    replicate(imSlice1(0, pixelArray), imSlice1(1, pixelArray), imSlice1(2, pixelArray))
+  }
+  imageObj.src = './dist/img/TCGA-EW-A1P7-01Z-00-DX1.png'
+}
+
+function transparentize(pixelArray, canvas) {
+  pixelArray = pixelArray.map(dd => {
+    return dd.map(d => {
+      if (d[0] < threshLow && d[1] < threshLow && d[2] < threshLow) {
+        // Transparentize
+        return [0, 0, 0, 0]
+      } else {
+        // We have TIL or tumor
+        return d
+      }
+    })
+  })
+
+  util.imwrite(canvas, pixelArray)
+
+  return pixelArray
+}
+
+// scale rgb colors to percentage
+let scale = db => {
+  return db / 255 * 100
+}
 
 // slice ith layer of 2d array, add transparency
 function imSlice(i, arr) {
@@ -7,7 +76,7 @@ function imSlice(i, arr) {
     return x.map(y => {
       // Make transparent if black or white.
       if ((y[0] === 255 && y[1] === 255 && y[2] === 255) ||
-          (y[0] === 0 && y[1] === 0 && y[2] === 0)) {
+        (y[0] === 0 && y[1] === 0 && y[2] === 0)) {
         return [y[0], y[1], y[2], 0]
       } else {
         // Opacity per channel
@@ -23,13 +92,20 @@ function imSlice(i, arr) {
   })
 }
 
+function setDimensions(id, imageObj) {
+  let c = document.getElementById(id)
+  c.width = imageObj.width
+  c.height = imageObj.height
+  return c
+}
+
 // slice ith layer of 2d array, with threshold
 function imSlice1(i, arr) {
   return arr.map(x => {
     return x.map(y => {
       // Black or white -> transparent.
       if ((y[0] === 255 && y[1] === 255 && y[2] === 255) ||
-          (y[0] === 0 && y[1] === 0 && y[2] === 0)) {
+        (y[0] === 0 && y[1] === 0 && y[2] === 0)) {
         return [y[0], y[1], y[2], 0]
       } else {
         if (i === 0) {
@@ -75,65 +151,16 @@ function replicate(dataRed, dataGrn, dataBlu) {
   util.imwrite(c, dataBlu)
 }
 
-function setDimensions(id, imageObj) {
-  let c = document.getElementById(id)
-  c.width = imageObj.width
-  c.height = imageObj.height
-  return c
-}
+// Event Handlers
+function toggleLayer(layerId, checkBox) {
+  let x = document.getElementById(layerId)
 
-function transparentize(pixelArray, canvas) {
-  pixelArray = pixelArray.map(dd => {
-    return dd.map(d => {
-      if (d[0] < threshLow && d[1] < threshLow && d[2] < threshLow) {
-        // Transparentize
-        return [0, 0, 0, 0]
-      } else {
-        // We have TIL or tumor
-        return d
-      }
-    })
-  })
-
-  util.imwrite(canvas, pixelArray)
-
-  return pixelArray
-}
-
-let imgDataR = []
-let imgDataG = []
-let imgDataB = []
-
-function loadImage() {
-  let canvas = document.createElement('canvas')
-  let context = canvas.getContext('2d')
-  let imageObj = new Image()
-  let imageData
-  let pixelArray
-
-  imageObj.onload = () => {
-    // Paint it
-    canvas.width = imageObj.width
-    canvas.height = imageObj.height
-    context.drawImage(imageObj, 0, 0)
-
-    // Get data
-    imageData = context.getImageData(0, 0, canvas.width, canvas.height)
-    pixelArray = util.imData2data(imageData)
-    pixelArray = transparentize(pixelArray, canvas)
-
-    // extract RGB
-    imgDataR = imSlice(0, pixelArray)
-    imgDataG = imSlice(1, pixelArray)
-    imgDataB = imSlice(2, pixelArray);
-
-    ['layer1', 'layer2', 'layer3'].forEach(lay => {
-      setDimensions(lay, imageObj)
-    })
-
-    replicate(imSlice1(0, pixelArray), imSlice1(1, pixelArray), imSlice1(2, pixelArray))
+  // If the checkbox is checked, display the output
+  if (checkBox.checked) {
+    x.style.display = 'block'
+  } else {
+    x.style.display = 'none'
   }
-  imageObj.src = './dist/img/TCGA-EW-A1P7-01Z-00-DX1.png'
 }
 
 function checkAll() {
@@ -152,55 +179,6 @@ function checkAll() {
         canvases[i].style.display = 'block' //canvas
       }
     }
-  }
-}
-
-// Event Handlers
-function reset() {
-  let inputs = document.getElementsByTagName('input')
-  for (const input of inputs) {
-    if (input.type === 'checkbox') {
-      input.checked = true
-    }
-  }
-
-  let canvases = document.querySelectorAll('canvas')
-  for (const canvas of canvases) {
-    canvas.style.display = 'block'
-  }
-
-  cancer.refresh()
-  til.refresh()
-
-  loadImage()
-}
-
-function toggleLayer(layerId, checkBox) {
-  let x = document.getElementById(layerId)
-
-  // If the checkbox is checked, display the output
-  if (checkBox.checked) {
-    x.style.display = 'block'
-  } else {
-    x.style.display = 'none'
-  }
-}
-
-function visible(idx) {
-  // Check to see which toggle is on or off?
-  // For now shutting off the opposite layer, and blue.
-  let x = document.getElementById('layer3')
-  x.style.display = 'none'
-  if (idx === 1) {
-    let x = document.getElementById('layer1')
-    x.style.display = 'block'
-    x = document.getElementById('layer2')
-    x.style.display = 'none'
-  } else {
-    let x = document.getElementById('layer2')
-    x.style.display = 'block'
-    x = document.getElementById('layer1')
-    x.style.display = 'none'
   }
 }
 
@@ -228,18 +206,39 @@ function rangeSlider(data, slider, idx) {
   util.imwrite(x, newArray)
 }
 
-// scale rgb colors to percentage
-let scale = db => {
-  return db / 255 * 100
+function visible(idx) {
+  // Check to see which toggle is on or off?
+  // For now shutting off the opposite layer, and blue.
+  let x = document.getElementById('layer3')
+  x.style.display = 'none'
+  if (idx === 1) {
+    let x = document.getElementById('layer1')
+    x.style.display = 'block'
+    x = document.getElementById('layer2')
+    x.style.display = 'none'
+  } else {
+    let x = document.getElementById('layer2')
+    x.style.display = 'block'
+    x = document.getElementById('layer1')
+    x.style.display = 'none'
+  }
 }
 
-window.onload = () => {
+function reset() {
+  let inputs = document.getElementsByTagName('input')
+  for (const input of inputs) {
+    if (input.type === 'checkbox') {
+      input.checked = true
+    }
+  }
+
+  let canvases = document.querySelectorAll('canvas')
+  for (const canvas of canvases) {
+    canvas.style.display = 'block'
+  }
+
+  cancer.refresh()
+  til.refresh()
+
   loadImage()
 }
-
-let cancer
-let til
-$(document).ready(() => {
-  cancer = new Slider('#cancer', {})
-  til = new Slider('#til', {})
-})
