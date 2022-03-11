@@ -1,37 +1,36 @@
 let threshLow = 40
 let threshHigh = 100
 
-// slice ith layer of 2d array
+// slice ith layer of 2d array, add transparency
 function imSlice(i, arr) {
   return arr.map(x => {
     return x.map(y => {
-      if (y[0] === 255 && y[1] === 255 && y[2] === 255) { // White background
-        return [y[0], y[1], y[2], 0] // transparent background
-      } else if (y[0] === 0 && y[1] === 0 && y[2] === 0) { // Black background
-        return [y[0], y[1], y[2], 0] // make transparent
+      // Make transparent if black or white.
+      if ((y[0] === 255 && y[1] === 255 && y[2] === 255) ||
+          (y[0] === 0 && y[1] === 0 && y[2] === 0)) {
+        return [y[0], y[1], y[2], 0]
       } else {
-        if (i === 0) { // Red channel
-          return [y[0], 0, 0, 170] // shut off everything but y[0], and make semi-transparent
-        } else if (i === 1) { // Green channel
+        // Opacity per channel
+        if (i === 0) {
+          return [y[0], 0, 0, 170]
+        } else if (i === 1) {
           return [0, y[1], 0, 170]
-        } else if (i === 2) { // Blue channel
+        } else if (i === 2) {
           return [0, 0, y[2], 50]
-        } else {
-          return y
         }
       }
     })
   })
 }
 
-// slice ith layer of 2d array
+// slice ith layer of 2d array, with threshold
 function imSlice1(i, arr) {
   return arr.map(x => {
     return x.map(y => {
-      if (y[0] === 255 && y[1] === 255 && y[2] === 255) {
-        return [y[0], y[1], y[2], 0] // transparent background
-      } else if (y[0] === 0 && y[1] === 0 && y[2] === 0) {
-        return [y[0], y[1], y[2], 0] // make transparent
+      // Black or white -> transparent.
+      if ((y[0] === 255 && y[1] === 255 && y[2] === 255) ||
+          (y[0] === 0 && y[1] === 0 && y[2] === 0)) {
+        return [y[0], y[1], y[2], 0]
       } else {
         if (i === 0) {
           if (scale(y[0]) >= threshLow && scale(y[0]) <= threshHigh) {
