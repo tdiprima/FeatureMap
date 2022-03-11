@@ -82,14 +82,6 @@ function setDimensions(id, imageObj) {
   return c
 }
 
-function dim(mat) {
-  if (mat instanceof Array) {
-    return [mat.length].concat(dim(mat[0]))
-  } else {
-    return []
-  }
-}
-
 function transparentize(pixelArray, canvas) {
   pixelArray = pixelArray.map(dd => {
     return dd.map(d => {
