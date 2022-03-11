@@ -1,9 +1,8 @@
 let threshold = 10
 
-function imSlice (i, arr) { // slice ith layer of 2d array
+function imSlice(i, arr) { // slice ith layer of 2d array
   // var arr = document.getElementById('til').value.split(',').map(str => parseInt(str));
   // let threshold = arr[0];
-  // i = i || 0;
   return arr.map(x => {
     return x.map(y => {
       if (y[0] === 255 && y[1] === 255 && y[2] === 255) { // White background
@@ -46,7 +45,7 @@ function imSlice (i, arr) { // slice ith layer of 2d array
   })
 }
 
-function replicate (dataRed, dataGrn, dataBlu) {
+function replicate(dataRed, dataGrn, dataBlu) {
   let c = document.getElementById('layerTIL')
   let ctx = c.getContext('2d')
   ctx.globalAlpha = 0.2
@@ -63,22 +62,22 @@ function replicate (dataRed, dataGrn, dataBlu) {
   util.imwrite(c, dataBlu)
 }
 
-function setDimensions (id, imageObj) {
+function setDimensions(id, imageObj) {
   let c = document.getElementById(id)
   c.width = imageObj.width
   c.height = imageObj.height
   return c
 }
 
-function dim (mat) {
+function shape(mat) {
   if (mat instanceof Array) {
-    return [mat.length].concat(dim(mat[0]))
+    return [mat.length].concat(shape(mat[0]))
   } else {
     return []
   }
 }
 
-function turnOnTheLights (my2DArray, canvas) {
+function turnOnTheLights(my2DArray, canvas) {
   my2DArray = my2DArray.map(dd => {
     return dd.map(d => {
       // If we have til or tumor
@@ -97,7 +96,7 @@ let imgDataR = []
 let imgDataG = []
 let imgDataB = []
 
-function loadImage () {
+function loadImage() {
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   let imageObj = new Image()
@@ -131,7 +130,7 @@ function loadImage () {
 }
 
 // Event Handlers
-function reset () {
+function reset() {
   let canvases = document.querySelectorAll('canvas')
   canvases.forEach(c => {
     c.style.display = 'block'
@@ -146,7 +145,7 @@ function reset () {
   loadImage()
 }
 
-function toggleLayer (layerId) {
+function toggleLayer(layerId) {
   // https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
   let x = document.getElementById(layerId)
   if (x.style.display === 'none') {
@@ -156,7 +155,7 @@ function toggleLayer (layerId) {
   }
 }
 
-function visible (idx) {
+function visible(idx) {
   // Check to see which toggle is on or off?
   // For now shutting off the opposite layer, and blue.
   let x = document.getElementById('layerTissue')
@@ -174,7 +173,7 @@ function visible (idx) {
   }
 }
 
-function rangeSlider (data, slider, idx) {
+function rangeSlider(data, slider, idx) {
   visible(idx)
   idx--
 
@@ -210,7 +209,7 @@ $(document).ready(() => {
   til = new Slider('#til', {})
 })
 
-function imSliceBAK (i, arr) { // slice ith layer of 2d array
+function imSliceBAK(i, arr) { // slice ith layer of 2d array
   i = i || 0
   return arr.map(x => {
     return x.map(y => {
