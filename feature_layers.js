@@ -3,7 +3,6 @@ let threshHigh = 100
 
 // slice ith layer of 2d array
 function imSlice(i, arr) {
-  i = i || 0
   return arr.map(x => {
     return x.map(y => {
       if (y[0] === 255 && y[1] === 255 && y[2] === 255) { // White background
